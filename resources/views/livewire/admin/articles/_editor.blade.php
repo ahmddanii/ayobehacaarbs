@@ -52,12 +52,25 @@
             ],
         });
 
+        const highlightPreview = () => {
+            $nextTick(() => {
+                document.querySelectorAll('.preview-content pre code').forEach((block) => {
+                    if (typeof hljs !== 'undefined') {
+                        block.removeAttribute('data-highlighted');
+                        hljs.highlightElement(block);
+                    }
+                });
+            });
+        };
+
         // Set initial value
         easyMDEInstance.value(content || '');
+        highlightPreview();
 
         // Sync changes to Alpine state
         easyMDEInstance.codemirror.on('change', () => {
             content = easyMDEInstance.value();
+            highlightPreview();
         });
 
         // Watch Alpine content change (like resets or edits)
@@ -65,6 +78,7 @@
             if (value !== easyMDEInstance.value()) {
                 easyMDEInstance.value(value || '');
             }
+            highlightPreview();
         });
 
         // Force CodeMirror to refresh size calculations after DOM completes layout

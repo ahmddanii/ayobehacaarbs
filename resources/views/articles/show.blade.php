@@ -323,6 +323,11 @@
                 if (bar) bar.style.width = scrolled + "%";
             });
 
+            // Initialize Highlight.js for Syntax Highlighting
+            if (typeof hljs !== 'undefined') {
+                hljs.highlightAll();
+            }
+
             // Micro-interactions
             document.querySelectorAll('button').forEach(btn => {
                 btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));

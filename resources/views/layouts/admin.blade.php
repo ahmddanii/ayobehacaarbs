@@ -25,6 +25,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 
+    <!-- Highlight.js for Premium Code Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+
     @livewireStyles
     @stack('styles')
 
@@ -131,6 +135,47 @@
         .EasyMDEContainer .editor-preview-active {
             border-radius: 0 0 16px 16px !important;
             border: none !important;
+        }
+        
+        /* High-Fidelity Code Editor Syntax Styles */
+        .preview-content pre,
+        .EasyMDEContainer .editor-preview pre {
+            background-color: #282c34 !important; /* atom-one-dark base bg */
+            color: #abb2bf !important;
+            padding: 1.25rem !important;
+            border-radius: 12px !important;
+            overflow-x: auto !important;
+            margin: 1.5rem 0 !important;
+            border: 1px solid #3e4451 !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .preview-content pre code,
+        .EasyMDEContainer .editor-preview pre code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Fira Code', 'JetBrains Mono', monospace !important;
+            font-size: 0.875rem !important;
+            background-color: transparent !important;
+            color: inherit !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            border: none !important;
+            line-height: 1.6 !important;
+        }
+        .preview-content code,
+        .EasyMDEContainer .editor-preview code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Fira Code', 'JetBrains Mono', monospace !important;
+            font-size: 0.85em !important;
+            background-color: #f1f5f9 !important;
+            color: #e11d48 !important; /* rose-600 for inline code */
+            padding: 0.2rem 0.4rem !important;
+            border-radius: 6px !important;
+            font-weight: 600 !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        .dark .preview-content code,
+        .dark .EasyMDEContainer .editor-preview code {
+            background-color: #1e293b !important;
+            color: #f43f5e !important;
+            border-color: #334155 !important;
         }
         
         /* Fix Fullscreen and Side-by-Side Z-Index Bug */
