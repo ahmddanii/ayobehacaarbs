@@ -379,14 +379,51 @@
                         <h2 class="text-lg font-bold text-slate-900 tracking-tight">@yield('page_title', 'Dashboard')</h2>
                     </div>
                     <div class="flex items-center gap-5">
-                        {{-- Interactive Notifications --}}
+                        {{-- Dynamic Database-Backed Notifications --}}
+                        @php
+                            $notificationsList = [];
+                            $idCounter = 1;
+
+                            // 1. Latest Published Article
+                            $latestArticle = \App\Models\Article::latest()->first();
+                            if ($latestArticle) {
+                                $notificationsList[] = [
+                                    'id' => $idCounter++,
+                                    'type' => 'system',
+                                    'text' => 'Artikel baru "' . $latestArticle->title . '" berhasil disimpan / diterbitkan!',
+                                    'time' => $latestArticle->created_at->diffForHumans(),
+                                    'is_read' => false
+                                ];
+                            }
+
+                            // 2. Latest Created Category
+                            $latestCategory = \App\Models\Category::latest()->first();
+                            if ($latestCategory) {
+                                $notificationsList[] = [
+                                    'id' => $idCounter++,
+                                    'type' => 'comment',
+                                    'text' => 'Kategori baru "' . $latestCategory->name . '" sukses terdaftar di portal.',
+                                    'time' => $latestCategory->created_at->diffForHumans(),
+                                    'is_read' => false
+                                ];
+                            }
+
+                            // 3. Total Articles Milestone
+                            $totalArticles = \App\Models\Article::count();
+                            if ($totalArticles > 0) {
+                                $notificationsList[] = [
+                                    'id' => $idCounter++,
+                                    'type' => 'stats',
+                                    'text' => 'Luar biasa! Portal Anda kini aktif mengudara dengan ' . $totalArticles . ' artikel.',
+                                    'time' => 'Terbaru',
+                                    'is_read' => false
+                                ];
+                            }
+                        @endphp
+
                         <div class="relative" x-data="{ 
                             isOpen: false,
-                            notifications: [
-                                { id: 1, type: 'comment', text: 'Komentar baru dari Budi pada artikel \'Masa Depan AI\'', time: '5 menit yang lalu', is_read: false },
-                                { id: 2, type: 'stats', text: 'Selamat! Artikel \'Belajar Laravel 11\' Anda telah dibaca 1.000 kali!', time: '2 jam yang lalu', is_read: false },
-                                { id: 3, type: 'system', text: 'Pemberitahuan: Cadangan database berhasil dibuat malam ini.', time: '1 hari yang lalu', is_read: false }
-                            ],
+                            notifications: {{ json_encode($notificationsList) }},
                             get unreadCount() {
                                 return this.notifications.filter(n => !n.is_read).length;
                             },
