@@ -36,84 +36,90 @@
         body {
             font-family: 'Inter', sans-serif !important;
         }
-        /* Custom EasyMDE Styling */
+
+        /* ===== EasyMDE Editor: Premium Overhaul ===== */
+
+        /* Container */
         .EasyMDEContainer {
             border-radius: 16px;
-            overflow: hidden;
             box-shadow: 0 4px 20px -2px rgba(148, 163, 184, 0.08);
-            border: 1px solid #f1f5f9;
+            border: 1px solid #e2e8f0;
         }
+
+        /* Toolbar */
+        .EasyMDEContainer .editor-toolbar {
+            border-radius: 16px 16px 0 0;
+            border: none;
+            border-bottom: 1px solid #f1f5f9;
+            background-color: #ffffff;
+            padding: 8px 12px;
+            opacity: 1;
+        }
+        .EasyMDEContainer .editor-toolbar::before,
+        .EasyMDEContainer .editor-toolbar::after {
+            display: none;
+        }
+
+        /* Toolbar Buttons */
+        .EasyMDEContainer .editor-toolbar button {
+            width: 34px !important;
+            height: 34px !important;
+            border-radius: 8px !important;
+            border: 1px solid transparent !important;
+            background: none !important;
+            color: #475569 !important;
+            margin: 0 1px !important;
+            padding: 0 !important;
+            text-align: center !important;
+            cursor: pointer !important;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+            box-shadow: none !important;
+        }
+        .EasyMDEContainer .editor-toolbar button:hover {
+            background-color: #f1f5f9 !important;
+            color: #2563eb !important;
+            border-color: #e2e8f0 !important;
+        }
+        .EasyMDEContainer .editor-toolbar button.active {
+            background-color: #eff6ff !important;
+            color: #2563eb !important;
+            border-color: #bfdbfe !important;
+        }
+
+        /* Separator (EasyMDE renders separators as <i class="separator">) */
+        .EasyMDEContainer .editor-toolbar i.separator {
+            display: inline-block !important;
+            width: 1px !important;
+            height: 20px !important;
+            background-color: #e2e8f0 !important;
+            border: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            margin: 0 6px !important;
+            vertical-align: middle !important;
+        }
+
+        /* CodeMirror Canvas */
         .EasyMDEContainer .CodeMirror {
             border-radius: 0 0 16px 16px;
             border: none !important;
+            border-top: none !important;
             background-color: #f8fafc;
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 0.875rem;
             min-height: 380px !important;
             max-height: 480px !important;
-            padding: 12px 6px;
+            padding: 8px 4px;
             transition: background-color 0.2s;
         }
         .EasyMDEContainer .CodeMirror-focused {
             background-color: #ffffff !important;
-            box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.06);
         }
-        .EasyMDEContainer .editor-toolbar {
-            border-radius: 16px 16px 0 0;
-            border: none !important;
-            border-bottom: 1px solid #f1f5f9 !important;
-            background-color: #ffffff;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            padding: 10px 14px;
-            align-items: center;
+        .EasyMDEContainer .CodeMirror-placeholder {
+            color: #94a3b8 !important;
         }
-        .EasyMDEContainer .editor-toolbar button,
-        .EasyMDEContainer .editor-toolbar a {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            width: 32px !important;
-            height: 32px !important;
-            border-radius: 8px !important;
-            color: #475569 !important; /* slate-600 */
-            border: 1px solid transparent !important;
-            background: transparent !important;
-            transition: all 0.2s ease !important;
-            font-size: 13px !important;
-            cursor: pointer !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        .EasyMDEContainer .editor-toolbar button i,
-        .EasyMDEContainer .editor-toolbar a i {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            font-size: 13px !important;
-            width: auto !important;
-            height: auto !important;
-        }
-        .EasyMDEContainer .editor-toolbar button.active, 
-        .EasyMDEContainer .editor-toolbar button:hover,
-        .EasyMDEContainer .editor-toolbar a.active,
-        .EasyMDEContainer .editor-toolbar a:hover {
-            background-color: #f1f5f9 !important;
-            color: #2563eb !important; /* blue-600 */
-            border-color: #e2e8f0 !important;
-        }
-        /* Custom separator */
-        .EasyMDEContainer .editor-toolbar .separator {
-            display: inline-block !important;
-            width: 1px !important;
-            height: 18px !important;
-            background-color: #e2e8f0 !important;
-            margin: 0 4px !important;
-            border-right: none !important;
-        }
-        
-        /* Premium Editor Preview Styling */
+
+        /* EasyMDE Built-in Preview */
         .EasyMDEContainer .editor-preview {
             background-color: #f8fafc !important;
             padding: 28px !important;
@@ -136,18 +142,25 @@
             border-radius: 0 0 16px 16px !important;
             border: none !important;
         }
-        
-        /* High-Fidelity Code Editor Syntax Styles */
+        .EasyMDEContainer .editor-preview-side {
+            background-color: #f8fafc !important;
+            border-left: 1px solid #e2e8f0 !important;
+            color: #334155 !important;
+            font-family: 'Inter', sans-serif !important;
+            line-height: 1.7 !important;
+        }
+
+        /* ===== Code Syntax Highlighting ===== */
         .preview-content pre,
         .EasyMDEContainer .editor-preview pre {
-            background-color: #282c34 !important; /* atom-one-dark base bg */
+            background-color: #282c34 !important;
             color: #abb2bf !important;
             padding: 1.25rem !important;
             border-radius: 12px !important;
             overflow-x: auto !important;
             margin: 1.5rem 0 !important;
             border: 1px solid #3e4451 !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
         .preview-content pre code,
         .EasyMDEContainer .editor-preview pre code {
@@ -162,11 +175,11 @@
         }
         .preview-content code,
         .EasyMDEContainer .editor-preview code {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Fira Code', 'JetBrains Mono', monospace !important;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
             font-size: 0.85em !important;
             background-color: #f1f5f9 !important;
-            color: #e11d48 !important; /* rose-600 for inline code */
-            padding: 0.2rem 0.4rem !important;
+            color: #e11d48 !important;
+            padding: 0.15rem 0.35rem !important;
             border-radius: 6px !important;
             font-weight: 600 !important;
             border: 1px solid #e2e8f0 !important;
@@ -177,14 +190,14 @@
             color: #f43f5e !important;
             border-color: #334155 !important;
         }
-        
-        /* Fix Fullscreen and Side-by-Side Z-Index Bug */
+
+        /* ===== Fullscreen Mode Fixes ===== */
         .EasyMDEContainer .editor-toolbar.fullscreen {
             z-index: 9999 !important;
             background-color: #ffffff !important;
             border-bottom: 1px solid #f1f5f9 !important;
             position: fixed !important;
-            padding: 12px 24px !important;
+            padding: 10px 24px !important;
         }
         .EasyMDEContainer .CodeMirror-fullscreen {
             z-index: 9998 !important;
@@ -192,14 +205,6 @@
             position: fixed !important;
             background-color: #ffffff !important;
         }
-        .EasyMDEContainer .editor-preview-side {
-            background-color: #f8fafc !important;
-            border-left: 1px solid #e2e8f0 !important;
-            color: #334155 !important;
-            font-family: 'Inter', sans-serif !important;
-            line-height: 1.7 !important;
-        }
-        /* Style split preview specifically when editor is in fullscreen mode to avoid tearing */
         .EasyMDEContainer .CodeMirror-fullscreen + .editor-preview-side {
             z-index: 9997 !important;
             position: fixed !important;
@@ -209,9 +214,30 @@
             background-color: #f8fafc !important;
         }
 
-        /* Dark Mode Compatibility */
+        /* ===== Dark Mode ===== */
         .dark .EasyMDEContainer {
             border-color: #334155;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
+        }
+        .dark .EasyMDEContainer .editor-toolbar {
+            background-color: #0f172a;
+            border-bottom-color: #1e293b;
+        }
+        .dark .EasyMDEContainer .editor-toolbar button {
+            color: #94a3b8 !important;
+        }
+        .dark .EasyMDEContainer .editor-toolbar button:hover {
+            background-color: #1e293b !important;
+            color: #38bdf8 !important;
+            border-color: #334155 !important;
+        }
+        .dark .EasyMDEContainer .editor-toolbar button.active {
+            background-color: #1e293b !important;
+            color: #38bdf8 !important;
+            border-color: #334155 !important;
+        }
+        .dark .EasyMDEContainer .editor-toolbar i.separator {
+            background-color: #334155 !important;
         }
         .dark .EasyMDEContainer .CodeMirror {
             background-color: #1e293b;
@@ -220,24 +246,8 @@
         .dark .EasyMDEContainer .CodeMirror-focused {
             background-color: #0f172a !important;
         }
-        .dark .EasyMDEContainer .editor-toolbar {
-            background-color: #0f172a;
-            border-color: #334155 !important;
-        }
-        .dark .EasyMDEContainer .editor-toolbar button,
-        .dark .EasyMDEContainer .editor-toolbar a {
-            color: #94a3b8 !important;
-        }
-        .dark .EasyMDEContainer .editor-toolbar button.active, 
-        .dark .EasyMDEContainer .editor-toolbar button:hover,
-        .dark .EasyMDEContainer .editor-toolbar a.active,
-        .dark .EasyMDEContainer .editor-toolbar a:hover {
-            background-color: #1e293b !important;
-            color: #38bdf8 !important; /* sky-400 */
-            border-color: #334155 !important;
-        }
-        .dark .EasyMDEContainer .editor-toolbar .separator {
-            background-color: #334155 !important;
+        .dark .EasyMDEContainer .CodeMirror-placeholder {
+            color: #475569 !important;
         }
         .dark .EasyMDEContainer .editor-preview {
             background-color: #0f172a !important;
@@ -248,13 +258,13 @@
         .dark .EasyMDEContainer .editor-preview h3 {
             color: #f8fafc !important;
         }
-        .dark .EasyMDEContainer .editor-toolbar.fullscreen,
-        .dark .EasyMDEContainer .CodeMirror-fullscreen {
-            background-color: #0f172a !important;
-        }
         .dark .EasyMDEContainer .editor-preview-side {
             background-color: #0f172a !important;
             border-color: #334155 !important;
+        }
+        .dark .EasyMDEContainer .editor-toolbar.fullscreen,
+        .dark .EasyMDEContainer .CodeMirror-fullscreen {
+            background-color: #0f172a !important;
         }
         .dark .EasyMDEContainer .CodeMirror-fullscreen + .editor-preview-side {
             background-color: #0f172a !important;
