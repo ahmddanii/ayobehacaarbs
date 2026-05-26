@@ -1,6 +1,6 @@
 {{-- Admin Sidebar Navigation Partial --}}
-<aside :class="sidebarOpen ? 'w-72 translate-x-0' : 'w-20 -translate-x-full lg:translate-x-0'"
-    class="bg-slate-950 border-r border-slate-900/50 transition-all duration-300 flex flex-col shrink-0 fixed inset-y-0 z-50 overflow-x-hidden">
+<aside :class="sidebarOpen ? 'w-72 translate-x-0' : 'w-20 lg:translate-x-0'"
+    class="bg-slate-950 border-r border-slate-900/50 transition-all duration-300 hidden lg:flex flex-col shrink-0 fixed inset-y-0 z-50 overflow-x-hidden">
 
     {{-- Logo & Toggle --}}
     <div class="p-6 flex items-center justify-between border-b border-slate-900/50"

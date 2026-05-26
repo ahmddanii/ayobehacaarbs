@@ -362,51 +362,96 @@
         {{-- Sidebar --}}
         @include('layouts.partials._sidebar')
 
-        {{-- Mobile Sidebar Backdrop --}}
-        <div x-show="sidebarOpen" @click="sidebarOpen = false"
-            class="lg:hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            x-cloak>
-        </div>
-
         <!-- Main Content -->
         <div :class="sidebarOpen ? 'lg:pl-72 pl-0' : 'lg:pl-20 pl-0'"
             class="flex-grow flex flex-col min-w-0">
             <!-- Header -->
             <header
-                class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/60 flex items-center justify-between px-4 md:px-8 sticky top-0 z-40">
-                <div class="flex items-center gap-4">
-                    <button @click="sidebarOpen = !sidebarOpen"
-                        class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/60 hover:bg-slate-100 flex items-center justify-center text-slate-500 hover:text-blue-600 transition duration-200 shadow-sm">
-                        <i class="bi bi-list text-xl"></i>
-                    </button>
-                    <h2 class="text-lg font-bold text-slate-900 tracking-tight">@yield('page_title', 'Dashboard')</h2>
-                </div>
-                <div class="flex items-center gap-5">
-                    <div class="relative group">
-                        <button
-                            class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-500 hover:bg-blue-50 hover:text-blue-600 transition duration-200">
-                            <i class="bi bi-bell text-lg"></i>
+                class="bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-40 flex flex-col transition-all duration-300">
+                
+                {{-- Top Row Header --}}
+                <div class="h-20 flex items-center justify-between px-4 md:px-8 w-full">
+                    <div class="flex items-center gap-4">
+                        <button @click="sidebarOpen = !sidebarOpen"
+                            class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/60 hover:bg-slate-100 flex items-center justify-center text-slate-500 hover:text-blue-600 transition duration-200 shadow-sm">
+                            <i class="bi bi-list text-xl"></i>
                         </button>
-                        <span
-                            class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border border-white animate-pulse"></span>
+                        <h2 class="text-lg font-bold text-slate-900 tracking-tight">@yield('page_title', 'Dashboard')</h2>
+                    </div>
+                    <div class="flex items-center gap-5">
+                        <div class="relative group">
+                            <button
+                                class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-500 hover:bg-blue-50 hover:text-blue-600 transition duration-200">
+                                <i class="bi bi-bell text-lg"></i>
+                            </button>
+                            <span
+                                class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border border-white animate-pulse"></span>
+                        </div>
+
+                        <div class="h-6 w-[1px] bg-slate-200"></div>
+
+                        <form method="POST" action="{{ route('logout') }}" class="hidden sm:block">
+                            @csrf
+                            <button type="submit"
+                                class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 hover:bg-rose-50 border border-slate-100 hover:border-rose-100 text-xs font-bold text-slate-600 hover:text-rose-600 transition duration-200">
+                                <span>Keluar</span>
+                                <i class="bi bi-box-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                {{-- Mobile Dropdown Menu --}}
+                <div x-show="sidebarOpen" class="lg:hidden border-t border-slate-100 px-6 py-4 pb-6 space-y-5 bg-white shadow-lg"
+                    x-transition:enter="transition ease-out duration-300 transform origin-top"
+                    x-transition:enter-start="opacity-0 -translate-y-4 scale-y-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 scale-y-100"
+                    x-transition:leave="transition ease-in duration-200 transform origin-top"
+                    x-transition:leave-start="opacity-100 translate-y-0 scale-y-100"
+                    x-transition:leave-end="opacity-0 -translate-y-4 scale-y-95"
+                    x-cloak>
+                    
+                    {{-- Nav Items --}}
+                    <div class="space-y-1">
+                        @php
+                            $mobileNavs = [
+                                ['route' => 'admin.dashboard', 'icon' => 'bi-speedometer2', 'label' => 'Dashboard'],
+                                ['route' => 'admin.categories', 'icon' => 'bi-grid-3x3-gap', 'label' => 'Kategori'],
+                                ['route' => 'admin.articles', 'icon' => 'bi-file-earmark-richtext', 'label' => 'Artikel'],
+                                ['route' => 'admin.settings', 'icon' => 'bi-gear', 'label' => 'Pengaturan'],
+                            ];
+                        @endphp
+                        
+                        @foreach ($mobileNavs as $item)
+                            <a href="{{ route($item['route']) }}"
+                                class="flex items-center gap-3 px-4 py-3 rounded-xl transition duration-200 {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold shadow-md shadow-blue-500/20' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium' }}">
+                                <i class="bi {{ $item['icon'] }} text-lg"></i>
+                                <span class="text-sm">{{ $item['label'] }}</span>
+                            </a>
+                        @endforeach
                     </div>
 
-                    <div class="h-6 w-[1px] bg-slate-200"></div>
+                    {{-- User Profile Card --}}
+                    <div class="pt-4 border-t border-slate-100 flex items-center justify-between px-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-extrabold shadow-sm">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-slate-800 leading-none">{{ auth()->user()->name }}</p>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1.5">Administrator</p>
+                            </div>
+                        </div>
 
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit"
-                            class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 hover:bg-rose-50 border border-slate-100 hover:border-rose-100 text-xs font-bold text-slate-600 hover:text-rose-600 transition duration-200">
-                            <span>Keluar</span>
-                            <i class="bi bi-box-arrow-right"></i>
-                        </button>
-                    </form>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="px-4 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-100 hover:border-rose-200 text-xs font-bold text-rose-600 transition duration-200 flex items-center gap-1.5 shadow-sm">
+                                <span>Keluar</span>
+                                <i class="bi bi-box-arrow-right"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </header>
 
