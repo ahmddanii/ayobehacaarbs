@@ -2,6 +2,9 @@
 
 @section('title', 'Tentang Kami - Ayo Behacaar')
 
+@section('meta_description', $settings->description)
+@section('meta_image', $settings->about_hero_image ? asset('storage/' . $settings->about_hero_image) : asset('assets/img/17.jpg'))
+
 @section('content')
 <x-cinematic-header
     :image="$settings->about_hero_image ? asset('storage/' . $settings->about_hero_image) : asset('assets/img/17.jpg')"

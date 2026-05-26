@@ -6,6 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Ayo Behacaar')</title>
 
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="@yield('meta_description', $settings->description ?? '')">
+    <meta name="keywords" content="@yield('meta_keywords', 'ayobehacaar, belajar, edukasi, kalimantan, dayak tunjung')">
+    <meta name="author" content="@yield('meta_author', 'Ayo Behacaar')">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:title" content="@yield('title', $settings->site_name ?? 'Ayo Behacaar')">
+    <meta property="og:description" content="@yield('meta_description', $settings->description ?? '')">
+    <meta property="og:image" content="@yield('meta_image', asset('assets/img/ayobehacaar.png'))">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:site_name" content="{{ $settings->site_name ?? 'Ayo Behacaar' }}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', $settings->site_name ?? 'Ayo Behacaar')">
+    <meta name="twitter:description" content="@yield('meta_description', $settings->description ?? '')">
+    <meta name="twitter:image" content="@yield('meta_image', asset('assets/img/ayobehacaar.png'))">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,7 +59,7 @@
 
     @livewire('layout.navbar')
 
-    <main>
+    <main x-data>
         @yield('content')
     </main>
 

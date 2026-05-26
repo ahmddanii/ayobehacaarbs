@@ -2,6 +2,8 @@
 
 @section('title', 'Ayo Behacaar - Platform Belajar Masa Kini')
 
+@section('meta_description', $settings->tagline)
+
 @section('content')
 <main class="container mx-auto px-6 md:px-8 lg:px-12 my-6">
 

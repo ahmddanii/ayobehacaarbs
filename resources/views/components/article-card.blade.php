@@ -12,7 +12,7 @@
             @click.prevent="$store.bookmarksStore.toggle({ id: {{ $article->id }}, title: '{{ addslashes($article->clean_title) }}', slug: '{{ $article->slug }}', category: '{{ $article->category->name ?? 'Artikel' }}', date: '{{ $article->created_at->format('d M Y') }}', image: '{{ $article->image ? asset('storage/' . $article->image) : asset('assets/img/12.jpg') }}' })"
             class="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-slate-900/60 dark:bg-slate-950/70 backdrop-blur-md border border-white/20 dark:border-slate-800 text-white flex items-center justify-center hover:scale-110 transition duration-300 focus:outline-none"
             :title="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'Hapus dari Daftar Bacaan' : 'Simpan ke Daftar Bacaan'">
-            <i :class="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'bi bi-bookmark-fill text-yellow-400' : 'bi bi-bookmark text-white'"></i>
+            <i :class="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'bi bi-bookmark-heart-fill text-red-500' : 'bi bi-bookmark-heart text-white'"></i>
         </button>
 
         <a href="{{ route('articles.show', $article->slug) }}" class="w-full h-full block">

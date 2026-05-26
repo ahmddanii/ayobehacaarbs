@@ -2,6 +2,9 @@
 
 @section('title', 'Artikel - Ayo Behacaar')
 
+@section('meta_description', 'Temukan kumpulan artikel terbaru, tutorial, wawasan baru, dan pembelajaran terkurasi dari Ayo Behacaar.')
+@section('meta_image', $settings->article_hero_image ? asset('storage/' . $settings->article_hero_image) : asset('assets/img/18.jpg'))
+
 @section('content')
 <x-cinematic-header
     :image="$settings->article_hero_image ? asset('storage/' . $settings->article_hero_image) : asset('assets/img/18.jpg')"
