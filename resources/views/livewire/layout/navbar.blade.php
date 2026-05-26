@@ -175,10 +175,13 @@
     </div>
 
     <!-- Mobile Menu Collapse -->
-    <div x-show="isOpen" x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 -translate-y-4"
+    <div x-show="isOpen" 
+        x-transition:enter="transition ease-out duration-300 transform origin-top"
+        x-transition:enter-start="opacity-0 -translate-y-4 scale-y-90" 
+        x-transition:enter-end="opacity-100 translate-y-0 scale-y-100"
+        x-transition:leave="transition ease-in duration-200 transform origin-top" 
+        x-transition:leave-start="opacity-100 translate-y-0 scale-y-100"
+        x-transition:leave-end="opacity-0 -translate-y-4 scale-y-90"
         class="lg:hidden flex flex-col bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-4 px-6 space-y-3 shadow-lg justify-center items-center transition-colors duration-300"
         @click.away="isOpen = false" x-cloak>
         <a href="{{ route('home') }}"
