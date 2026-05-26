@@ -150,6 +150,93 @@
             line-height: 1.7 !important;
         }
 
+        /* ===== Live Preview: Links ===== */
+        .preview-content a,
+        .EasyMDEContainer .editor-preview a {
+            color: #2563eb !important;
+            text-decoration: underline !important;
+            text-underline-offset: 3px !important;
+            font-weight: 600 !important;
+            transition: color 0.15s;
+        }
+        .preview-content a:hover,
+        .EasyMDEContainer .editor-preview a:hover {
+            color: #1d4ed8 !important;
+        }
+
+        /* ===== Live Preview: Blockquotes ===== */
+        .preview-content blockquote,
+        .EasyMDEContainer .editor-preview blockquote {
+            border-left: 4px solid #3b82f6 !important;
+            background-color: #eff6ff !important;
+            padding: 1rem 1.25rem !important;
+            margin: 1.25rem 0 !important;
+            border-radius: 0 10px 10px 0 !important;
+            color: #334155 !important;
+            font-style: italic !important;
+        }
+        .preview-content blockquote p,
+        .EasyMDEContainer .editor-preview blockquote p {
+            margin-bottom: 0 !important;
+        }
+
+        /* ===== Live Preview: Tables ===== */
+        .preview-content table,
+        .EasyMDEContainer .editor-preview table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin: 1.5rem 0 !important;
+            font-size: 0.875rem !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
+        }
+        .preview-content th,
+        .EasyMDEContainer .editor-preview th {
+            background-color: #f1f5f9 !important;
+            font-weight: 700 !important;
+            color: #1e293b !important;
+            padding: 0.75rem 1rem !important;
+            text-align: left !important;
+            border-bottom: 2px solid #e2e8f0 !important;
+        }
+        .preview-content td,
+        .EasyMDEContainer .editor-preview td {
+            padding: 0.65rem 1rem !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+            color: #475569 !important;
+        }
+        .preview-content tr:hover td,
+        .EasyMDEContainer .editor-preview tr:hover td {
+            background-color: #f8fafc !important;
+        }
+
+        /* ===== Live Preview: Images ===== */
+        .preview-content img,
+        .EasyMDEContainer .editor-preview img {
+            max-width: 100% !important;
+            border-radius: 12px !important;
+            margin: 1.25rem 0 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        /* ===== Live Preview: Highlight / Mark ===== */
+        .preview-content mark,
+        .EasyMDEContainer .editor-preview mark {
+            background: linear-gradient(120deg, #fef08a 0%, #fde68a 100%) !important;
+            color: #1e293b !important;
+            padding: 0.1rem 0.3rem !important;
+            border-radius: 4px !important;
+        }
+
+        /* ===== Live Preview: Horizontal Rule ===== */
+        .preview-content hr,
+        .EasyMDEContainer .editor-preview hr {
+            border: none !important;
+            height: 1px !important;
+            background-color: #e2e8f0 !important;
+            margin: 2rem 0 !important;
+        }
+
         /* ===== Code Syntax Highlighting ===== */
         .preview-content pre,
         .EasyMDEContainer .editor-preview pre {
