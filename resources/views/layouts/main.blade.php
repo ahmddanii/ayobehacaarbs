@@ -40,11 +40,15 @@
         <div class="container mx-auto flex flex-col lg:flex-row justify-between items-center gap-6 lg:gap-8 mb-8">
             <div class="text-center lg:text-left">
                 <a href="{{ route('home') }}"
-                    class="text-2xl font-semibold text-slate-900 text-decoration-none font-brand">ayo<span
-                        class="text-blue-600">behacaar</span></a>
+                    class="text-2xl font-semibold text-slate-900 text-decoration-none font-brand">
+                    @if(strtolower($settings->site_name) === 'ayo behacaar')
+                        ayo<span class="text-blue-600">behacaar</span>
+                    @else
+                        {{ $settings->site_name }}
+                    @endif
+                </a>
                 <p class="text-slate-500 mt-3 text-sm md:text-base leading-relaxed">
-                    Website artikel yang membahas segala<br class="hidden md:block">
-                    hal menarik di masa kini
+                    {{ $settings->tagline }}
                 </p>
             </div>
             <div class="flex flex-col items-center lg:items-end w-full lg:w-auto mt-2 lg:mt-0">
@@ -87,11 +91,11 @@
                 </div>
                 <p class="text-slate-600 mb-1 text-sm">Email resmi kami:</p>
                 <p class="text-lg font-semibold text-slate-800 select-all">
-                    ayobehacaar@gmail.com
+                    {{ $settings->contact_email }}
                 </p>
             </div>
             <div class="text-center">
-                <a href="mailto:ayobehacaar@gmail.com"
+                <a href="mailto:{{ $settings->contact_email }}"
                     class="block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-xl transition shadow hover:shadow-md w-full">
                     Kirim Email
                 </a>

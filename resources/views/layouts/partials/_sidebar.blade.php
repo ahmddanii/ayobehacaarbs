@@ -45,15 +45,14 @@
 
         @php
             $systemItems = [
-                ['icon' => 'bi-people', 'label' => 'Users'],
-                ['icon' => 'bi-gear', 'label' => 'Pengaturan'],
+                ['route' => 'admin.settings', 'icon' => 'bi-gear', 'label' => 'Pengaturan'],
             ];
         @endphp
 
         @foreach ($systemItems as $item)
-            <a href="#" :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'"
-                class="group flex items-center gap-4 py-3.5 rounded-xl text-slate-400 hover:bg-slate-900 hover:text-slate-100 transition duration-200">
-                <i class="bi {{ $item['icon'] }} text-xl group-hover:scale-110 transition duration-200 text-slate-400 group-hover:text-blue-400"></i>
+            <a href="{{ route($item['route']) }}" :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'"
+                class="group flex items-center gap-4 py-3.5 rounded-xl transition duration-200 {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }}">
+                <i class="bi {{ $item['icon'] }} text-xl group-hover:scale-110 transition duration-200 {{ request()->routeIs($item['route']) ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }}"></i>
                 <span x-show="sidebarOpen" x-transition.opacity class="text-sm font-medium">{{ $item['label'] }}</span>
             </a>
         @endforeach

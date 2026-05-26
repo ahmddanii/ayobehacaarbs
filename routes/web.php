@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Categories\Index as AdminCategories;
 use App\Livewire\Admin\Articles\Index as AdminArticles;
+use App\Livewire\Admin\Settings\Index as AdminSettings;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Publik
@@ -21,6 +22,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/dashboard', AdminDashboard::class)->name('dashboard');
     Route::get('/categories', AdminCategories::class)->name('categories');
     Route::get('/articles', AdminArticles::class)->name('articles');
+    Route::get('/settings', AdminSettings::class)->name('settings');
 });
 
 // Profil Pengguna

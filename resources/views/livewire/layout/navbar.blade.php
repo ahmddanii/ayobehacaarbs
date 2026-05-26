@@ -35,18 +35,24 @@
 
         <!-- Social Media (Right) -->
         <div class="hidden lg:flex lg:w-1/3 justify-end items-center gap-6 text-slate-400">
-            <a href="https://www.instagram.com/sainsaa__" target="_blank"
+            @if($settings->instagram_url)
+            <a href="{{ $settings->instagram_url }}" target="_blank"
                 class="text-lg hover:text-[#e1306c] hover:scale-110 transform transition duration-300 flex items-center justify-center">
                 <i class="bi bi-instagram"></i>
             </a>
-            <a href="http://www.tiktok.com/@ayobehacaar" target="_blank"
+            @endif
+            @if($settings->tiktok_url)
+            <a href="{{ $settings->tiktok_url }}" target="_blank"
                 class="text-lg hover:text-black hover:scale-110 transform transition duration-300 flex items-center justify-center">
                 <i class="bi bi-tiktok"></i>
             </a>
-            <a href="https://www.youtube.com/@ayobehacaar" target="_blank"
+            @endif
+            @if($settings->youtube_url)
+            <a href="{{ $settings->youtube_url }}" target="_blank"
                 class="text-lg hover:text-[#ff0000] hover:scale-110 transform transition duration-300 flex items-center justify-center">
                 <i class="bi bi-youtube"></i>
             </a>
+            @endif
         </div>
 
         <!-- Mobile Hamburger Toggle -->
@@ -78,16 +84,22 @@
             class="block py-2 font-medium text-slate-700 hover:text-blue-600 transition">About</a>
         <hr class="border-slate-100 my-2">
         <div class="flex justify-e items-center gap-6 py-2">
-            <a href="https://www.instagram.com/sainsaa__" target="_blank" class="text-2xl"
+            @if($settings->instagram_url)
+            <a href="{{ $settings->instagram_url }}" target="_blank" class="text-2xl"
                 style="background: linear-gradient(20deg, #feda75 0%, #fa7e1e 24%, #d62970 60%, #962fbf 81%, #4f5bd5 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">
                 <i class="bi bi-instagram"></i>
             </a>
-            <a href="https://www.youtube.com/@ayobehacaar" target="_blank" class="text-2xl text-red-600">
+            @endif
+            @if($settings->youtube_url)
+            <a href="{{ $settings->youtube_url }}" target="_blank" class="text-2xl text-red-600">
                 <i class="bi bi-youtube"></i>
             </a>
-            <a href="http://www.tiktok.com/@ayobehacaar" target="_blank" class="text-2xl text-black">
+            @endif
+            @if($settings->tiktok_url)
+            <a href="{{ $settings->tiktok_url }}" target="_blank" class="text-2xl text-black">
                 <i class="bi bi-tiktok"></i>
             </a>
+            @endif
         </div>
     </div>
 </nav>
