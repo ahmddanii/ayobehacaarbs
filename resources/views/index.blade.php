@@ -91,7 +91,7 @@
         </div>
 
         <div class="flex justify-center">
-            <a href="{{ route('articles.index') }}" class="px-6 py-2.5 bg-white border border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors duration-300 shadow-sm">
+            <a href="{{ route('articles.index') }}" class="px-6 py-2.5 bg-white dark:bg-slate-900 border border-blue-600 dark:border-blue-500/30 text-blue-600 dark:text-blue-400 font-semibold rounded-lg hover:bg-blue-50 dark:hover:bg-slate-800/80 transition-colors duration-300 shadow-sm">
                 Muat Lebih Banyak Artikel
             </a>
         </div>
