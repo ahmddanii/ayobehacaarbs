@@ -107,8 +107,7 @@
             background-color: #f8fafc;
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 0.875rem;
-            min-height: 380px !important;
-            max-height: 480px !important;
+            min-height: 380px;
             padding: 8px 4px;
             transition: background-color 0.2s;
         }
