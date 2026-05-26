@@ -14,10 +14,20 @@ class Index extends Component
 {
     use WithFileUploads, WithPagination;
 
-    public $title, $slug, $content, $image, $categoryId, $articleId;
-    public $isEdit = false;
-    public $isWriting = false;
-    public $search = '';
+    public string $title = '';
+    public string $slug = '';
+    public string $content = '';
+    public $image = null;
+    public ?int $categoryId = null;
+    public ?int $articleId = null;
+    public bool $isEdit = false;
+    public bool $isWriting = false;
+    public string $search = '';
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
 
     #[Layout('layouts.admin')]
     public function render()
@@ -45,14 +55,7 @@ class Index extends Component
 
     public function resetFields()
     {
-        $this->title = '';
-        $this->slug = '';
-        $this->content = '';
-        $this->image = null;
-        $this->categoryId = null;
-        $this->articleId = null;
-        $this->isEdit = false;
-        $this->isWriting = false;
+        $this->reset(['title', 'slug', 'content', 'image', 'categoryId', 'articleId', 'isEdit', 'isWriting']);
     }
 
     public function store()

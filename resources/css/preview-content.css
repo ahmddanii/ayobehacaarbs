@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Preview Content Styles — Markdown Live Preview Rendering
+   Used by the article editor's split-pane real-time preview panel.
+   ========================================================================== */
+
+.preview-content blockquote {
+    border-left: 4px solid #2563eb;
+    background-color: #f8fafc;
+    padding: 1rem 1.25rem;
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+    color: #475569;
+    font-style: italic;
+}
+
+.preview-content mark {
+    background-color: #fef08a;
+    color: #1e293b;
+    padding: 0.1em 0.3em;
+    border-radius: 0.2em;
+    font-weight: 600;
+}
+
+.preview-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    color: #334155;
+    font-size: 0.925rem;
+}
+
+.preview-content ul,
+.preview-content ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+    list-style-type: disc;
+}
+
+.preview-content ol {
+    list-style-type: decimal;
+}
+
+.preview-content li {
+    margin-bottom: 0.25rem;
+    color: #334155;
+    font-size: 0.925rem;
+}
+
+.preview-content h1,
+.preview-content h2,
+.preview-content h3 {
+    font-weight: 800;
+    color: #0f172a;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.preview-content h1 {
+    font-size: 1.5rem;
+}
+
+.preview-content h2 {
+    font-size: 1.25rem;
+}
+
+.preview-content h3 {
+    font-size: 1.1rem;
+}

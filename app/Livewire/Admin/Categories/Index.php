@@ -6,15 +6,24 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 
 class Index extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
-    public $name, $slug, $image, $categoryId;
-    public $isEdit = false;
-    public $search = '';
+    public string $name = '';
+    public string $slug = '';
+    public $image = null;
+    public ?int $categoryId = null;
+    public bool $isEdit = false;
+    public string $search = '';
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
 
     #[Layout('layouts.admin')]
     public function render()
@@ -34,11 +43,7 @@ class Index extends Component
 
     public function resetFields()
     {
-        $this->name = '';
-        $this->slug = '';
-        $this->image = null;
-        $this->categoryId = null;
-        $this->isEdit = false;
+        $this->reset(['name', 'slug', 'image', 'categoryId', 'isEdit']);
     }
 
     public function store()
