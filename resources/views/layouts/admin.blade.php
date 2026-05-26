@@ -358,16 +358,28 @@
 </head>
 
 <body class="font-sans antialiased bg-slate-50 text-slate-900">
-    <div class="flex min-h-screen overflow-hidden" x-data="{ sidebarOpen: true }">
+    <div class="flex min-h-screen overflow-hidden" x-data="{ sidebarOpen: window.innerWidth > 768 }">
         {{-- Sidebar --}}
         @include('layouts.partials._sidebar')
 
+        {{-- Mobile Sidebar Backdrop --}}
+        <div x-show="sidebarOpen" @click="sidebarOpen = false"
+            class="lg:hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            x-cloak>
+        </div>
+
         <!-- Main Content -->
-        <div :class="sidebarOpen ? 'pl-72' : 'pl-20'"
+        <div :class="sidebarOpen ? 'lg:pl-72 pl-0' : 'lg:pl-20 pl-0'"
             class="flex-grow flex flex-col transition-all duration-300 min-w-0">
             <!-- Header -->
             <header
-                class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/60 flex items-center justify-between px-8 sticky top-0 z-40">
+                class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/60 flex items-center justify-between px-4 md:px-8 sticky top-0 z-40">
                 <div class="flex items-center gap-4">
                     <button @click="sidebarOpen = !sidebarOpen"
                         class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/60 hover:bg-slate-100 flex items-center justify-center text-slate-500 hover:text-blue-600 transition duration-200 shadow-sm">
@@ -398,7 +410,7 @@
                 </div>
             </header>
 
-            <main class="p-8">
+            <main class="p-4 md:p-8">
                 {{ $slot }}
             </main>
         </div>
