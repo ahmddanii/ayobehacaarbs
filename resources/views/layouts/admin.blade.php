@@ -148,10 +148,20 @@
             background-color: #ffffff !important;
         }
         .EasyMDEContainer .editor-preview-side {
-            z-index: 9997 !important;
             background-color: #f8fafc !important;
             border-left: 1px solid #e2e8f0 !important;
+            color: #334155 !important;
+            font-family: 'Inter', sans-serif !important;
+            line-height: 1.7 !important;
+        }
+        /* Style split preview specifically when editor is in fullscreen mode to avoid tearing */
+        .EasyMDEContainer .CodeMirror-fullscreen + .editor-preview-side {
+            z-index: 9997 !important;
             position: fixed !important;
+            top: 50px !important;
+            height: calc(100% - 50px) !important;
+            width: 50% !important;
+            background-color: #f8fafc !important;
         }
 
         /* Dark Mode Compatibility */
@@ -198,6 +208,10 @@
             background-color: #0f172a !important;
         }
         .dark .EasyMDEContainer .editor-preview-side {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+        }
+        .dark .EasyMDEContainer .CodeMirror-fullscreen + .editor-preview-side {
             background-color: #0f172a !important;
             border-color: #334155 !important;
         }
