@@ -137,7 +137,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {{-- Left Pane: Form & Editor --}}
         <div :class="showPreview ? 'lg:col-span-7' : 'lg:col-span-12'"
-            class="bg-white p-6 md:p-8 rounded-xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] space-y-6 transition-all duration-300">
+            class="bg-white p-6 md:p-8 rounded-xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] space-y-6">
 
             {{-- Title Input --}}
             <div class="space-y-2">

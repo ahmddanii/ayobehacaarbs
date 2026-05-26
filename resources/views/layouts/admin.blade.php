@@ -108,7 +108,6 @@
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 0.875rem;
             padding: 8px 4px;
-            transition: background-color 0.2s;
         }
         .EasyMDEContainer .CodeMirror-focused {
             background-color: #ffffff !important;
