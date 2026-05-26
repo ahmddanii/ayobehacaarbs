@@ -36,9 +36,6 @@
             status: false,
             minHeight: '380px',
             maxHeight: '480px',
-            codemirror: {
-                viewportMargin: Infinity
-            },
             toolbar: [
                 'bold', 'italic', 'heading-2', 'heading-3', '|',
                 'quote', 'unordered-list', 'ordered-list', '|',
@@ -55,6 +52,9 @@
                 }
             ],
         });
+
+        // Disable CodeMirror virtual rendering to prevent text disappearing on scroll
+        easyMDEInstance.codemirror.setOption('viewportMargin', Infinity);
 
         const highlightPreview = () => {
             $nextTick(() => {
@@ -79,8 +79,10 @@
 
         // Watch Alpine content change (like resets or edits)
         $watch('content', value => {
-            if (value !== easyMDEInstance.value()) {
-                easyMDEInstance.value(value || '');
+            const cleanVal = (value || '').replace(/\r\n/g, '\n');
+            const cleanMDE = easyMDEInstance.value().replace(/\r\n/g, '\n');
+            if (cleanVal !== cleanMDE) {
+                easyMDEInstance.value(cleanVal);
             }
             highlightPreview();
         });
