@@ -19,7 +19,8 @@ class Index extends Component
     #[Layout('layouts.admin')]
     public function render()
     {
-        $categories = Category::where('name', 'like', '%' . $this->search . '%')
+        $categories = Category::withCount('articles')
+            ->where('name', 'like', '%' . $this->search . '%')
             ->latest()
             ->paginate(10);
 
