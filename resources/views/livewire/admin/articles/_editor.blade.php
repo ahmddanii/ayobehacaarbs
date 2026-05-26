@@ -39,7 +39,6 @@
                 'bold', 'italic', 'heading-2', 'heading-3', '|',
                 'quote', 'unordered-list', 'ordered-list', '|',
                 'link', 'image', 'table', '|',
-                'preview', 'side-by-side', 'fullscreen', '|',
                 {
                     name: 'highlight',
                     action: (editor) => {
