@@ -227,19 +227,6 @@
 
             <!-- Sidebar -->
             <aside class="lg:col-span-4 space-y-12">
-                <!-- Newsletter Card -->
-                <div class="bg-blue-600 text-white p-8 rounded-xl shadow-md">
-                    <h3 class="text-xl font-bold mb-2">Langganan Artikel</h3>
-                    <p class="text-sm text-blue-100 mb-6">Dapatkan update artikel terbaru langsung ke email Anda setiap
-                        minggu.</p>
-                    <div class="flex flex-col gap-3">
-                        <input
-                            class="w-full px-4 py-3 rounded-lg text-slate-900 focus:ring-2 focus:ring-blue-300 border-none outline-none"
-                            placeholder="Email Anda" type="email" />
-                        <button
-                            class="w-full bg-white text-blue-600 font-bold py-3 rounded-lg hover:bg-blue-50 transition-all active:scale-95">Berlangganan</button>
-                    </div>
-                </div>
 
                 <!-- Related Articles -->
                 <div class="space-y-6">
