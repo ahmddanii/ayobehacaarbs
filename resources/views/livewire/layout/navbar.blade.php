@@ -1,4 +1,39 @@
-<nav class="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 shadow-sm transition-colors duration-300" x-data="{ isOpen: false, theme: localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') }">
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('bookmarksStore', {
+            items: JSON.parse(localStorage.getItem('ayobehacaar_bookmarks') || '[]'),
+            
+            toggle(article) {
+                let index = this.items.findIndex(b => b.id === article.id);
+                if (index > -1) {
+                    this.items.splice(index, 1);
+                } else {
+                    this.items.push(article);
+                }
+                localStorage.setItem('ayobehacaar_bookmarks', JSON.stringify(this.items));
+            },
+            remove(id) {
+                this.items = this.items.filter(b => b.id !== id);
+                localStorage.setItem('ayobehacaar_bookmarks', JSON.stringify(this.items));
+            },
+            isBookmarked(id) {
+                return this.items.some(b => b.id === id);
+            },
+            clearAll() {
+                this.items = [];
+                localStorage.setItem('ayobehacaar_bookmarks', '[]');
+            }
+        });
+    });
+</script>
+
+<nav class="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-100 dark:border-slate-800 shadow-sm transition-colors duration-300" 
+    x-data="{ 
+        isOpen: false, 
+        theme: localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+        isDrawerOpen: false
+    }">
+    
     <div class="container mx-auto px-4 md:px-12 py-3 flex items-center justify-between">
 
         <!-- Logo & Brand (Left) -->
@@ -33,8 +68,17 @@
             </ul>
         </div>
 
-        <!-- Theme Toggle & Social Media (Right) -->
+        <!-- Theme Toggle, Bookmarks & Social Media (Right) -->
         <div class="hidden lg:flex lg:w-1/3 justify-end items-center gap-6 text-slate-400 dark:text-slate-500">
+            <!-- Bookmark Button -->
+            <button @click="isDrawerOpen = true" class="text-lg relative hover:scale-110 transform transition duration-300 flex items-center justify-center focus:outline-none p-1.5 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800" title="Daftar Bacaan">
+                <i class="bi bi-bookmark-heart text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400"></i>
+                <!-- Red Badge Count -->
+                <span x-show="$store.bookmarksStore.items.length > 0" 
+                    class="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold rounded-full w-4.5 h-4.5 flex items-center justify-center border border-white dark:border-slate-900" x-cloak x-text="$store.bookmarksStore.items.length">
+                </span>
+            </button>
+
             <!-- Theme Toggle Button -->
             <button @click="
                 theme = theme === 'dark' ? 'light' : 'dark';
@@ -73,6 +117,15 @@
 
         <!-- Mobile Actions -->
         <div class="flex items-center gap-3 lg:hidden">
+            <!-- Bookmark Mobile Button -->
+            <button @click="isDrawerOpen = true" class="text-lg relative focus:outline-none p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition duration-300" aria-label="Daftar Bacaan">
+                <i class="bi bi-bookmark-heart text-slate-600 dark:text-slate-350"></i>
+                <!-- Red Badge Count -->
+                <span x-show="$store.bookmarksStore.items.length > 0" 
+                    class="absolute top-1 right-1 bg-red-500 text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white dark:border-slate-900" x-cloak x-text="$store.bookmarksStore.items.length">
+                </span>
+            </button>
+
             <!-- Theme Toggle Mobile Button -->
             <button @click="
                 theme = theme === 'dark' ? 'light' : 'dark';
@@ -134,5 +187,97 @@
             </a>
             @endif
         </div>
+    </div>
+
+    <!-- Reading List Slide-Over Drawer -->
+    <div x-show="isDrawerOpen" 
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm"
+        @click="isDrawerOpen = false"
+        x-cloak>
+    </div>
+    
+    <div x-show="isDrawerOpen" 
+        x-transition:enter="transition ease-out duration-300 transform"
+        x-transition:enter-start="translate-x-full"
+        x-transition:enter-end="translate-x-0"
+        x-transition:leave="transition ease-in duration-200 transform"
+        x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="translate-x-full"
+        class="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl z-[101] flex flex-col transition-colors duration-300"
+        x-cloak>
+        
+        <!-- Drawer Header -->
+        <div class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
+            <div class="flex items-center gap-2">
+                <i class="bi bi-bookmarks-fill text-blue-600 dark:text-blue-500 text-lg animate-pulse"></i>
+                <h3 class="font-bold text-slate-800 dark:text-white text-lg">Daftar Bacaan</h3>
+                <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-xs font-bold px-2 py-0.5 rounded-full" x-text="$store.bookmarksStore.items.length"></span>
+            </div>
+            <button @click="isDrawerOpen = false" class="text-slate-400 hover:text-slate-600 dark:hover:text-white text-2xl leading-none focus:outline-none transition">
+                &times;
+            </button>
+        </div>
+
+        <!-- Drawer Content -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar bg-white dark:bg-slate-900">
+            <!-- Empty State -->
+            <div x-show="$store.bookmarksStore.items.length === 0" class="flex flex-col items-center justify-center py-20 text-center text-slate-400 dark:text-slate-600">
+                <div class="w-20 h-20 bg-slate-50 dark:bg-slate-800 text-slate-300 dark:text-slate-700 rounded-full flex items-center justify-center mb-6 text-4xl">
+                    <i class="bi bi-book-half"></i>
+                </div>
+                <h4 class="font-bold text-slate-700 dark:text-slate-300 mb-2">Daftar Bacaan Kosong</h4>
+                <p class="text-sm max-w-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                    Belum ada artikel yang Anda simpan. Klik ikon bookmark pada kartu artikel untuk menyimpannya di sini.
+                </p>
+            </div>
+
+            <!-- Articles List -->
+            <div x-show="$store.bookmarksStore.items.length > 0" class="space-y-4">
+                <template x-for="item in $store.bookmarksStore.items" :key="item.id">
+                    <div class="flex gap-4 p-3 rounded-xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition group">
+                        
+                        <!-- Article Thumbnail -->
+                        <div class="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-850 flex-shrink-0 relative">
+                            <img :src="item.image" :alt="item.title" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Article Info -->
+                        <div class="flex-1 min-w-0 flex flex-col justify-between">
+                            <div>
+                                <span class="inline-block text-[9px] font-bold bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full px-2 py-0.5 mb-1" x-text="item.category"></span>
+                                <h4 class="font-semibold text-slate-850 dark:text-slate-200 text-[13px] leading-snug line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition" x-text="item.title"></h4>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <span class="text-[10px] text-slate-400 dark:text-slate-500" x-text="item.date"></span>
+                                <div class="flex items-center gap-3">
+                                    <a :href="'/articles/' + item.slug" class="text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:underline">Baca</a>
+                                    <button @click="$store.bookmarksStore.remove(item.id)" class="text-slate-400 hover:text-red-500 dark:hover:text-red-400 transition focus:outline-none" title="Hapus dari daftar">
+                                        <i class="bi bi-trash text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Drawer Footer -->
+        <div class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex justify-between items-center text-xs text-slate-400">
+            <span>Daftar Bacaan Pribadi</span>
+            <button @click="$store.bookmarksStore.clearAll()" 
+                x-show="$store.bookmarksStore.items.length > 0" 
+                class="text-red-500 dark:text-red-400 font-medium hover:underline focus:outline-none">
+                Hapus Semua
+            </button>
+        </div>
+
     </div>
 </nav>

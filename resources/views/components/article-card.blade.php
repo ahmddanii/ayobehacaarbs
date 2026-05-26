@@ -2,16 +2,27 @@
 
 <article class="bg-[#fcfcfc] dark:bg-slate-900/40 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800/80 overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-lg hover:-translate-y-1" data-aos="fade-up">
     {{-- Card Image --}}
-    <a href="{{ route('articles.show', $article->slug) }}" class="relative block overflow-hidden aspect-video">
+    <div class="relative block overflow-hidden aspect-video">
         <span class="absolute top-4 left-4 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest z-10">
             {{ $article->category->name ?? 'TEKNOLOGI' }}
         </span>
-        @if($article->image)
-            <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        @else
-            <img src="{{ asset('assets/img/12.jpg') }}" alt="Default" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-        @endif
-    </a>
+        
+        <!-- Floating Bookmark Trigger (AlpineJS Global Store) -->
+        <button 
+            @click.prevent="$store.bookmarksStore.toggle({ id: {{ $article->id }}, title: '{{ addslashes($article->clean_title) }}', slug: '{{ $article->slug }}', category: '{{ $article->category->name ?? 'Artikel' }}', date: '{{ $article->created_at->format('d M Y') }}', image: '{{ $article->image ? asset('storage/' . $article->image) : asset('assets/img/12.jpg') }}' })"
+            class="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-slate-900/60 dark:bg-slate-950/70 backdrop-blur-md border border-white/20 dark:border-slate-800 text-white flex items-center justify-center hover:scale-110 transition duration-300 focus:outline-none"
+            :title="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'Hapus dari Daftar Bacaan' : 'Simpan ke Daftar Bacaan'">
+            <i :class="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'bi bi-bookmark-fill text-yellow-400' : 'bi bi-bookmark text-white'"></i>
+        </button>
+
+        <a href="{{ route('articles.show', $article->slug) }}" class="w-full h-full block">
+            @if($article->image)
+                <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            @else
+                <img src="{{ asset('assets/img/12.jpg') }}" alt="Default" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+            @endif
+        </a>
+    </div>
 
     {{-- Card Content --}}
     <div class="p-6 space-y-3 flex-grow flex flex-col">

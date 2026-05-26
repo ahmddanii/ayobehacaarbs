@@ -225,15 +225,19 @@
 
                     <div class="flex-grow"></div>
 
-                    <!-- Social Share -->
+                    <!-- Social Share & Bookmark -->
                     <div class="flex gap-2">
                         <button
-                            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400">
+                            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400"
+                            title="Bagikan Artikel">
                             <i class="bi bi-share-fill"></i>
                         </button>
                         <button
-                            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400">
-                            <i class="bi bi-bookmark-fill"></i>
+                            @click.prevent="$store.bookmarksStore.toggle({ id: {{ $article->id }}, title: '{{ addslashes($article->clean_title) }}', slug: '{{ $article->slug }}', category: '{{ $article->category->name ?? 'Artikel' }}', date: '{{ $article->created_at->format('d M Y') }}', image: '{{ $article->image ? asset('storage/' . $article->image) : asset('assets/img/12.jpg') }}' })"
+                            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none"
+                            :class="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'text-yellow-500 dark:text-yellow-400 hover:text-yellow-600' : 'text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'"
+                            :title="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'Hapus dari Daftar Bacaan' : 'Simpan ke Daftar Bacaan'">
+                            <i :class="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"></i>
                         </button>
                     </div>
                 </div>
