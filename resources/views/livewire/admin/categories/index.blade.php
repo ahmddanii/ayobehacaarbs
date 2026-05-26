@@ -159,15 +159,7 @@
                     @error('name') <span class="text-rose-500 text-xs font-semibold block mt-1"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span> @enderror
                 </div>
 
-                <!-- Slug Field -->
-                <div class="space-y-2">
-                    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Slug (URL Otomatis)</label>
-                    <div class="flex items-center gap-2 px-4 py-3 bg-slate-100 border border-slate-200/50 rounded-xl">
-                        <i class="bi bi-link-45deg text-slate-400 text-base"></i>
-                        <input type="text" wire:model="slug" class="w-full bg-transparent outline-none font-semibold text-slate-500 text-sm" readonly>
-                    </div>
-                    @error('slug') <span class="text-rose-500 text-xs font-semibold block mt-1"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span> @enderror
-                </div>
+
 
                 <!-- Image Upload (Thumbnail) Field -->
                 <div class="space-y-2">
