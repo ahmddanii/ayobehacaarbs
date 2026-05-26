@@ -33,9 +33,9 @@
 
         @foreach ($navItems as $item)
             <a href="{{ route($item['route']) }}"
-                :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'"
-                class="group flex items-center gap-4 py-3.5 rounded-xl transition duration-200 {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }}">
-                <i class="bi {{ $item['icon'] }} text-xl group-hover:scale-110 transition duration-200 {{ request()->routeIs($item['route']) ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }}"></i>
+                :class="sidebarOpen ? 'w-full px-4 py-3.5 justify-start' : 'w-12 h-12 justify-center mx-auto'"
+                class="group flex items-center gap-4 rounded-xl transition duration-200 {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }}">
+                <i class="bi {{ $item['icon'] }} text-xl group-hover:scale-110 transition duration-200 {{ request()->routeIs($item['route']) ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }} shrink-0"></i>
                 <span x-show="sidebarOpen" x-transition.opacity class="text-sm font-medium">{{ $item['label'] }}</span>
             </a>
         @endforeach
@@ -50,9 +50,10 @@
         @endphp
 
         @foreach ($systemItems as $item)
-            <a href="{{ route($item['route']) }}" :class="sidebarOpen ? 'px-4 justify-start' : 'px-0 justify-center'"
-                class="group flex items-center gap-4 py-3.5 rounded-xl transition duration-200 {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }}">
-                <i class="bi {{ $item['icon'] }} text-xl group-hover:scale-110 transition duration-200 {{ request()->routeIs($item['route']) ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }}"></i>
+            <a href="{{ route($item['route']) }}"
+                :class="sidebarOpen ? 'w-full px-4 py-3.5 justify-start' : 'w-12 h-12 justify-center mx-auto'"
+                class="group flex items-center gap-4 rounded-xl transition duration-200 {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }}">
+                <i class="bi {{ $item['icon'] }} text-xl group-hover:scale-110 transition duration-200 {{ request()->routeIs($item['route']) ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }} shrink-0"></i>
                 <span x-show="sidebarOpen" x-transition.opacity class="text-sm font-medium">{{ $item['label'] }}</span>
             </a>
         @endforeach
@@ -60,9 +61,10 @@
 
     {{-- User Profile --}}
     <div class="p-4 border-t border-slate-900/50">
-        <div class="flex items-center gap-3.5 px-3 py-3 bg-slate-900/40 border border-slate-800/40 rounded-xl">
+        <div :class="sidebarOpen ? 'flex items-center gap-3.5 px-3 py-3 bg-slate-900/40 border border-slate-800/40 rounded-xl' : 'flex items-center justify-center p-0 bg-transparent border-transparent'"
+            class="transition-all duration-300">
             <div
-                class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-extrabold shadow-sm shadow-blue-500/20">
+                class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-extrabold shadow-sm shadow-blue-500/20 shrink-0">
                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
             </div>
             <div class="overflow-hidden" x-show="sidebarOpen" x-transition.opacity>
