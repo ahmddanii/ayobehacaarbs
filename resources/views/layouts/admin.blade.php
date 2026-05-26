@@ -379,13 +379,94 @@
                         <h2 class="text-lg font-bold text-slate-900 tracking-tight">@yield('page_title', 'Dashboard')</h2>
                     </div>
                     <div class="flex items-center gap-5">
-                        <div class="relative group">
-                            <button
-                                class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-500 hover:bg-blue-50 hover:text-blue-600 transition duration-200">
+                        {{-- Interactive Notifications --}}
+                        <div class="relative" x-data="{ 
+                            isOpen: false,
+                            notifications: [
+                                { id: 1, type: 'comment', text: 'Komentar baru dari Budi pada artikel \'Masa Depan AI\'', time: '5 menit yang lalu', is_read: false },
+                                { id: 2, type: 'stats', text: 'Selamat! Artikel \'Belajar Laravel 11\' Anda telah dibaca 1.000 kali!', time: '2 jam yang lalu', is_read: false },
+                                { id: 3, type: 'system', text: 'Pemberitahuan: Cadangan database berhasil dibuat malam ini.', time: '1 hari yang lalu', is_read: false }
+                            ],
+                            get unreadCount() {
+                                return this.notifications.filter(n => !n.is_read).length;
+                            },
+                            markAllAsRead() {
+                                this.notifications.forEach(n => n.is_read = true);
+                            }
+                        }" @click.away="isOpen = false">
+                            
+                            {{-- Bell Button --}}
+                            <button @click="isOpen = !isOpen"
+                                class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/60 hover:bg-slate-100 flex items-center justify-center text-slate-500 hover:text-blue-600 transition duration-200 shadow-sm relative">
                                 <i class="bi bi-bell text-lg"></i>
+                                {{-- Red dot indicator --}}
+                                <span x-show="unreadCount > 0"
+                                    class="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-rose-500 rounded-full border border-white animate-pulse"></span>
                             </button>
-                            <span
-                                class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border border-white animate-pulse"></span>
+
+                            {{-- Notifications Dropdown Menu --}}
+                            <div x-show="isOpen" 
+                                x-transition:enter="transition ease-out duration-250 transform origin-top-right"
+                                x-transition:enter-start="opacity-0 scale-95 -translate-y-2"
+                                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                                x-transition:leave="transition ease-in duration-150 transform origin-top-right"
+                                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                                x-transition:leave-end="opacity-0 scale-95 -translate-y-2"
+                                class="absolute right-0 mt-2.5 w-80 bg-white rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-slate-150/60 z-50 overflow-hidden"
+                                x-cloak>
+                                
+                                {{-- Header --}}
+                                <div class="px-5 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                                    <span class="font-bold text-slate-800 text-sm flex items-center gap-1.5">
+                                        Notifikasi
+                                        <span x-show="unreadCount > 0" class="bg-blue-100 text-blue-700 text-[10px] font-extrabold px-2 py-0.5 rounded-full" x-text="unreadCount"></span>
+                                    </span>
+                                    <button x-show="unreadCount > 0" @click="markAllAsRead()" class="text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline">
+                                        Tandai semua dibaca
+                                    </button>
+                                </div>
+
+                                {{-- List --}}
+                                <div class="max-h-[300px] overflow-y-auto divide-y divide-slate-100 custom-scrollbar">
+                                    <template x-for="item in notifications" :key="item.id">
+                                        <div class="p-4 hover:bg-slate-50/50 transition duration-150 flex gap-3 relative group"
+                                            :class="!item.is_read ? 'bg-blue-50/20' : ''">
+                                            
+                                            {{-- Icon based on type --}}
+                                            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                                                :class="{
+                                                    'bg-blue-50 text-blue-600': item.type === 'comment',
+                                                    'bg-amber-50 text-amber-600': item.type === 'stats',
+                                                    'bg-emerald-50 text-emerald-600': item.type === 'system'
+                                                }">
+                                                <i class="bi" :class="{
+                                                    'bi-chat-left-text-fill': item.type === 'comment',
+                                                    'bi-trophy-fill': item.type === 'stats',
+                                                    'bi-check-circle-fill': item.type === 'system'
+                                                }"></i>
+                                            </div>
+
+                                            {{-- Text & Time --}}
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-xs font-semibold text-slate-700 leading-snug break-words" :class="!item.is_read ? 'text-slate-850' : 'text-slate-500'" x-text="item.text"></p>
+                                                <span class="text-[10px] font-medium text-slate-400 mt-1 block" x-text="item.time"></span>
+                                            </div>
+
+                                            {{-- Unread Blue Dot --}}
+                                            <span x-show="!item.is_read" class="absolute right-4 top-1/2 -translate-y-1/2 w-2 h-2 bg-blue-600 rounded-full"></span>
+                                        </div>
+                                    </template>
+
+                                    <div x-show="notifications.length === 0" class="py-12 text-center text-slate-400 text-xs italic">
+                                        Tidak ada notifikasi baru.
+                                    </div>
+                                </div>
+
+                                {{-- Footer --}}
+                                <div class="px-5 py-3 border-t border-slate-100 bg-slate-50/30 text-center">
+                                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Ayo Behacaar Portal</span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="h-6 w-[1px] bg-slate-200"></div>
