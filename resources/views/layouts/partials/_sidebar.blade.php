@@ -1,6 +1,6 @@
 {{-- Admin Sidebar Navigation Partial --}}
 <aside :class="sidebarOpen ? 'w-72' : 'w-20'"
-    class="bg-slate-950 border-r border-slate-900/50 transition-all duration-300 flex flex-col shrink-0 fixed inset-y-0 z-50">
+    class="bg-slate-950 border-r border-slate-900/50 transition-all duration-300 flex flex-col shrink-0 fixed inset-y-0 z-50 overflow-x-hidden">
 
     {{-- Logo & Toggle --}}
     <div class="p-6 flex items-center justify-between border-b border-slate-900/50"
@@ -22,7 +22,7 @@
     </div>
 
     {{-- Navigation Links --}}
-    <nav class="flex-grow p-4 space-y-1.5 mt-4 overflow-y-auto">
+    <nav class="flex-grow p-4 space-y-1.5 mt-4 overflow-y-auto overflow-x-hidden">
         @php
             $navItems = [
                 ['route' => 'admin.dashboard', 'icon' => 'bi-speedometer2', 'label' => 'Dashboard'],
@@ -34,7 +34,7 @@
         @foreach ($navItems as $item)
             <a href="{{ route($item['route']) }}"
                 :class="sidebarOpen ? 'w-full px-4 py-3.5 justify-start' : 'w-12 h-12 justify-center mx-auto'"
-                class="group flex items-center gap-4 rounded-xl transition duration-200 {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }}">
+                class="group flex items-center gap-4 rounded-xl transition duration-200 overflow-hidden {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }}">
                 <i class="bi {{ $item['icon'] }} text-xl group-hover:scale-110 transition duration-200 {{ request()->routeIs($item['route']) ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }} shrink-0"></i>
                 <span x-show="sidebarOpen" x-transition.opacity class="text-sm font-medium">{{ $item['label'] }}</span>
             </a>
@@ -52,7 +52,7 @@
         @foreach ($systemItems as $item)
             <a href="{{ route($item['route']) }}"
                 :class="sidebarOpen ? 'w-full px-4 py-3.5 justify-start' : 'w-12 h-12 justify-center mx-auto'"
-                class="group flex items-center gap-4 rounded-xl transition duration-200 {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }}">
+                class="group flex items-center gap-4 rounded-xl transition duration-200 overflow-hidden {{ request()->routeIs($item['route']) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold shadow-lg shadow-blue-500/25' : 'text-slate-400 hover:bg-slate-900 hover:text-slate-100' }}">
                 <i class="bi {{ $item['icon'] }} text-xl group-hover:scale-110 transition duration-200 {{ request()->routeIs($item['route']) ? 'text-white' : 'text-slate-400 group-hover:text-blue-400' }} shrink-0"></i>
                 <span x-show="sidebarOpen" x-transition.opacity class="text-sm font-medium">{{ $item['label'] }}</span>
             </a>
