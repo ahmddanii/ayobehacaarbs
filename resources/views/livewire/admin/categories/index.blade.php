@@ -155,7 +155,7 @@
                 <!-- Name Field -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Nama Kategori</label>
-                    <input type="text" wire:model.blur="name" class="w-full px-4 py-3 bg-slate-50 border border-slate-200/80 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:bg-white outline-none transition duration-200 font-bold text-slate-850 placeholder:font-normal placeholder:text-slate-400" placeholder="Contoh: Teknologi, Pendidikan">
+                    <input type="text" wire:model.live="name" class="w-full px-4 py-3 bg-slate-50 border border-slate-200/80 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:bg-white outline-none transition duration-200 font-bold text-slate-850 placeholder:font-normal placeholder:text-slate-400" placeholder="Contoh: Teknologi, Pendidikan">
                     @error('name') <span class="text-rose-500 text-xs font-semibold block mt-1"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span> @enderror
                 </div>
 

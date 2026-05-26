@@ -42,18 +42,23 @@ class Index extends Component
 
     public function store()
     {
-        $this->validate([
+        $rules = [
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:categories,slug,' . $this->categoryId,
-            'image' => 'nullable|image|max:1024',
-        ]);
+        ];
+
+        if ($this->image && !is_string($this->image)) {
+            $rules['image'] = 'image|max:1024';
+        }
+
+        $this->validate($rules);
 
         $data = [
             'name' => $this->name,
             'slug' => $this->slug,
         ];
 
-        if ($this->image) {
+        if ($this->image && !is_string($this->image)) {
             $data['image'] = $this->image->store('categories', 'public');
         }
 
@@ -80,6 +85,7 @@ class Index extends Component
         $this->categoryId = $category->id;
         $this->name = $category->name;
         $this->slug = $category->slug;
+        $this->image = $category->image; // Display existing image in the modal
         $this->isEdit = true;
         $this->dispatch('open-modal');
     }
