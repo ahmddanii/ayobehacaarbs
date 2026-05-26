@@ -376,7 +376,7 @@
 
         <!-- Main Content -->
         <div :class="sidebarOpen ? 'lg:pl-72 pl-0' : 'lg:pl-20 pl-0'"
-            class="flex-grow flex flex-col transition-all duration-300 min-w-0">
+            class="flex-grow flex flex-col min-w-0">
             <!-- Header -->
             <header
                 class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200/60 flex items-center justify-between px-4 md:px-8 sticky top-0 z-40">
