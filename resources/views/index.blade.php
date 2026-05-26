@@ -65,7 +65,7 @@
     {{-- Artikel Terbaru --}}
     <section class="mb-16" id="artikel-terbaru">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-            <h1 class="font-bold text-3xl md:text-4xl text-slate-900 font-sans mb-4 md:mb-0">
+            <h1 class="font-bold text-3xl md:text-4xl text-slate-900 dark:text-white font-sans mb-4 md:mb-0">
                 @if(request('filter') === 'populer')
                     Artikel Terpopuler
                 @elseif(request('filter') === 'terlama')
@@ -76,11 +76,11 @@
             </h1>
             <div class="flex gap-2">
                 <a href="{{ route('home', ['filter' => 'semua']) }}#artikel-terbaru"
-                    class="px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('filter', 'semua') === 'semua' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Semua</a>
+                    class="px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('filter', 'semua') === 'semua' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800' }}">Semua</a>
                 <a href="{{ route('home', ['filter' => 'populer']) }}#artikel-terbaru"
-                    class="px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('filter') === 'populer' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Populer</a>
+                    class="px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('filter') === 'populer' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800' }}">Populer</a>
                 <a href="{{ route('home', ['filter' => 'terlama']) }}#artikel-terbaru"
-                    class="px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('filter') === 'terlama' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Terlama</a>
+                    class="px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('filter') === 'terlama' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800' }}">Terlama</a>
             </div>
         </div>
 
@@ -101,8 +101,8 @@
     <section class="mb-16">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8">
             <div>
-                <h1 class="font-bold text-3xl md:text-4xl text-slate-900 mb-2 font-sans">Kategori</h1>
-                <p class="text-slate-500 text-sm md:text-base">Eksplorasi topik pilihan kami</p>
+                <h1 class="font-bold text-3xl md:text-4xl text-slate-900 dark:text-white mb-2 font-sans">Kategori</h1>
+                <p class="text-slate-500 dark:text-slate-400 text-sm md:text-base">Eksplorasi topik pilihan kami</p>
             </div>
             <a href="{{ route('categories.index') }}" class="text-blue-600 hover:text-blue-700 font-medium text-sm mt-4 md:mt-0 flex items-center gap-1 transition-colors">
                 Lihat Semua <i class="bi bi-chevron-right text-xs"></i>

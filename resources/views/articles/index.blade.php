@@ -15,7 +15,7 @@
     {{-- Filter & Search --}}
     <div class="flex flex-col my-8 gap-6">
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-            <h2 class="text-3xl font-bold text-slate-800 tracking-tight font-sans">
+            <h2 class="text-3xl font-bold text-slate-800 dark:text-white tracking-tight font-sans">
                 {{ request('category') ? optional($categories->where('slug', request('category'))->first())->name ?? 'Semua Artikel' : 'Semua Artikel' }}
             </h2>
 
@@ -24,8 +24,8 @@
                     <input type="hidden" name="category" value="{{ request('category') }}">
                 @endif
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari topik, judul, atau konten..."
-                    class="w-full pl-12 pr-6 py-3 rounded-xl bg-white border border-slate-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none transition duration-300 font-medium text-slate-700 shadow-sm">
-                <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition duration-300">
+                    class="w-full pl-12 pr-6 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none transition duration-300 font-medium text-slate-700 dark:text-slate-300 shadow-sm">
+                <button type="submit" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-400 transition duration-300">
                     <i class="bi bi-search"></i>
                 </button>
             </form>
@@ -34,12 +34,12 @@
         {{-- Category Filter Pills --}}
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('articles.index', ['search' => request('search')]) }}#kumpulan-artikel"
-                class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ !request('category') ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-500 border border-slate-200 hover:bg-slate-50' }}">
+                class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ !request('category') ? 'bg-blue-600 text-white shadow-md' : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800' }}">
                 Semua
             </a>
             @foreach($categories as $cat)
                 <a href="{{ route('articles.index', ['category' => $cat->slug, 'search' => request('search')]) }}#kumpulan-artikel"
-                    class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request('category') == $cat->slug ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 hover:text-blue-600' }}">
+                    class="px-4 py-2 rounded-full text-sm font-bold transition-all {{ request('category') == $cat->slug ? 'bg-blue-600 text-white shadow-md' : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400' }}">
                     {{ $cat->name }}
                 </a>
             @endforeach

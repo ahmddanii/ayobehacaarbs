@@ -44,7 +44,7 @@
                         </div>
                     </a>
                 @empty
-                    <div class="col-span-full py-16 text-center text-slate-400 font-medium italic">
+                    <div class="col-span-full py-16 text-center text-slate-400 dark:text-slate-500 font-medium italic">
                         Belum ada kategori yang ditemukan.
                     </div>
                 @endforelse

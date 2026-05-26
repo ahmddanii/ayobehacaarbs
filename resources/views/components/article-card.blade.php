@@ -1,6 +1,6 @@
 @props(['article'])
 
-<article class="bg-[#fcfcfc] rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-lg hover:-translate-y-1" data-aos="fade-up">
+<article class="bg-[#fcfcfc] dark:bg-slate-900/40 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800/80 overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-lg hover:-translate-y-1" data-aos="fade-up">
     {{-- Card Image --}}
     <a href="{{ route('articles.show', $article->slug) }}" class="relative block overflow-hidden aspect-video">
         <span class="absolute top-4 left-4 bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest z-10">
@@ -15,18 +15,18 @@
 
     {{-- Card Content --}}
     <div class="p-6 space-y-3 flex-grow flex flex-col">
-        <div class="flex items-center gap-2 text-slate-500">
+        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
             <span class="text-xs font-medium">{{ $article->created_at->format('d M Y') }}</span>
-            <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+            <span class="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></span>
             <span class="text-xs font-medium">Oleh {{ $article->user->name ?? 'Admin' }}</span>
         </div>
-        <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-tight">
+        <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2 leading-tight">
             <a href="{{ route('articles.show', $article->slug) }}">{{ $article->clean_title }}</a>
         </h3>
-        <p class="text-slate-600 text-sm line-clamp-3 leading-relaxed flex-grow">
+        <p class="text-slate-600 dark:text-slate-300 text-sm line-clamp-3 leading-relaxed flex-grow">
             {{ Str::limit($article->clean_content, 120) }}
         </p>
-        <a href="{{ route('articles.show', $article->slug) }}" class="inline-flex items-center gap-1 text-blue-600 font-bold text-sm pt-2 transition-colors">
+        <a href="{{ route('articles.show', $article->slug) }}" class="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 font-bold text-sm pt-2 transition-colors">
             Baca Selengkapnya <i class="bi bi-arrow-right"></i>
         </a>
     </div>

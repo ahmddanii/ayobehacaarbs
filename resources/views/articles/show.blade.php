@@ -29,6 +29,10 @@
                 font-size: 1.075rem;
             }
 
+            .dark .preview-content p {
+                color: #cbd5e1;
+            }
+
             .preview-content ul,
             .preview-content ol {
                 margin-left: 2rem;
@@ -47,6 +51,10 @@
                 line-height: 1.75;
             }
 
+            .dark .preview-content li {
+                color: #cbd5e1;
+            }
+
             .preview-content h1,
             .preview-content h2,
             .preview-content h3,
@@ -57,6 +65,13 @@
                 margin-bottom: 1rem;
                 line-height: 1.35;
                 letter-spacing: -0.02em;
+            }
+
+            .dark .preview-content h1,
+            .dark .preview-content h2,
+            .dark .preview-content h3,
+            .dark .preview-content h4 {
+                color: #f8fafc;
             }
 
             .preview-content h1 {
@@ -88,6 +103,11 @@
                 font-weight: 600;
             }
 
+            .dark .preview-content code {
+                background-color: #334155;
+                color: #e2e8f0;
+            }
+
             .preview-content pre {
                 background-color: #0f172a;
                 color: #f8fafc;
@@ -95,6 +115,11 @@
                 border-radius: 0.75rem;
                 overflow-x: auto;
                 margin: 1.5rem 0;
+            }
+
+            .dark .preview-content pre {
+                background-color: #1e293b;
+                border: 1px solid #334155;
             }
 
             .preview-content pre code {
@@ -115,10 +140,20 @@
                 font-style: italic;
             }
 
+            .dark .preview-content blockquote {
+                background-color: #1e293b;
+                color: #cbd5e1;
+                border-left-color: #3b82f6;
+            }
+
             .preview-content blockquote p {
                 margin-bottom: 0;
                 color: #475569;
                 font-style: italic;
+            }
+
+            .dark .preview-content blockquote p {
+                color: #cbd5e1;
             }
 
             .preview-content mark {
@@ -128,6 +163,11 @@
                 border-radius: 0.25em;
                 font-weight: 600;
             }
+
+            .dark .preview-content mark {
+                background-color: #ca8a04;
+                color: #ffffff;
+            }
         </style>
     @endpush
 
@@ -135,7 +175,7 @@
         <div id="reading-progress-bar"></div>
     </div>
 
-    <main class="pt-8 pb-20 bg-[#fcfcfc]">
+    <main class="pt-8 pb-20 bg-[#fcfcfc] dark:bg-slate-950 transition-colors duration-300">
         <!-- Breadcrumb -->
         <div class="container mx-auto px-6 md:px-8 lg:px-12 py-4">
             <nav class="flex mb-6 text-[10px] font-black uppercase tracking-widest text-slate-400" aria-label="Breadcrumb">
@@ -144,7 +184,7 @@
                     <li><i class="bi bi-chevron-right opacity-50"></i></li>
                     <li><a href="{{ route('articles.index') }}" class="hover:text-blue-600 transition">Artikel</a></li>
                     <li><i class="bi bi-chevron-right opacity-50"></i></li>
-                    <li class="text-slate-600">Detail</li>
+                    <li class="text-slate-600 dark:text-slate-400">Detail</li>
                 </ol>
             </nav>
         </div>
@@ -155,15 +195,15 @@
                 <!-- Category Tag -->
                 <div class="mb-4">
                     <span
-                        class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wider">{{ $article->category->name ?? 'Kategori' }}</span>
+                        class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wider">{{ $article->category->name ?? 'Kategori' }}</span>
                 </div>
 
                 <!-- Headline -->
-                <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl text-slate-900 mb-6 leading-tight">
+                <h1 class="font-bold text-3xl md:text-4xl lg:text-5xl text-slate-900 dark:text-white mb-6 leading-tight">
                     {{ $article->title }}</h1>
 
                 <!-- Meta Info -->
-                <div class="flex flex-wrap items-center gap-6 mb-12 py-4 border-y border-slate-200">
+                <div class="flex flex-wrap items-center gap-6 mb-12 py-4 border-y border-slate-200 dark:border-slate-800 transition-colors">
                     <div class="flex items-center gap-3">
                         <div
                             class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg">
@@ -171,16 +211,16 @@
                         </div>
                         <div class="flex flex-col">
                             <span
-                                class="text-sm text-slate-900 font-semibold">{{ $article->user->name ?? 'Admin Ayo Behacaar' }}</span>
-                            <span class="text-xs text-slate-500">Editor Senior</span>
+                                class="text-sm text-slate-900 dark:text-white font-semibold">{{ $article->user->name ?? 'Admin Ayo Behacaar' }}</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400">Editor Senior</span>
                         </div>
                     </div>
 
-                    <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
+                    <div class="h-8 w-px bg-slate-200 dark:bg-slate-800 hidden md:block"></div>
 
                     <div class="flex flex-col">
-                        <span class="text-sm text-slate-600 font-medium">{{ $article->created_at->format('d F Y') }}</span>
-                        <span class="text-xs text-slate-500">8 Menit Baca</span>
+                        <span class="text-sm text-slate-600 dark:text-slate-450 font-medium">{{ $article->created_at->format('d F Y') }}</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">8 Menit Baca</span>
                     </div>
 
                     <div class="flex-grow"></div>
@@ -188,11 +228,11 @@
                     <!-- Social Share -->
                     <div class="flex gap-2">
                         <button
-                            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors text-slate-500 hover:text-blue-600">
+                            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400">
                             <i class="bi bi-share-fill"></i>
                         </button>
                         <button
-                            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors text-slate-500 hover:text-blue-600">
+                            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400">
                             <i class="bi bi-bookmark-fill"></i>
                         </button>
                     </div>
@@ -213,15 +253,15 @@
                 @php
                     $processedContent = preg_replace('/==(.*?)==/', '<mark>$1</mark>', $article->content);
                 @endphp
-                <div class="prose prose-lg max-w-[720px] mx-auto text-slate-700 leading-relaxed preview-content">
+                <div class="prose prose-lg max-w-[720px] mx-auto text-slate-700 dark:text-slate-300 leading-relaxed preview-content transition-colors">
                     {!! Illuminate\Support\Str::markdown($processedContent) !!}
                 </div>
 
                 <!-- Tags Section -->
-                <div class="mt-12 pt-8 border-t border-slate-200 flex flex-wrap gap-2">
-                    <span class="text-sm text-slate-600 bg-slate-100 px-3 py-1 rounded-full">#LiterasiDigital</span>
+                <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-wrap gap-2 transition-colors">
+                    <span class="text-sm text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-900 px-3 py-1 rounded-full border border-transparent dark:border-slate-800">#LiterasiDigital</span>
                     <span
-                        class="text-sm text-slate-600 bg-slate-100 px-3 py-1 rounded-full">#{{ Str::slug($article->category->name ?? 'artikel') }}</span>
+                        class="text-sm text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-900 px-3 py-1 rounded-full border border-transparent dark:border-slate-800">#{{ Str::slug($article->category->name ?? 'artikel') }}</span>
                 </div>
             </article>
 
@@ -230,14 +270,14 @@
 
                 <!-- Related Articles -->
                 <div class="space-y-6">
-                    <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <i class="bi bi-bookmark-heart-fill text-blue-600"></i> Baca Juga
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="bi bi-bookmark-heart-fill text-blue-600 dark:text-blue-500"></i> Baca Juga
                     </h3>
 
                     @forelse($related_articles as $rel)
                         <a href="{{ route('articles.show', $rel->slug) }}"
                             class="group cursor-pointer flex gap-4 items-center">
-                            <div class="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                            <div class="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800">
                                 @if ($rel->image)
                                     <img src="{{ asset('storage/' . $rel->image) }}" alt="{{ $rel->title }}"
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
@@ -248,14 +288,14 @@
                             </div>
                             <div class="flex flex-col justify-center">
                                 <span
-                                    class="text-xs text-blue-600 uppercase font-bold mb-1">{{ $rel->category->name ?? 'Kategori' }}</span>
+                                    class="text-xs text-blue-600 dark:text-blue-400 uppercase font-bold mb-1">{{ $rel->category->name ?? 'Kategori' }}</span>
                                 <h4
-                                    class="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+                                    class="text-sm font-semibold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                                     {{ $rel->clean_title }}</h4>
                             </div>
                         </a>
                     @empty
-                        <p class="text-slate-500 text-sm italic">Belum ada artikel terkait.</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm italic">Belum ada artikel terkait.</p>
                     @endforelse
                 </div>
             </aside>
