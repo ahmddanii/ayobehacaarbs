@@ -63,13 +63,24 @@
     </div>
 
     {{-- Artikel Terbaru --}}
-    <section class="mb-16">
+    <section class="mb-16" id="artikel-terbaru">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-            <h1 class="font-bold text-3xl md:text-4xl text-slate-900 font-sans mb-4 md:mb-0">Artikel Terbaru</h1>
+            <h1 class="font-bold text-3xl md:text-4xl text-slate-900 font-sans mb-4 md:mb-0">
+                @if(request('filter') === 'populer')
+                    Artikel Terpopuler
+                @elseif(request('filter') === 'terlama')
+                    Artikel Terlama
+                @else
+                    Artikel Terbaru
+                @endif
+            </h1>
             <div class="flex gap-2">
-                <button class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-medium hover:bg-blue-700 transition">Semua</button>
-                <button class="bg-slate-100 text-slate-600 px-4 py-1.5 rounded-full text-sm font-medium hover:bg-slate-200 transition">Populer</button>
-                <button class="bg-slate-100 text-slate-600 px-4 py-1.5 rounded-full text-sm font-medium hover:bg-slate-200 transition">Terlama</button>
+                <a href="{{ route('home', ['filter' => 'semua']) }}#artikel-terbaru"
+                    class="px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('filter', 'semua') === 'semua' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Semua</a>
+                <a href="{{ route('home', ['filter' => 'populer']) }}#artikel-terbaru"
+                    class="px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('filter') === 'populer' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Populer</a>
+                <a href="{{ route('home', ['filter' => 'terlama']) }}#artikel-terbaru"
+                    class="px-4 py-1.5 rounded-full text-sm font-medium transition {{ request('filter') === 'terlama' ? 'bg-blue-600 text-white shadow-sm font-semibold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200' }}">Terlama</a>
             </div>
         </div>
 

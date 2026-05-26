@@ -34,6 +34,10 @@ class ArticleController extends Controller
     public function show($slug)
     {
         $article = Article::where('slug', $slug)->with(['category', 'user'])->firstOrFail();
+        
+        // Increment visitor view count
+        $article->increment('views_count');
+
         $related_articles = Article::where('category_id', $article->category_id)
             ->where('id', '!=', $article->id)
             ->take(3)

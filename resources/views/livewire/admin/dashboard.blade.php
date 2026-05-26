@@ -52,19 +52,19 @@
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-tr from-emerald-500 to-teal-500 rounded-full opacity-10 blur-xl group-hover:scale-125 transition-transform duration-500"></div>
             <div class="relative z-10 flex flex-col h-full justify-between">
                 <div class="flex justify-between items-start mb-4">
-                    <p class="text-slate-400 text-[10px] font-black uppercase tracking-wider">Estimasi Pengunjung</p>
+                    <p class="text-slate-400 text-[10px] font-black uppercase tracking-wider">Total Kunjungan Artikel</p>
                     <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-sm">
                         <i class="bi bi-eye-fill text-lg"></i>
                     </div>
                 </div>
                 <div>
                     <div class="flex items-baseline gap-2">
-                        <h3 class="text-4xl font-extrabold text-slate-800 tracking-tight">1,248</h3>
-                        <span class="text-emerald-500 font-bold text-xs">↑ 12.4%</span>
+                        <h3 class="text-4xl font-extrabold text-slate-800 tracking-tight">{{ number_format($total_views) }}</h3>
+                        <span class="text-emerald-500 font-bold text-xs">Riil</span>
                     </div>
                     <p class="mt-4 flex items-center gap-1.5 text-xs font-semibold text-slate-400">
                         <i class="bi bi-graph-up text-emerald-500"></i>
-                        Tren naik bulan ini
+                        Pembaca aktif terakumulasi
                     </p>
                 </div>
             </div>
@@ -75,19 +75,24 @@
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-tr from-orange-500 to-amber-500 rounded-full opacity-10 blur-xl group-hover:scale-125 transition-transform duration-500"></div>
             <div class="relative z-10 flex flex-col h-full justify-between">
                 <div class="flex justify-between items-start mb-4">
-                    <p class="text-slate-400 text-[10px] font-black uppercase tracking-wider">Moderasi Komentar</p>
+                    <p class="text-slate-400 text-[10px] font-black uppercase tracking-wider">Artikel Terpopuler</p>
                     <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shadow-sm">
-                        <i class="bi bi-chat-square-text-fill text-lg"></i>
+                        <i class="bi bi-trophy-fill text-lg"></i>
                     </div>
                 </div>
                 <div>
-                    <div class="flex items-baseline gap-2">
-                        <h3 class="text-4xl font-extrabold text-slate-800 tracking-tight">48</h3>
-                        <span class="text-orange-500 font-bold text-xs">Menunggu</span>
-                    </div>
+                    @if($top_article)
+                        <h4 class="text-sm font-bold text-slate-800 line-clamp-1 leading-snug tracking-tight mb-2">{{ $top_article->title }}</h4>
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-2xl font-extrabold text-slate-800 tracking-tight">{{ number_format($top_article->views_count) }}</span>
+                            <span class="text-orange-500 font-bold text-xs">Pembaca</span>
+                        </div>
+                    @else
+                        <h3 class="text-4xl font-extrabold text-slate-800 tracking-tight">-</h3>
+                    @endif
                     <p class="mt-4 flex items-center gap-1.5 text-xs font-semibold text-slate-400">
-                        <i class="bi bi-clock-history text-orange-400"></i>
-                        Butuh persetujuan
+                        <i class="bi bi-star-fill text-orange-400"></i>
+                        Rating teratas portal
                     </p>
                 </div>
             </div>
@@ -114,6 +119,7 @@
                             <tr>
                                 <th class="px-8 py-4">Judul Artikel</th>
                                 <th class="px-8 py-4">Kategori</th>
+                                <th class="px-8 py-4">Pembaca</th>
                                 <th class="px-8 py-4">Status</th>
                                 <th class="px-8 py-4 text-right">Aksi</th>
                             </tr>
@@ -141,6 +147,12 @@
                                     <td class="px-8 py-4">
                                         <span class="px-2.5 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-bold rounded-full uppercase tracking-wider">
                                             {{ $article->category->name ?? 'Kategori' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-8 py-4">
+                                        <span class="text-slate-500 font-bold text-xs flex items-center gap-1">
+                                            <i class="bi bi-eye text-sm"></i>
+                                            {{ number_format($article->views_count) }}
                                         </span>
                                     </td>
                                     <td class="px-8 py-4">

@@ -15,6 +15,8 @@ class Dashboard extends Component
         return view('livewire.admin.dashboard', [
             'total_articles' => Article::count(),
             'total_categories' => Category::count(),
+            'total_views' => Article::sum('views_count'),
+            'top_article' => Article::orderBy('views_count', 'desc')->first(),
             'latest_articles' => Article::with('category')->latest()->take(5)->get(),
         ]);
     }
