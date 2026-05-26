@@ -182,7 +182,7 @@
         x-transition:leave="transition ease-in duration-200 transform origin-top" 
         x-transition:leave-start="opacity-100 translate-y-0 scale-y-100"
         x-transition:leave-end="opacity-0 -translate-y-4 scale-y-90"
-        class="lg:hidden flex flex-col bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-4 px-6 space-y-3 shadow-lg justify-center items-center transition-colors duration-300"
+        class="absolute top-full left-0 w-full lg:hidden flex flex-col bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 py-4 px-6 space-y-3 shadow-lg justify-center items-center transition-colors duration-300"
         @click.away="isOpen = false" x-cloak>
         <a href="{{ route('home') }}"
             class="block py-2 font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Home</a>
