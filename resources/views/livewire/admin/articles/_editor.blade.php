@@ -7,57 +7,62 @@
     categoryId: @entangle('categoryId'),
     categories: {{ json_encode($categories->pluck('name', 'id')) }},
     showPreview: true,
-    compressing: false,
-    insertMarkdown(type) {
-        const textarea = this.$refs.editor;
-        if (!textarea) return;
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        const text = textarea.value || '';
-        const selected = text.substring(start, end);
+    compressing: false
+}" x-init="
+    $watch('categoryId', id => {
+        categoryName = categories[id] || 'KATEGORI';
+    });
+    categoryName = categories[categoryId] || 'KATEGORI';
 
-        let replacement = '';
-        let cursorOffset = 0;
-
-        switch (type) {
-            case 'bold':
-                replacement = `**${selected || 'teks tebal'}**`;
-                cursorOffset = selected ? 0 : 2;
-                break;
-            case 'italic':
-                replacement = `*${selected || 'teks miring'}*`;
-                cursorOffset = selected ? 0 : 1;
-                break;
-            case 'highlight':
-                replacement = `==${selected || 'highlight'}==`;
-                cursorOffset = selected ? 0 : 2;
-                break;
-            case 'quote':
-                replacement = `\n> ${selected || 'kutipan penting'}\n`;
-                cursorOffset = selected ? 0 : 1;
-                break;
-            case 'h2':
-                replacement = `\n## ${selected || 'Subjudul'}\n`;
-                cursorOffset = selected ? 0 : 1;
-                break;
-            case 'list':
-                replacement = `\n- ${selected || 'item'}\n`;
-                cursorOffset = selected ? 0 : 1;
-                break;
+    const initMDE = () => {
+        if (typeof EasyMDE === 'undefined') {
+            setTimeout(initMDE, 100);
+            return;
         }
 
-        this.content = text.substring(0, start) + replacement + text.substring(end);
-
-        this.$nextTick(() => {
-            textarea.focus();
-            const newCursorPos = start + replacement.length - cursorOffset;
-            textarea.setSelectionRange(newCursorPos, newCursorPos);
+        let easyMDE = new EasyMDE({
+            element: $refs.editor,
+            autoDownloadFontAwesome: true,
+            spellChecker: false,
+            placeholder: 'Tulis isi tulisan artikel Anda di sini menggunakan markdown...',
+            status: false,
+            maxHeight: '400px',
+            toolbar: [
+                'bold', 'italic', 'heading-2', 'heading-3', '|',
+                'quote', 'unordered-list', 'ordered-list', '|',
+                'link', 'image', 'table', '|',
+                'preview', 'side-by-side', 'fullscreen', '|',
+                {
+                    name: 'highlight',
+                    action: (editor) => {
+                        let cm = editor.codemirror;
+                        let selected = cm.getSelection();
+                        cm.replaceSelection('==' + (selected || 'highlight') + '==');
+                    },
+                    className: 'fa fa-paint-brush',
+                    title: 'Highlight Teks penting (==teks==)',
+                }
+            ],
         });
-    }
-}" x-init="$watch('categoryId', id => {
-    categoryName = categories[id] || 'KATEGORI';
-});
-categoryName = categories[categoryId] || 'KATEGORI';">
+
+        // Set initial value
+        easyMDE.value(content || '');
+
+        // Sync changes to Alpine state
+        easyMDE.codemirror.on('change', () => {
+            content = easyMDE.value();
+        });
+
+        // Watch Alpine content change (like resets or edits)
+        $watch('content', value => {
+            if (value !== easyMDE.value()) {
+                easyMDE.value(value || '');
+            }
+        });
+    };
+
+    setTimeout(initMDE, 50);
+">
 
     {{-- Sticky Workspace Action Bar --}}
     <div
@@ -193,56 +198,7 @@ categoryName = categories[categoryId] || 'KATEGORI';">
                             class="bi bi-info-circle text-blue-500"></i> Blok teks & klik tombol untuk memformat secara cepat</span>
                 </div>
 
-                {{-- Markdown Toolbar --}}
-                <div class="flex flex-wrap items-center gap-2 p-2 bg-slate-50 border border-slate-200/85 rounded-xl">
-                    <button type="button" @click="insertMarkdown('h2')"
-                        class="h-9 w-9 text-slate-500 hover:text-blue-600 hover:bg-blue-50/60 rounded-lg transition flex items-center justify-center border border-transparent hover:border-blue-100"
-                        title="Subjudul (H2)">
-                        <i class="bi bi-type-h2 text-base"></i>
-                    </button>
-
-                    <div class="h-5 w-[1px] bg-slate-200 mx-1"></div>
-
-                    <button type="button" @click="insertMarkdown('bold')"
-                        class="h-9 w-9 text-slate-500 hover:text-blue-600 hover:bg-blue-50/60 rounded-lg transition flex items-center justify-center border border-transparent hover:border-blue-100"
-                        title="Tebal (Bold)">
-                        <i class="bi bi-type-bold text-base"></i>
-                    </button>
-                    <button type="button" @click="insertMarkdown('italic')"
-                        class="h-9 w-9 text-slate-500 hover:text-blue-600 hover:bg-blue-50/60 rounded-lg transition flex items-center justify-center border border-transparent hover:border-blue-100"
-                        title="Miring (Italic)">
-                        <i class="bi bi-type-italic text-base"></i>
-                    </button>
-                    <button type="button" @click="insertMarkdown('list')"
-                        class="h-9 w-9 text-slate-500 hover:text-blue-600 hover:bg-blue-50/60 rounded-lg transition flex items-center justify-center border border-transparent hover:border-blue-100"
-                        title="Daftar Poin">
-                        <i class="bi bi-list-task text-base"></i>
-                    </button>
-
-                    <div class="h-5 w-[1px] bg-slate-200 mx-1"></div>
-
-                    <button type="button" @click="insertMarkdown('highlight')"
-                        class="h-9 px-3 text-xs text-rose-600 hover:text-rose-700 bg-rose-50/60 hover:bg-rose-50 border border-rose-100 hover:border-rose-200 rounded-lg font-bold flex items-center gap-1.5 transition shadow-sm"
-                        title="Highlight Teks (==teks==)">
-                        <span class="bg-rose-150 text-[10px] px-1 py-0.5 rounded leading-none border border-rose-200/50 font-black">==</span>
-                        Highlight
-                    </button>
-                    <button type="button" @click="insertMarkdown('quote')"
-                        class="h-9 px-3 text-xs text-blue-600 hover:text-blue-700 bg-blue-50/60 hover:bg-blue-50 border border-blue-100 hover:border-blue-200 rounded-lg font-bold flex items-center gap-1.5 transition shadow-sm"
-                        title="Kutipan Khusus (Quote Note)">
-                        <i class="bi bi-chat-quote-fill text-sm"></i> Quote Note
-                    </button>
-                </div>
-
-                <textarea x-ref="editor" wire:model.live.debounce.150ms="content"
-                    class="w-full px-4 py-4 bg-slate-50 border border-slate-200/80 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:bg-white outline-none transition duration-200 font-medium text-slate-700 min-h-[380px] text-sm leading-relaxed"
-                    placeholder="Tulis isi tulisan artikel Anda di sini menggunakan markdown...
-
-Gunakan blockquote dengan '>' untuk membuat quote note:
-> ini adalah sebuah quote note yang indah.
-
-Gunakan ==teks== untuk highlight teks penting:
-Mari belajar ==literasi digital== demi masa depan cerah."></textarea>
+                <textarea x-ref="editor" class="hidden"></textarea>
                 @error('content')
                     <span class="text-rose-500 text-xs font-semibold block mt-1"><i
                             class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span>
@@ -314,3 +270,54 @@ Mari belajar ==literasi digital== demi masa depan cerah."></textarea>
         </div>
     </div>
 </div>
+
+@push('styles')
+    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+    <style>
+        .EasyMDEContainer .CodeMirror {
+            border-radius: 0 0 12px 12px;
+            border-color: #e2e8f0;
+            background-color: #f8fafc;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.875rem;
+            min-height: 380px !important;
+            max-height: 480px !important;
+        }
+        .EasyMDEContainer .editor-toolbar {
+            border-radius: 12px 12px 0 0;
+            border-color: #e2e8f0;
+            background-color: #ffffff;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .EasyMDEContainer .editor-toolbar button {
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .EasyMDEContainer .editor-toolbar button.active, 
+        .EasyMDEContainer .editor-toolbar button:hover {
+            background-color: #f1f5f9;
+            color: #2563eb;
+        }
+        .dark .EasyMDEContainer .CodeMirror {
+            background-color: #1e293b;
+            color: #cbd5e1;
+            border-color: #334155;
+        }
+        .dark .EasyMDEContainer .editor-toolbar {
+            background-color: #0f172a;
+            border-color: #334155;
+        }
+        .dark .EasyMDEContainer .editor-toolbar button {
+            color: #94a3b8;
+        }
+        .dark .EasyMDEContainer .editor-toolbar button.active, 
+        .dark .EasyMDEContainer .editor-toolbar button:hover {
+            background-color: #1e293b;
+            color: #38bdf8;
+        }
+    </style>
+@endpush
+
+@push('scripts')
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+@endpush
