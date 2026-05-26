@@ -7,7 +7,8 @@
     categoryId: @entangle('categoryId'),
     categories: {{ json_encode($categories->pluck('name', 'id')) }},
     showPreview: true,
-    compressing: false
+    compressing: false,
+    easyMDEInstance: null
 }" x-init="
     $watch('categoryId', id => {
         categoryName = categories[id] || 'KATEGORI';
@@ -20,9 +21,16 @@
             return;
         }
 
-        let easyMDE = new EasyMDE({
+        if (easyMDEInstance) {
+            setTimeout(() => {
+                easyMDEInstance.codemirror.refresh();
+            }, 50);
+            return;
+        }
+
+        easyMDEInstance = new EasyMDE({
             element: $refs.editor,
-            autoDownloadFontAwesome: true,
+            autoDownloadFontAwesome: false,
             spellChecker: false,
             placeholder: 'Tulis isi tulisan artikel Anda di sini menggunakan markdown...',
             status: false,
@@ -46,19 +54,24 @@
         });
 
         // Set initial value
-        easyMDE.value(content || '');
+        easyMDEInstance.value(content || '');
 
         // Sync changes to Alpine state
-        easyMDE.codemirror.on('change', () => {
-            content = easyMDE.value();
+        easyMDEInstance.codemirror.on('change', () => {
+            content = easyMDEInstance.value();
         });
 
         // Watch Alpine content change (like resets or edits)
         $watch('content', value => {
-            if (value !== easyMDE.value()) {
-                easyMDE.value(value || '');
+            if (value !== easyMDEInstance.value()) {
+                easyMDEInstance.value(value || '');
             }
         });
+
+        // Force CodeMirror to refresh size calculations after DOM completes layout
+        setTimeout(() => {
+            easyMDEInstance.codemirror.refresh();
+        }, 150);
     };
 
     setTimeout(initMDE, 50);
@@ -198,7 +211,9 @@
                             class="bi bi-info-circle text-blue-500"></i> Blok teks & klik tombol untuk memformat secara cepat</span>
                 </div>
 
-                <textarea x-ref="editor" class="hidden"></textarea>
+                <div wire:ignore>
+                    <textarea x-ref="editor"></textarea>
+                </div>
                 @error('content')
                     <span class="text-rose-500 text-xs font-semibold block mt-1"><i
                             class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span>
@@ -270,54 +285,3 @@
         </div>
     </div>
 </div>
-
-@push('styles')
-    <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
-    <style>
-        .EasyMDEContainer .CodeMirror {
-            border-radius: 0 0 12px 12px;
-            border-color: #e2e8f0;
-            background-color: #f8fafc;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.875rem;
-            min-height: 380px !important;
-            max-height: 480px !important;
-        }
-        .EasyMDEContainer .editor-toolbar {
-            border-radius: 12px 12px 0 0;
-            border-color: #e2e8f0;
-            background-color: #ffffff;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-        .EasyMDEContainer .editor-toolbar button {
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        .EasyMDEContainer .editor-toolbar button.active, 
-        .EasyMDEContainer .editor-toolbar button:hover {
-            background-color: #f1f5f9;
-            color: #2563eb;
-        }
-        .dark .EasyMDEContainer .CodeMirror {
-            background-color: #1e293b;
-            color: #cbd5e1;
-            border-color: #334155;
-        }
-        .dark .EasyMDEContainer .editor-toolbar {
-            background-color: #0f172a;
-            border-color: #334155;
-        }
-        .dark .EasyMDEContainer .editor-toolbar button {
-            color: #94a3b8;
-        }
-        .dark .EasyMDEContainer .editor-toolbar button.active, 
-        .dark .EasyMDEContainer .editor-toolbar button:hover {
-            background-color: #1e293b;
-            color: #38bdf8;
-        }
-    </style>
-@endpush
-
-@push('scripts')
-    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
-@endpush

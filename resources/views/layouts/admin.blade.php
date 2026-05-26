@@ -17,12 +17,62 @@
     <!-- Scripts and Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- FontAwesome 6 for EasyMDE Toolbar Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- EasyMDE Markdown Editor -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+
     @livewireStyles
     @stack('styles')
 
     <style>
         body {
             font-family: 'Inter', sans-serif !important;
+        }
+        /* Custom EasyMDE Styling */
+        .EasyMDEContainer .CodeMirror {
+            border-radius: 0 0 12px 12px;
+            border-color: #e2e8f0;
+            background-color: #f8fafc;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.875rem;
+            min-height: 380px !important;
+            max-height: 480px !important;
+        }
+        .EasyMDEContainer .editor-toolbar {
+            border-radius: 12px 12px 0 0;
+            border-color: #e2e8f0;
+            background-color: #ffffff;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .EasyMDEContainer .editor-toolbar button {
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .EasyMDEContainer .editor-toolbar button.active, 
+        .EasyMDEContainer .editor-toolbar button:hover {
+            background-color: #f1f5f9;
+            color: #2563eb;
+        }
+        .dark .EasyMDEContainer .CodeMirror {
+            background-color: #1e293b;
+            color: #cbd5e1;
+            border-color: #334155;
+        }
+        .dark .EasyMDEContainer .editor-toolbar {
+            background-color: #0f172a;
+            border-color: #334155;
+        }
+        .dark .EasyMDEContainer .editor-toolbar button {
+            color: #94a3b8;
+        }
+        .dark .EasyMDEContainer .editor-toolbar button.active, 
+        .dark .EasyMDEContainer .editor-toolbar button:hover {
+            background-color: #1e293b;
+            color: #38bdf8;
         }
     </style>
 </head>
