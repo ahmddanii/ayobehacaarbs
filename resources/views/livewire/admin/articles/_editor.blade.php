@@ -35,6 +35,9 @@
             placeholder: 'Tulis isi tulisan artikel Anda di sini menggunakan markdown...',
             status: false,
             maxHeight: '480px',
+            codemirrorOptions: {
+                viewportMargin: Infinity
+            },
             toolbar: [
                 'bold', 'italic', 'heading-2', 'heading-3', '|',
                 'quote', 'unordered-list', 'ordered-list', '|',
