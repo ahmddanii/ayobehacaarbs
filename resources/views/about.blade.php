@@ -4,7 +4,7 @@
 
 @section('content')
 <x-cinematic-header
-    :image="asset('assets/img/17.jpg')"
+    :image="$settings->about_hero_image ? asset('storage/' . $settings->about_hero_image) : asset('assets/img/17.jpg')"
     badge="Mengenal Kami"
     title="ABOUT"
 >

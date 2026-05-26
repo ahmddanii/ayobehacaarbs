@@ -80,6 +80,69 @@
                         <span class="text-rose-500 text-xs font-semibold block mt-1"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span>
                     @enderror
                 </div>
+
+                {{-- Cover Images Grid --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                    {{-- Category Page Hero Cover --}}
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Sampul Hero Halaman Kategori</label>
+                        <div class="relative">
+                            <input type="file" class="hidden" id="category_hero_image" wire:model="categoryHeroImage">
+                            <label for="category_hero_image"
+                                class="flex flex-col items-center justify-center p-6 bg-slate-50 border-2 border-dashed border-slate-200 hover:border-blue-500 hover:bg-blue-50/30 rounded-xl cursor-pointer transition duration-250 group relative overflow-hidden min-h-[160px]">
+                                @if ($categoryHeroImage)
+                                    <div class="absolute inset-0 bg-white z-10 flex items-center justify-center p-2">
+                                        @if (is_string($categoryHeroImage))
+                                            <img src="{{ asset('storage/' . $categoryHeroImage) }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
+                                        @else
+                                            <img src="{{ $categoryHeroImage->temporaryUrl() }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
+                                        @endif
+                                        <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition duration-200 flex flex-col items-center justify-center rounded-xl">
+                                            <i class="bi bi-cloud-arrow-up text-white text-2xl mb-1"></i>
+                                            <span class="text-white text-xs font-bold">Ganti Sampul</span>
+                                        </div>
+                                    </div>
+                                @endif
+                                <i class="bi bi-image text-2xl text-slate-350 group-hover:text-blue-500 mb-2 transition duration-200"></i>
+                                <span class="text-xs font-bold text-slate-500 group-hover:text-blue-500 transition duration-200">Pilih sampul halaman Kategori</span>
+                                <span class="text-[10px] text-slate-350 mt-1">Format: JPG, PNG (Max 2MB)</span>
+                            </label>
+                        </div>
+                        @error('categoryHeroImage')
+                            <span class="text-rose-500 text-xs font-semibold block mt-1"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Article Page Hero Cover --}}
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Sampul Hero Halaman Artikel</label>
+                        <div class="relative">
+                            <input type="file" class="hidden" id="article_hero_image" wire:model="articleHeroImage">
+                            <label for="article_hero_image"
+                                class="flex flex-col items-center justify-center p-6 bg-slate-50 border-2 border-dashed border-slate-200 hover:border-blue-500 hover:bg-blue-50/30 rounded-xl cursor-pointer transition duration-250 group relative overflow-hidden min-h-[160px]">
+                                @if ($articleHeroImage)
+                                    <div class="absolute inset-0 bg-white z-10 flex items-center justify-center p-2">
+                                        @if (is_string($articleHeroImage))
+                                            <img src="{{ asset('storage/' . $articleHeroImage) }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
+                                        @else
+                                            <img src="{{ $articleHeroImage->temporaryUrl() }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
+                                        @endif
+                                        <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition duration-200 flex flex-col items-center justify-center rounded-xl">
+                                            <i class="bi bi-cloud-arrow-up text-white text-2xl mb-1"></i>
+                                            <span class="text-white text-xs font-bold">Ganti Sampul</span>
+                                        </div>
+                                    </div>
+                                @endif
+                                <i class="bi bi-image text-2xl text-slate-350 group-hover:text-blue-500 mb-2 transition duration-200"></i>
+                                <span class="text-xs font-bold text-slate-500 group-hover:text-blue-500 transition duration-200">Pilih sampul halaman Artikel</span>
+                                <span class="text-[10px] text-slate-350 mt-1">Format: JPG, PNG (Max 2MB)</span>
+                            </label>
+                        </div>
+                        @error('articleHeroImage')
+                            <span class="text-rose-500 text-xs font-semibold block mt-1"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
             </div>
 
             {{-- About Us Tab --}}
@@ -102,6 +165,36 @@
                         class="w-full px-5 py-4 bg-slate-50 border border-slate-200/80 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:bg-white rounded-xl outline-none transition duration-200 font-medium text-slate-700 leading-relaxed placeholder:text-slate-400"
                         placeholder="Tuliskan komitmen kualitas konten editorial, visi misi, atau pesan penutup..."></textarea>
                     @error('aboutText')
+                        <span class="text-rose-500 text-xs font-semibold block mt-1"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span>
+                    @enderror
+                </div>
+
+                {{-- About Page Hero Cover --}}
+                <div class="space-y-2 pt-4">
+                    <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Sampul Hero Halaman Tentang Kami</label>
+                    <div class="relative">
+                        <input type="file" class="hidden" id="about_hero_image" wire:model="aboutHeroImage">
+                        <label for="about_hero_image"
+                            class="flex flex-col items-center justify-center p-6 bg-slate-50 border-2 border-dashed border-slate-200 hover:border-blue-500 hover:bg-blue-50/30 rounded-xl cursor-pointer transition duration-250 group relative overflow-hidden min-h-[160px] max-w-lg">
+                            @if ($aboutHeroImage)
+                                <div class="absolute inset-0 bg-white z-10 flex items-center justify-center p-2">
+                                    @if (is_string($aboutHeroImage))
+                                        <img src="{{ asset('storage/' . $aboutHeroImage) }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
+                                    @else
+                                        <img src="{{ $aboutHeroImage->temporaryUrl() }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
+                                    @endif
+                                    <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition duration-200 flex flex-col items-center justify-center rounded-xl">
+                                        <i class="bi bi-cloud-arrow-up text-white text-2xl mb-1"></i>
+                                        <span class="text-white text-xs font-bold">Ganti Sampul</span>
+                                    </div>
+                                </div>
+                            @endif
+                            <i class="bi bi-image text-2xl text-slate-350 group-hover:text-blue-500 mb-2 transition duration-200"></i>
+                            <span class="text-xs font-bold text-slate-500 group-hover:text-blue-500 transition duration-200">Pilih sampul halaman Tentang Kami</span>
+                            <span class="text-[10px] text-slate-350 mt-1">Format: JPG, PNG (Max 2MB)</span>
+                        </label>
+                    </div>
+                    @error('aboutHeroImage')
                         <span class="text-rose-500 text-xs font-semibold block mt-1"><i class="bi bi-exclamation-circle mr-1"></i>{{ $message }}</span>
                     @enderror
                 </div>

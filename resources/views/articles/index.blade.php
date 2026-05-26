@@ -4,7 +4,7 @@
 
 @section('content')
 <x-cinematic-header
-    :image="asset('assets/img/18.jpg')"
+    :image="$settings->article_hero_image ? asset('storage/' . $settings->article_hero_image) : asset('assets/img/18.jpg')"
     badge="Kumpulan Tulisan"
     title="ARTIKEL"
     description="Baca dan temukan berbagai wawasan, perspektif baru, dan informasi menarik yang kami kurasi khusus untuk Anda."

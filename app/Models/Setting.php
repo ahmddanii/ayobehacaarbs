@@ -18,6 +18,9 @@ class Setting extends Model
     {
         return self::create([
             'site_name' => 'ayo behacaar',
+            'category_hero_image' => null,
+            'article_hero_image' => null,
+            'about_hero_image' => null,
             'tagline' => 'Website artikel yang membahas segala hal menarik di masa kini',
             'description' => 'Ayo Behacaar hadir sebagai jembatan intelektual di era digital. Berakar dari nilai-nilai luhur budaya Kalimantan, khususnya Suku Dayak Tunjung, kami membawa semangat belajar yang inklusif dan modern kepada masyarakat luas.',
             'about_text' => 'Sebagai platform yang mengedepankan kualitas konten editorial, Ayo Behacaar berkomitmen untuk menyediakan sumber daya pembelajaran yang terkurasi. Dari literasi teknologi hingga pengembangan diri, kami merancang setiap artikel dan program kami untuk memberikan wawasan yang jernih dan dapat segera dipraktikkan.',

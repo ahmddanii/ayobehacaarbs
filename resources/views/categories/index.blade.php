@@ -4,7 +4,7 @@
 
 @section('content')
 <x-cinematic-header
-    :image="asset('assets/img/14.jpg')"
+    :image="$settings->category_hero_image ? asset('storage/' . $settings->category_hero_image) : asset('assets/img/14.jpg')"
     badge="Eksplorasi Topik"
     title="KATEGORI"
     description="Temukan artikel berkualitas tinggi yang dikurasi khusus berdasarkan minat intelektual dan kebutuhan profesional Anda."
