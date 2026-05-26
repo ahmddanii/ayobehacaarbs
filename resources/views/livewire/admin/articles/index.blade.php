@@ -549,36 +549,55 @@ Mari belajar ==literasi digital== demi masa depan cerah."></textarea>
     <!-- Modals Alert and Confirm Scripts -->
     <script>
         window.addEventListener('swal:alert', event => {
+            const isSuccess = event.detail[0].icon === 'success';
+            const iconClass = isSuccess ? 'bi-check-circle text-emerald-600' : 'bi-exclamation-circle text-rose-600';
+            const bgClass = isSuccess ? 'bg-emerald-50' : 'bg-rose-50';
+            
             Swal.fire({
-                title: event.detail[0].title,
-                text: event.detail[0].text,
-                icon: event.detail[0].icon,
-                confirmButtonColor: '#2563eb',
+                html: `
+                    <div class="flex items-start gap-4 p-1">
+                        <div class="w-12 h-12 rounded-full ${bgClass} flex items-center justify-center shrink-0">
+                            <i class="bi ${iconClass} text-xl leading-none flex items-center justify-center"></i>
+                        </div>
+                        <div class="text-left flex-grow">
+                            <h3 class="text-lg font-bold text-slate-800 leading-snug">${event.detail[0].title}</h3>
+                            <p class="text-slate-500 text-sm mt-2 leading-relaxed font-medium">${event.detail[0].text}</p>
+                        </div>
+                    </div>
+                `,
+                confirmButtonText: 'Selesai',
+                buttonsStyling: false,
                 customClass: {
-                    popup: 'rounded-xl border border-slate-100 p-8 shadow-2xl',
-                    confirmButton: 'px-8 py-2.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-700 transition outline-none',
-                    title: 'text-lg font-bold text-slate-800',
-                    htmlContainer: 'text-sm text-slate-500 font-medium mt-2'
+                    popup: 'rounded-2xl border border-slate-100 p-6 shadow-2xl bg-white max-w-md w-full',
+                    actions: 'flex justify-end mt-6 w-full',
+                    confirmButton: 'px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer'
                 }
             });
         });
 
         window.addEventListener('swal:confirm', event => {
             Swal.fire({
-                title: event.detail[0].title,
-                text: event.detail[0].text,
-                icon: 'warning',
+                html: `
+                    <div class="flex items-start gap-4 p-1">
+                        <div class="w-12 h-12 rounded-full bg-rose-50 flex items-center justify-center shrink-0">
+                            <i class="bi bi-trash3 text-rose-600 text-xl leading-none flex items-center justify-center"></i>
+                        </div>
+                        <div class="text-left flex-grow">
+                            <h3 class="text-lg font-bold text-slate-800 leading-snug">${event.detail[0].title}</h3>
+                            <p class="text-slate-500 text-sm mt-2 leading-relaxed font-medium">${event.detail[0].text}</p>
+                        </div>
+                    </div>
+                `,
                 showCancelButton: true,
-                confirmButtonColor: '#e11d48',
-                cancelButtonColor: '#f8fafc',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal',
+                confirmButtonText: 'Hapus',
+                cancelButtonText: 'Urungkan',
+                reverseButtons: true,
+                buttonsStyling: false,
                 customClass: {
-                    popup: 'rounded-xl border border-slate-100 p-8 shadow-2xl',
-                    confirmButton: 'px-8 py-2.5 rounded-xl font-bold text-sm bg-rose-600 hover:bg-rose-700 text-white transition outline-none',
-                    cancelButton: 'px-8 py-2.5 rounded-xl font-bold text-sm bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 transition outline-none',
-                    title: 'text-lg font-bold text-slate-800',
-                    htmlContainer: 'text-sm text-slate-500 font-medium mt-2'
+                    popup: 'rounded-2xl border border-slate-100 p-6 shadow-2xl bg-white max-w-md w-full',
+                    actions: 'flex justify-end gap-3 mt-6 w-full',
+                    confirmButton: 'px-5 py-2.5 rounded-xl font-bold text-sm bg-rose-600 hover:bg-rose-700 text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer',
+                    cancelButton: 'px-5 py-2.5 rounded-xl font-bold text-sm bg-transparent hover:bg-slate-50 text-slate-500 hover:text-slate-800 transition duration-200 outline-none active:scale-95 cursor-pointer'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {

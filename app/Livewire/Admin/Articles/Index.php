@@ -79,10 +79,10 @@ class Index extends Component
 
         if ($this->isEdit) {
             Article::find($this->articleId)->update($data);
-            $message = 'Artikel berhasil diperbarui!';
+            $message = 'Perubahan draf artikel berhasil disimpan.';
         } else {
             Article::create($data);
-            $message = 'Artikel berhasil ditambahkan!';
+            $message = 'Artikel baru berhasil diterbitkan secara publik.';
         }
 
         $this->dispatch('swal:alert', [
@@ -112,7 +112,7 @@ class Index extends Component
         Article::find($id)->delete();
         $this->dispatch('swal:alert', [
             'title' => 'Berhasil!',
-            'text' => 'Artikel telah dihapus.',
+            'text' => 'Artikel berhasil dihapus secara permanen.',
             'icon' => 'success'
         ]);
     }
@@ -121,8 +121,8 @@ class Index extends Component
     {
         $this->dispatch('swal:confirm', [
             'id' => $id,
-            'title' => 'Hapus Artikel?',
-            'text' => 'Tindakan ini tidak dapat dibatalkan!',
+            'title' => 'Konfirmasi Hapus',
+            'text' => 'Apakah Anda yakin ingin menghapus artikel ini? Tindakan ini tidak dapat dibatalkan.',
         ]);
     }
 }
