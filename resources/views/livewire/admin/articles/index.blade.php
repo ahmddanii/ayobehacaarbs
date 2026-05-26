@@ -555,15 +555,15 @@ Mari belajar ==literasi digital== demi masa depan cerah."></textarea>
             
             Swal.fire({
                 html: `
-                    <div class="flex items-center gap-5 p-1 text-left">
-                        <!-- Left: Circular Icon -->
-                        <div class="w-14 h-14 rounded-full ${bgClass} border flex items-center justify-center shrink-0 shadow-sm">
-                            <i class="bi ${iconClass} text-2xl leading-none flex items-center justify-center"></i>
+                    <div class="text-center p-1">
+                        <!-- Top: Circular Icon -->
+                        <div class="mx-auto w-16 h-16 rounded-full ${bgClass} border flex items-center justify-center shrink-0 shadow-sm mb-4">
+                            <i class="bi ${iconClass} text-3xl leading-none flex items-center justify-center"></i>
                         </div>
-                        <!-- Right: Content Column -->
-                        <div class="flex flex-col gap-1.5 min-w-0">
+                        <!-- Bottom: Content Column -->
+                        <div class="flex flex-col gap-2">
                             <h3 class="text-xl font-extrabold text-slate-800 tracking-tight leading-snug">${event.detail[0].title}</h3>
-                            <p class="text-slate-500 text-sm leading-relaxed font-semibold">${event.detail[0].text}</p>
+                            <p class="text-slate-500 text-sm leading-relaxed font-semibold px-2">${event.detail[0].text}</p>
                         </div>
                     </div>
                 `,
@@ -571,8 +571,8 @@ Mari belajar ==literasi digital== demi masa depan cerah."></textarea>
                 buttonsStyling: false,
                 customClass: {
                     popup: 'rounded-3xl border border-slate-100/80 p-8 shadow-2xl bg-white max-w-md w-full',
-                    actions: 'flex justify-end mt-6 w-full',
-                    confirmButton: 'px-6 py-3 rounded-2xl font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer'
+                    actions: 'flex justify-center mt-6 w-full',
+                    confirmButton: 'px-8 py-3 rounded-2xl font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer'
                 }
             });
         });
@@ -580,15 +580,15 @@ Mari belajar ==literasi digital== demi masa depan cerah."></textarea>
         window.addEventListener('swal:confirm', event => {
             Swal.fire({
                 html: `
-                    <div class="flex items-center gap-5 p-1 text-left">
-                        <!-- Left: Circular Icon -->
-                        <div class="w-14 h-14 rounded-full bg-rose-50 border border-rose-100/40 flex items-center justify-center shrink-0 shadow-sm">
-                            <i class="bi bi-trash3 text-rose-500 text-2xl leading-none flex items-center justify-center"></i>
+                    <div class="text-center p-1">
+                        <!-- Top: Circular Icon -->
+                        <div class="mx-auto w-16 h-16 rounded-full bg-rose-50 border border-rose-100/40 flex items-center justify-center shrink-0 shadow-sm mb-4">
+                            <i class="bi bi-trash3 text-rose-500 text-3xl leading-none flex items-center justify-center"></i>
                         </div>
-                        <!-- Right: Content Column -->
-                        <div class="flex flex-col gap-1.5 min-w-0">
+                        <!-- Bottom: Content Column -->
+                        <div class="flex flex-col gap-2">
                             <h3 class="text-xl font-extrabold text-slate-800 tracking-tight leading-snug">${event.detail[0].title}</h3>
-                            <p class="text-slate-500 text-sm leading-relaxed font-semibold">${event.detail[0].text}</p>
+                            <p class="text-slate-500 text-sm leading-relaxed font-semibold px-2">${event.detail[0].text}</p>
                         </div>
                     </div>
                 `,
@@ -599,9 +599,9 @@ Mari belajar ==literasi digital== demi masa depan cerah."></textarea>
                 buttonsStyling: false,
                 customClass: {
                     popup: 'rounded-3xl border border-slate-100/80 p-8 shadow-2xl bg-white max-w-md w-full',
-                    actions: 'flex justify-end gap-3 mt-6 w-full',
-                    confirmButton: 'px-6 py-3 rounded-2xl font-bold text-sm bg-rose-600 hover:bg-[#BE123C] text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer',
-                    cancelButton: 'px-6 py-3 rounded-2xl font-bold text-sm bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-800 transition duration-200 outline-none active:scale-95 cursor-pointer border border-slate-200/40 shadow-sm'
+                    actions: 'flex justify-center gap-3 mt-6 w-full',
+                    confirmButton: 'px-8 py-3 rounded-2xl font-bold text-sm bg-rose-600 hover:bg-[#BE123C] text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer',
+                    cancelButton: 'px-8 py-3 rounded-2xl font-bold text-sm bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-800 transition duration-200 outline-none active:scale-95 cursor-pointer border border-slate-200/40 shadow-sm'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
