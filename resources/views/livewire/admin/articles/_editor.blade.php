@@ -47,7 +47,7 @@
                         let selected = cm.getSelection();
                         cm.replaceSelection('==' + (selected || 'highlight') + '==');
                     },
-                    className: 'fa fa-paint-brush',
+                    className: 'fa-solid fa-paintbrush',
                     title: 'Highlight Teks penting (==teks==)',
                 }
             ],
