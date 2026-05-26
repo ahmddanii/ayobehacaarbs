@@ -232,27 +232,29 @@
 
         window.addEventListener('swal:alert', event => {
             const isSuccess = event.detail[0].icon === 'success';
-            const iconClass = isSuccess ? 'bi-check-circle text-emerald-600' : 'bi-exclamation-circle text-rose-600';
-            const bgClass = isSuccess ? 'bg-emerald-50' : 'bg-rose-50';
+            const iconClass = isSuccess ? 'bi-check2-circle text-emerald-500' : 'bi-exclamation-circle text-rose-500';
+            const bgClass = isSuccess ? 'bg-emerald-50 border-emerald-100/30' : 'bg-rose-50 border-rose-100/30';
             
             Swal.fire({
                 html: `
-                    <div class="flex items-start gap-4 p-1">
-                        <div class="w-12 h-12 rounded-full ${bgClass} flex items-center justify-center shrink-0">
-                            <i class="bi ${iconClass} text-xl leading-none flex items-center justify-center"></i>
+                    <div class="flex items-center gap-5 p-1 text-left">
+                        <!-- Left: Circular Icon -->
+                        <div class="w-14 h-14 rounded-full ${bgClass} border flex items-center justify-center shrink-0 shadow-sm">
+                            <i class="bi ${iconClass} text-2xl leading-none flex items-center justify-center"></i>
                         </div>
-                        <div class="text-left flex-grow">
-                            <h3 class="text-lg font-bold text-slate-800 leading-snug">${event.detail[0].title}</h3>
-                            <p class="text-slate-500 text-sm mt-2 leading-relaxed font-medium">${event.detail[0].text}</p>
+                        <!-- Right: Content Column -->
+                        <div class="flex flex-col gap-1.5 min-w-0">
+                            <h3 class="text-xl font-extrabold text-slate-800 tracking-tight leading-snug">${event.detail[0].title}</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed font-semibold">${event.detail[0].text}</p>
                         </div>
                     </div>
                 `,
                 confirmButtonText: 'Selesai',
                 buttonsStyling: false,
                 customClass: {
-                    popup: 'rounded-2xl border border-slate-100 p-6 shadow-2xl bg-white max-w-md w-full',
+                    popup: 'rounded-3xl border border-slate-100/80 p-8 shadow-2xl bg-white max-w-md w-full',
                     actions: 'flex justify-end mt-6 w-full',
-                    confirmButton: 'px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer'
+                    confirmButton: 'px-6 py-3 rounded-2xl font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer'
                 }
             });
         });
@@ -260,13 +262,15 @@
         window.addEventListener('swal:confirm', event => {
             Swal.fire({
                 html: `
-                    <div class="flex items-start gap-4 p-1">
-                        <div class="w-12 h-12 rounded-full bg-rose-50 flex items-center justify-center shrink-0">
-                            <i class="bi bi-trash3 text-rose-600 text-xl leading-none flex items-center justify-center"></i>
+                    <div class="flex items-center gap-5 p-1 text-left">
+                        <!-- Left: Circular Icon -->
+                        <div class="w-14 h-14 rounded-full bg-rose-50 border border-rose-100/40 flex items-center justify-center shrink-0 shadow-sm">
+                            <i class="bi bi-trash3 text-rose-500 text-2xl leading-none flex items-center justify-center"></i>
                         </div>
-                        <div class="text-left flex-grow">
-                            <h3 class="text-lg font-bold text-slate-800 leading-snug">${event.detail[0].title}</h3>
-                            <p class="text-slate-500 text-sm mt-2 leading-relaxed font-medium">${event.detail[0].text}</p>
+                        <!-- Right: Content Column -->
+                        <div class="flex flex-col gap-1.5 min-w-0">
+                            <h3 class="text-xl font-extrabold text-slate-800 tracking-tight leading-snug">${event.detail[0].title}</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed font-semibold">${event.detail[0].text}</p>
                         </div>
                     </div>
                 `,
@@ -276,10 +280,10 @@
                 reverseButtons: true,
                 buttonsStyling: false,
                 customClass: {
-                    popup: 'rounded-2xl border border-slate-100 p-6 shadow-2xl bg-white max-w-md w-full',
+                    popup: 'rounded-3xl border border-slate-100/80 p-8 shadow-2xl bg-white max-w-md w-full',
                     actions: 'flex justify-end gap-3 mt-6 w-full',
-                    confirmButton: 'px-5 py-2.5 rounded-xl font-bold text-sm bg-rose-600 hover:bg-rose-700 text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer',
-                    cancelButton: 'px-5 py-2.5 rounded-xl font-bold text-sm bg-transparent hover:bg-slate-50 text-slate-500 hover:text-slate-800 transition duration-200 outline-none active:scale-95 cursor-pointer'
+                    confirmButton: 'px-6 py-3 rounded-2xl font-bold text-sm bg-rose-600 hover:bg-[#BE123C] text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer',
+                    cancelButton: 'px-6 py-3 rounded-2xl font-bold text-sm bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-800 transition duration-200 outline-none active:scale-95 cursor-pointer border border-slate-200/40 shadow-sm'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {
