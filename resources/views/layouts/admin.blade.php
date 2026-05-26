@@ -508,9 +508,9 @@
 
                         <div class="h-6 w-[1px] bg-slate-200"></div>
 
-                        <form method="POST" action="{{ route('logout') }}" class="hidden sm:block">
+                        <form method="POST" action="{{ route('logout') }}" id="logout-form-desktop" class="hidden sm:block">
                             @csrf
-                            <button type="submit"
+                            <button type="button" onclick="confirmLogout('logout-form-desktop')"
                                 class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 hover:bg-rose-50 border border-slate-100 hover:border-rose-100 text-xs font-bold text-slate-600 hover:text-rose-600 transition duration-200">
                                 <span>Keluar</span>
                                 <i class="bi bi-box-arrow-right"></i>
@@ -561,9 +561,9 @@
                             </div>
                         </div>
 
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}" id="logout-form-mobile">
                             @csrf
-                            <button type="submit"
+                            <button type="button" onclick="confirmLogout('logout-form-mobile')"
                                 class="px-4 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-100 hover:border-rose-200 text-xs font-bold text-rose-600 transition duration-200 flex items-center gap-1.5 shadow-sm">
                                 <span>Keluar</span>
                                 <i class="bi bi-box-arrow-right"></i>
@@ -578,6 +578,82 @@
             </main>
         </div>
     </div>
+
+    <!-- SweetAlert Session Flash Overlays -->
+    @if(session('welcome'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    title: 'Selamat Datang!',
+                    text: "{{ session('welcome') }}",
+                    icon: 'success',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Masuk Dashboard',
+                    confirmButtonColor: '#2563eb',
+                    background: '#ffffff',
+                    color: '#1e293b',
+                    customClass: {
+                        popup: 'rounded-2xl shadow-xl border border-slate-100 p-6',
+                        confirmButton: 'px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 hover:scale-[1.02]'
+                    }
+                });
+            });
+        </script>
+    @endif
+
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    background: '#ffffff',
+                    color: '#1e293b',
+                    customClass: {
+                        popup: 'rounded-2xl shadow-xl border border-slate-100 p-6'
+                    }
+                });
+            });
+        </script>
+    @endif
+
+    <!-- Logout Confirmation Script -->
+    <script>
+        function confirmLogout(formId) {
+            Swal.fire({
+                html: `
+                    <div class="text-center p-1">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-rose-50 border border-rose-100/40 flex items-center justify-center shrink-0 shadow-sm mb-4">
+                            <i class="bi bi-box-arrow-right text-rose-500 text-3xl leading-none flex items-center justify-center"></i>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h3 class="text-xl font-bold text-slate-800 tracking-tight leading-snug">Apakah Anda yakin?</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed font-medium px-2">Anda akan keluar dari sesi administrator.</p>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Keluar!',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                buttonsStyling: false,
+                customClass: {
+                    popup: 'rounded-3xl border border-slate-100/80 p-8 shadow-2xl bg-white max-w-md w-full',
+                    actions: 'flex justify-center gap-3 mt-6 w-full',
+                    confirmButton: 'px-8 py-3 rounded-2xl font-semibold text-sm bg-rose-600 hover:bg-[#BE123C] text-white transition duration-200 outline-none shadow-sm hover:shadow-md active:scale-95 cursor-pointer',
+                    cancelButton: 'px-8 py-3 rounded-2xl font-semibold text-sm bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-800 transition duration-200 outline-none active:scale-95 cursor-pointer border border-slate-200/40 shadow-sm'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+    </script>
 
     @livewireScripts
     @stack('scripts')

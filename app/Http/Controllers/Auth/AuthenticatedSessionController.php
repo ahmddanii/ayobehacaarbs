@@ -28,6 +28,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $request->session()->flash('welcome', 'Selamat datang kembali, ' . Auth::user()->name . '!');
+
         return redirect()->intended(route('admin.dashboard', absolute: false));
     }
 
@@ -42,6 +44,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('logout', 'Anda telah berhasil keluar dari sistem.');
     }
 }
+

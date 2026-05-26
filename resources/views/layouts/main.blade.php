@@ -148,6 +148,50 @@
         });
     </script>
 
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- SweetAlert Session Flash Overlays -->
+    @if(session('logout'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    title: 'Sampai Jumpa!',
+                    text: "{{ session('logout') }}",
+                    icon: 'success',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff',
+                    color: document.documentElement.classList.contains('dark') ? '#f8fafc' : '#1e293b',
+                    customClass: {
+                        popup: 'rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 p-6'
+                    }
+                });
+            });
+        </script>
+    @endif
+
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff',
+                    color: document.documentElement.classList.contains('dark') ? '#f8fafc' : '#1e293b',
+                    customClass: {
+                        popup: 'rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 p-6'
+                    }
+                });
+            });
+        </script>
+    @endif
+
     @livewireScripts
     @stack('scripts')
 </body>

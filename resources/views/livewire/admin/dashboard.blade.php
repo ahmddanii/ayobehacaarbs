@@ -185,46 +185,68 @@
         <div class="bg-white rounded-xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] p-6 md:p-8">
             <h4 class="font-extrabold text-slate-850 text-lg tracking-tight mb-6">Aktivitas Terakhir</h4>
             
+            @php
+                $activities = collect();
+
+                // 1. Fetch recent articles
+                $recentArticles = \App\Models\Article::with('category')->latest()->take(3)->get();
+                foreach ($recentArticles as $article) {
+                    $activities->push([
+                        'title' => 'Artikel baru ditambahkan',
+                        'desc' => 'Membuat artikel "' . $article->title . '"' . ($article->category ? ' di kategori "' . $article->category->name . '"' : ''),
+                        'time' => $article->created_at->diffForHumans(),
+                        'timestamp' => $article->created_at,
+                        'bg_class' => 'bg-blue-50',
+                        'border_class' => 'border-blue-500',
+                    ]);
+                }
+
+                // 2. Fetch recent categories
+                $recentCategories = \App\Models\Category::latest()->take(2)->get();
+                foreach ($recentCategories as $category) {
+                    $activities->push([
+                        'title' => 'Kategori baru dibuat',
+                        'desc' => 'Menambahkan kategori "' . $category->name . '" ke portal.',
+                        'time' => $category->created_at->diffForHumans(),
+                        'timestamp' => $category->created_at,
+                        'bg_class' => 'bg-purple-50',
+                        'border_class' => 'border-purple-500',
+                    ]);
+                }
+
+                // 3. Fetch recent administrator profile registrations
+                $recentUsers = \App\Models\User::latest()->take(2)->get();
+                foreach ($recentUsers as $user) {
+                    $activities->push([
+                        'title' => 'Administrator Terdaftar',
+                        'desc' => 'Akun admin "' . $user->name . '" (' . $user->email . ') aktif.',
+                        'time' => $user->created_at->diffForHumans(),
+                        'timestamp' => $user->created_at,
+                        'bg_class' => 'bg-emerald-50',
+                        'border_class' => 'border-emerald-500',
+                    ]);
+                }
+
+                // Chronologically sort and take top 4
+                $sortedActivities = $activities->sortByDesc('timestamp')->take(4);
+            @endphp
+
             <div class="relative pl-6 border-l-2 border-slate-100 space-y-6">
-                <!-- Activity Item 1 -->
-                <div class="relative">
-                    <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-blue-50 border-4 border-blue-500 ring-4 ring-white shrink-0"></div>
-                    <div>
-                        <p class="text-sm font-bold text-slate-800">Artikel baru ditambahkan</p>
-                        <p class="text-xs text-slate-500 font-medium mt-0.5">Membuat artikel teknologi berkelanjutan.</p>
-                        <span class="text-[10px] text-slate-400 font-semibold block mt-1"><i class="bi bi-clock mr-1"></i>2 jam yang lalu</span>
+                @forelse($sortedActivities as $act)
+                    <!-- Activity Item -->
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full {{ $act['bg_class'] }} border-4 {{ $act['border_class'] }} ring-4 ring-white shrink-0"></div>
+                        <div>
+                            <p class="text-sm font-bold text-slate-800">{{ $act['title'] }}</p>
+                            <p class="text-xs text-slate-500 font-medium mt-0.5">{{ $act['desc'] }}</p>
+                            <span class="text-[10px] text-slate-400 font-semibold block mt-1"><i class="bi bi-clock mr-1"></i>{{ $act['time'] }}</span>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Activity Item 2 -->
-                <div class="relative">
-                    <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-purple-50 border-4 border-purple-500 ring-4 ring-white shrink-0"></div>
-                    <div>
-                        <p class="text-sm font-bold text-slate-800">Kategori baru dibuat</p>
-                        <p class="text-xs text-slate-500 font-medium mt-0.5">Menambahkan kategori "Tips & Trik".</p>
-                        <span class="text-[10px] text-slate-400 font-semibold block mt-1"><i class="bi bi-clock mr-1"></i>5 jam yang lalu</span>
+                @empty
+                    <div class="py-12 text-center text-slate-400 text-xs italic">
+                        Belum ada aktivitas yang tercatat.
                     </div>
-                </div>
-
-                <!-- Activity Item 3 -->
-                <div class="relative">
-                    <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-emerald-50 border-4 border-emerald-500 ring-4 ring-white shrink-0"></div>
-                    <div>
-                        <p class="text-sm font-bold text-slate-800">Login Sistem Terdeteksi</p>
-                        <p class="text-xs text-slate-500 font-medium mt-0.5">Sesi administrator dimulai dari IP local.</p>
-                        <span class="text-[10px] text-slate-400 font-semibold block mt-1"><i class="bi bi-clock mr-1"></i>1 hari yang lalu</span>
-                    </div>
-                </div>
-
-                <!-- Activity Item 4 -->
-                <div class="relative">
-                    <div class="absolute -left-[31px] top-0.5 w-4 h-4 rounded-full bg-amber-50 border-4 border-amber-500 ring-4 ring-white shrink-0"></div>
-                    <div>
-                        <p class="text-sm font-bold text-slate-800">Update Password Profil</p>
-                        <p class="text-xs text-slate-500 font-medium mt-0.5">Password diubah demi alasan keamanan berkala.</p>
-                        <span class="text-[10px] text-slate-400 font-semibold block mt-1"><i class="bi bi-clock mr-1"></i>2 hari yang lalu</span>
-                    </div>
-                </div>
+                @endforelse
             </div>
         </div>
     </div>
