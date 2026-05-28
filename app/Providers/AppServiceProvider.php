@@ -31,7 +31,12 @@ class AppServiceProvider extends ServiceProvider
             } else {
                 $this->shareFallbackSettings();
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            try {
+                \Illuminate\Support\Facades\Log::error('AppServiceProvider boot error: ' . $e->getMessage());
+            } catch (\Throwable $logError) {
+                // Ignore log errors if Log facade is not fully initialized yet
+            }
             $this->shareFallbackSettings();
         }
     }
