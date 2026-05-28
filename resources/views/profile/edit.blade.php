@@ -19,7 +19,7 @@
         </div>
 
         <!-- 2-Column Grid: Profile Information & Update Password -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Profile Information Card -->
             <div class="p-6 md:p-8 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl shadow-sm hover:shadow-md transition duration-300">
                 <div class="max-w-xl">
