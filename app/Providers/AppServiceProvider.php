@@ -18,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Don't execute database queries or view sharing when running in Artisan console
+        if ($this->app->runningInConsole()) {
+            return;
+        }
+
         try {
             if (config('app.key') && Schema::hasTable('settings')) {
                 $settings = Setting::first() ?? Setting::createDefault();
