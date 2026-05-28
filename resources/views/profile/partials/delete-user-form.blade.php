@@ -1,17 +1,6 @@
 <section class="space-y-6">
-    <div class="flex flex-col md:flex-row items-center gap-6">
-        <!-- Left: Button -->
-        <div class="shrink-0 w-full md:w-auto flex justify-center md:justify-start">
-            <x-danger-button
-                x-data=""
-                x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-                class="px-6 py-3"
-            >
-                {{ __('Delete Account') }}
-            </x-danger-button>
-        </div>
-
-        <!-- Right: Description -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <!-- Left: Description -->
         <div class="text-center md:text-left flex-grow">
             <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">
                 {{ __('Delete Account') }}
@@ -19,6 +8,17 @@
             <p class="mt-1 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                 {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
             </p>
+        </div>
+
+        <!-- Right: Button -->
+        <div class="shrink-0 w-full md:w-auto flex justify-center md:justify-end">
+            <x-danger-button
+                x-data=""
+                x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
+                class="px-6 py-3"
+            >
+                {{ __('Delete Account') }}
+            </x-danger-button>
         </div>
     </div>
 
