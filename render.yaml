@@ -12,7 +12,7 @@
 services:
   - type: web
     name: ayobehacaar
-    env: php
+    runtime: php
     plan: free
     
     # Perintah kompilasi composer dependencies dan aset frontend Vite
