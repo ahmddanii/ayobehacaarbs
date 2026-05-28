@@ -92,7 +92,7 @@ php artisan migrate --seed
 ```
 *Akun Administrator Bawaan:*
 *   **Email**: `admin@ayobehacaar.com`
-*   **Password**: `password` (atau sesuai setelan di seeder Anda)
+*   **Password**: `kepo deh apa passwordnya` (atau sesuai setelan di seeder Anda)
 
 ### 5. Kompilasi Aset & Jalankan Server Lokal
 ```bash
