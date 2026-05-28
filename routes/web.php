@@ -11,6 +11,14 @@ use App\Livewire\Admin\Settings\Index as AdminSettings;
 use Illuminate\Support\Facades\Route;
 
 // Halaman Publik
+Route::get('/migrate', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate:fresh --force --seed');
+        return 'Database migrated and seeded successfully! <a href="/">Back to Home</a>';
+    } catch (\Exception $e) {
+        return 'Migration error: ' . $e->getMessage();
+    }
+});
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', fn () => view('about'))->name('about');
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
