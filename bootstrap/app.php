@@ -30,17 +30,25 @@ return Application::configure(basePath: dirname(__DIR__))
                 $prevMessage = htmlspecialchars($e->getPrevious()->getMessage());
                 $prevTrace = htmlspecialchars($e->getPrevious()->getTraceAsString());
                 $chainedInfo = "
-                    <div class='exception-message' style='background: rgba(250, 179, 135, 0.08); border-left-color: #fab387; color: #fab387; margin-top: 16px;'>
-                        <span style='font-size: 11px; text-transform: uppercase; font-weight: 800; display: block; margin-bottom: 4px; color: rgba(250, 179, 135, 0.8);'>Chained/Previous Exception ({$prevClass})</span>
-                        {$prevMessage}
+                    <div class='exception-message' style='background: rgba(245, 158, 11, 0.08); border-left-color: #f59e0b; color: #fbbf24; margin-top: 16px; position: relative;'>
+                        <span style='font-size: 11px; text-transform: uppercase; font-weight: 800; display: block; margin-bottom: 6px; color: rgba(251, 191, 36, 0.8);'>Chained/Previous Exception ({$prevClass})</span>
+                        <span id='prev-msg-text'>{$prevMessage}</span>
+                        <button onclick=\"copyToClipboard('prev-msg-text', this)\" class='mini-copy-btn' title='Salin Error Sebelumnya'>
+                            <i class='bi bi-clipboard'></i>
+                        </button>
                     </div>
-                    <div class='section-title' style='margin-top: 24px;'>⛓️ Chained Stack Trace</div>
+                    <div class='section-title' style='margin-top: 28px;'>
+                        <span>⛓️ Chained Stack Trace</span>
+                        <button onclick=\"copyToClipboard('chained-trace-text', this)\" class='copy-btn'>
+                            <i class='bi bi-clipboard'></i> Salin Trace Chained
+                        </button>
+                    </div>
                     <div class='trace-container' style='margin-bottom: 24px;'>
                         <div class='trace-header'>
                             <span>chained_trace.log</span>
-                            <span style='color: #fab387;'>Previous Exception Trace</span>
+                            <span style='color: #fbbf24;'>Previous Exception Trace</span>
                         </div>
-                        <div class='trace-body'>{$prevTrace}</div>
+                        <div class='trace-body' id='chained-trace-text'>{$prevTrace}</div>
                     </div>
                 ";
             }
@@ -52,8 +60,9 @@ return Application::configure(basePath: dirname(__DIR__))
                 <meta charset='UTF-8'>
                 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
                 <title>Sistem Mengalami Kendala | Ayo Behacaar</title>
+                <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css'>
                 <style>
-                    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+                    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
                     
                     * {
                         box-sizing: border-box;
@@ -62,30 +71,30 @@ return Application::configure(basePath: dirname(__DIR__))
                     }
                     
                     body {
-                        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                        background: radial-gradient(circle at 50% 50%, #1a1926 0%, #111019 100%);
-                        color: #cdd6f4;
+                        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                        background: radial-gradient(circle at 50% 50%, #0d1527 0%, #070a13 100%);
+                        color: #e2e8f0;
                         min-height: 100vh;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        padding: 40px 24px;
+                        padding: 50px 24px;
                         overflow-x: hidden;
                     }
 
                     .container {
                         width: 100%;
                         max-width: 900px;
-                        background: rgba(30, 30, 46, 0.7);
+                        background: rgba(15, 23, 42, 0.65);
                         backdrop-filter: blur(20px);
                         -webkit-backdrop-filter: blur(20px);
-                        border: 1px solid rgba(255, 255, 255, 0.08);
-                        border-radius: 24px;
+                        border: 1px solid rgba(59, 130, 246, 0.15);
+                        border-radius: 20px;
                         padding: 40px;
-                        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+                        box-shadow: 0 24px 64px rgba(3, 7, 18, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
                         position: relative;
                         overflow: hidden;
-                        animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                        animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
                     }
 
                     .container::before {
@@ -95,11 +104,11 @@ return Application::configure(basePath: dirname(__DIR__))
                         left: 0;
                         width: 100%;
                         height: 4px;
-                        background: linear-gradient(90deg, #f38ba8 0%, #fab387 50%, #f38ba8 100%);
+                        background: linear-gradient(90deg, #3b82f6 0%, #2563eb 50%, #3b82f6 100%);
                     }
 
                     @keyframes fadeIn {
-                        from { opacity: 0; transform: translateY(20px); }
+                        from { opacity: 0; transform: translateY(15px); }
                         to { opacity: 1; transform: translateY(0); }
                     }
 
@@ -111,23 +120,22 @@ return Application::configure(basePath: dirname(__DIR__))
                     }
 
                     .error-badge {
-                        background: linear-gradient(135deg, #f38ba8 0%, #eba0b2 100%);
-                        color: #111019;
+                        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+                        color: #ffffff;
                         width: 56px;
                         height: 56px;
-                        border-radius: 16px;
+                        border-radius: 14px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
-                        font-size: 28px;
-                        font-weight: 800;
-                        box-shadow: 0 8px 24px rgba(243, 139, 168, 0.3);
+                        font-size: 24px;
+                        box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
                         position: relative;
                     }
 
                     .pulse-ring {
-                        border: 3px solid #f38ba8;
-                        border-radius: 30px;
+                        border: 3px solid #3b82f6;
+                        border-radius: 20px;
                         height: 100%;
                         width: 100%;
                         position: absolute;
@@ -139,28 +147,29 @@ return Application::configure(basePath: dirname(__DIR__))
 
                     @keyframes pulsate {
                         0% { transform: scale(0.8, 0.8); opacity: 0.0; }
-                        50% { opacity: 0.5; }
+                        50% { opacity: 0.4; }
                         100% { transform: scale(1.4, 1.4); opacity: 0.0; }
                     }
 
                     .title-area h1 {
-                        font-size: 26px;
-                        font-weight: 800;
-                        color: #fff;
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 24px;
+                        font-weight: 700;
+                        color: #ffffff;
                         letter-spacing: -0.5px;
                         margin-bottom: 4px;
                     }
 
                     .title-area p {
-                        font-size: 14px;
-                        color: #a6adc8;
+                        font-size: 13px;
+                        color: #94a3b8;
                         font-weight: 500;
                     }
 
                     .error-card {
-                        background: rgba(17, 17, 27, 0.5);
-                        border: 1px solid rgba(255, 255, 255, 0.05);
-                        border-radius: 16px;
+                        background: rgba(15, 23, 42, 0.6);
+                        border: 1px solid rgba(255, 255, 255, 0.04);
+                        border-radius: 14px;
                         padding: 24px;
                         margin-bottom: 28px;
                     }
@@ -181,57 +190,60 @@ return Application::configure(basePath: dirname(__DIR__))
                     }
 
                     .meta-label {
-                        font-size: 11px;
+                        font-size: 10px;
                         text-transform: uppercase;
                         letter-spacing: 1px;
-                        color: #585b70;
+                        color: #64748b;
                         font-weight: 700;
                     }
 
                     .meta-value {
-                        font-size: 14px;
-                        color: #cdd6f4;
+                        font-size: 13px;
+                        color: #cbd5e1;
                         font-weight: 600;
                         word-break: break-all;
                     }
 
                     .exception-message {
-                        font-size: 15px;
+                        font-size: 14px;
                         line-height: 1.6;
-                        color: #f38ba8;
+                        color: #f87171;
                         font-weight: 600;
-                        background: rgba(243, 139, 168, 0.08);
-                        border-left: 4px solid #f38ba8;
+                        background: rgba(239, 68, 68, 0.08);
+                        border-left: 4px solid #ef4444;
                         padding: 16px;
                         border-radius: 8px;
+                        position: relative;
                     }
 
                     .section-title {
-                        font-size: 13px;
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 12px;
                         font-weight: 700;
                         text-transform: uppercase;
                         letter-spacing: 1px;
-                        color: #bac2de;
+                        color: #94a3b8;
                         margin-bottom: 12px;
                         display: flex;
                         align-items: center;
+                        justify-content: space-between;
                         gap: 8px;
                     }
 
                     .trace-container {
-                        background: #11111b;
-                        border: 1px solid rgba(255, 255, 255, 0.04);
-                        border-radius: 12px;
+                        background: #090d16;
+                        border: 1px solid rgba(255, 255, 255, 0.03);
+                        border-radius: 10px;
                         overflow: hidden;
                     }
 
                     .trace-header {
-                        background: #181825;
+                        background: #0f172a;
                         padding: 12px 20px;
-                        font-size: 12px;
+                        font-size: 11px;
                         font-family: 'JetBrains Mono', monospace;
-                        color: #89b4fa;
-                        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+                        color: #60a5fa;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
@@ -240,9 +252,9 @@ return Application::configure(basePath: dirname(__DIR__))
                     .trace-body {
                         padding: 20px;
                         font-family: 'JetBrains Mono', monospace;
-                        font-size: 13px;
+                        font-size: 12px;
                         line-height: 1.6;
-                        color: #a6adc8;
+                        color: #94a3b8;
                         max-height: 380px;
                         overflow-y: auto;
                         white-space: pre-wrap;
@@ -250,25 +262,81 @@ return Application::configure(basePath: dirname(__DIR__))
                     }
 
                     .trace-body::-webkit-scrollbar {
-                        width: 8px;
-                        height: 8px;
+                        width: 6px;
+                        height: 6px;
                     }
                     .trace-body::-webkit-scrollbar-track {
-                        background: #11111b;
+                        background: #090d16;
                     }
                     .trace-body::-webkit-scrollbar-thumb {
-                        background: #313244;
-                        border-radius: 4px;
+                        background: #1e293b;
+                        border-radius: 3px;
                     }
                     .trace-body::-webkit-scrollbar-thumb:hover {
-                        background: #45475a;
+                        background: #334155;
+                    }
+
+                    /* Copy Buttons Styling */
+                    .copy-btn {
+                        background: rgba(59, 130, 246, 0.1);
+                        color: #60a5fa;
+                        border: 1px solid rgba(59, 130, 246, 0.2);
+                        border-radius: 6px;
+                        padding: 4px 10px;
+                        font-size: 10px;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        cursor: pointer;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 6px;
+                        transition: all 0.2s;
+                        font-family: 'Inter', sans-serif;
+                    }
+
+                    .copy-btn:hover {
+                        background: rgba(59, 130, 246, 0.2);
+                        color: #93c5fd;
+                        border-color: rgba(59, 130, 246, 0.4);
+                    }
+
+                    .copy-btn.copied {
+                        background: rgba(34, 197, 94, 0.15) !important;
+                        color: #4ade80 !important;
+                        border-color: rgba(34, 197, 94, 0.3) !important;
+                    }
+
+                    .mini-copy-btn {
+                        position: absolute;
+                        top: 8px;
+                        right: 8px;
+                        background: transparent;
+                        border: none;
+                        color: rgba(255, 255, 255, 0.3);
+                        font-size: 14px;
+                        cursor: pointer;
+                        padding: 4px;
+                        border-radius: 4px;
+                        transition: all 0.2s;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .mini-copy-btn:hover {
+                        color: #ffffff;
+                        background: rgba(255, 255, 255, 0.08);
+                    }
+
+                    .mini-copy-btn.copied {
+                        color: #4ade80 !important;
                     }
 
                     .footer {
                         margin-top: 32px;
                         text-align: center;
-                        font-size: 13px;
-                        color: #585b70;
+                        font-size: 12px;
+                        color: #475569;
                         display: flex;
                         justify-content: space-between;
                         align-items: center;
@@ -277,14 +345,14 @@ return Application::configure(basePath: dirname(__DIR__))
                     }
 
                     .footer a {
-                        color: #89b4fa;
+                        color: #3b82f6;
                         text-decoration: none;
                         font-weight: 600;
                         transition: color 0.2s;
                     }
 
                     .footer a:hover {
-                        color: #b4befe;
+                        color: #60a5fa;
                     }
                 </style>
             </head>
@@ -292,7 +360,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 <div class='container'>
                     <div class='header'>
                         <div class='error-badge'>
-                            ⚠️
+                            <i class='bi bi-exclamation-triangle'></i>
                             <div class='pulse-ring'></div>
                         </div>
                         <div class='title-area'>
@@ -313,18 +381,26 @@ return Application::configure(basePath: dirname(__DIR__))
                             </div>
                         </div>
                         <div class='exception-message'>
-                            {$exceptionMessage}
+                            <span id='exception-msg-text'>{$exceptionMessage}</span>
+                            <button onclick=\"copyToClipboard('exception-msg-text', this)\" class='mini-copy-btn' title='Salin Pesan Error'>
+                                <i class='bi bi-clipboard'></i>
+                            </button>
                         </div>
                         {$chainedInfo}
                     </div>
 
-                    <div class='section-title'>💻 Stack Trace Pelacakan</div>
+                    <div class='section-title'>
+                        <span>💻 Stack Trace Pelacakan</span>
+                        <button onclick=\"copyToClipboard('laravel-exception-trace-text', this)\" class='copy-btn'>
+                            <i class='bi bi-clipboard'></i> Salin Trace Log
+                        </button>
+                    </div>
                     <div class='trace-container'>
                         <div class='trace-header'>
                             <span>laravel_exception_trace.log</span>
                             <span style='color: #bac2de;'>Laravel Request Handling Layer</span>
                         </div>
-                        <div class='trace-body'>{$stackTrace}</div>
+                        <div class='trace-body' id='laravel-exception-trace-text'>{$stackTrace}</div>
                     </div>
 
                     <div class='footer'>
@@ -332,6 +408,27 @@ return Application::configure(basePath: dirname(__DIR__))
                         <a href='/'>Kembali ke Beranda</a>
                     </div>
                 </div>
+
+                <script>
+                    function copyToClipboard(elementId, btn) {
+                        var text = document.getElementById(elementId).innerText;
+                        navigator.clipboard.writeText(text).then(function() {
+                            var originalHTML = btn.innerHTML;
+                            if (btn.classList.contains('mini-copy-btn')) {
+                                btn.innerHTML = \"<i class='bi bi-check-lg'></i>\";
+                            } else {
+                                btn.innerHTML = \"<i class='bi bi-check-lg'></i> Tersalin!\";
+                            }
+                            btn.classList.add('copied');
+                            setTimeout(function() {
+                                btn.innerHTML = originalHTML;
+                                btn.classList.remove('copied');
+                            }, 2000);
+                        }).catch(function(err) {
+                            console.error('Gagal menyalin teks: ', err);
+                        });
+                    }
+                </script>
             </body>
             </html>
             ";
