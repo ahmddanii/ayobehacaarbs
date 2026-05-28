@@ -1,4 +1,4 @@
-<x-layouts.admin>
+<x-admin-layout>
     @slot('page_title')
         Profil Pengguna
     @endslot
@@ -42,4 +42,4 @@
             </div>
         </div>
     </div>
-</x-layouts.admin>
+</x-admin-layout>
