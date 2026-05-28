@@ -1,5 +1,9 @@
 {
   "version": 2,
+  "env": {
+    "VIEW_COMPILED_PATH": "/tmp/views",
+    "DB_CONNECTION": "pgsql"
+  },
   "builds": [
     {
       "src": "api/index.php",
