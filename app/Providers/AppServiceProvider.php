@@ -8,12 +8,15 @@ use App\Models\Setting;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        //
+        if (config('app.env') === 'production') {
+            config([
+                'view.compiled' => '/tmp/views',
+                'cache.stores.file.path' => '/tmp/cache',
+                'session.files' => '/tmp/sessions',
+            ]);
+        }
     }
 
     /**
