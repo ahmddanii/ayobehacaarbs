@@ -10,13 +10,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        if (config('app.env') === 'production') {
-            config([
-                'view.compiled' => '/tmp/views',
-                'cache.stores.file.path' => '/tmp/cache',
-                'session.files' => '/tmp/sessions',
-            ]);
-        }
+        //
     }
 
     /**
