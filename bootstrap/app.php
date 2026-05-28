@@ -14,5 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->report(function (\Throwable $e) {
+            error_log('ORIGINAL EXCEPTION ON VERCEL: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+        });
     })->create();
