@@ -61,17 +61,21 @@
 
     {{-- User Profile --}}
     <div class="p-4 border-t border-slate-900/50">
-        <div :class="sidebarOpen ? 'flex items-center gap-3.5 px-3 py-3 bg-slate-900/40 border border-slate-800/40 rounded-xl' : 'flex items-center justify-center p-0 bg-transparent border-transparent'"
-            class="transition-all duration-300">
-            <div
-                class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-extrabold shadow-sm shadow-blue-500/20 shrink-0">
-                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+        <a href="{{ route('profile.edit') }}" :class="sidebarOpen ? 'flex items-center gap-3.5 px-3 py-3 bg-slate-900/40 border border-slate-800/40 hover:bg-slate-900/80 hover:border-slate-700/60 rounded-xl' : 'flex items-center justify-center p-0 bg-transparent border-transparent hover:scale-105'"
+            class="transition-all duration-300 group block text-decoration-none">
+            <div class="flex items-center gap-3.5 w-full">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-extrabold shadow-sm shadow-blue-500/20 shrink-0">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                </div>
+                <div class="overflow-hidden flex-grow" x-show="sidebarOpen" x-transition.opacity>
+                    <p class="text-sm font-semibold text-slate-100 truncate leading-snug group-hover:text-blue-400 transition">
+                        {{ auth()->user()->name }}</p>
+                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5 flex items-center justify-between">
+                        <span>Admin</span>
+                        <i class="bi bi-pencil-square text-slate-600 group-hover:text-blue-400 transition text-xs"></i>
+                    </p>
+                </div>
             </div>
-            <div class="overflow-hidden" x-show="sidebarOpen" x-transition.opacity>
-                <p class="text-sm font-semibold text-slate-100 truncate leading-snug">
-                    {{ auth()->user()->name }}</p>
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-0.5">Administrator</p>
-            </div>
-        </div>
+        </a>
     </div>
 </aside>

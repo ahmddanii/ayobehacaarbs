@@ -551,15 +551,18 @@
 
                     {{-- User Profile Card --}}
                     <div class="pt-4 border-t border-slate-100 flex items-center justify-between px-2">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-extrabold shadow-sm">
+                        <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 group text-decoration-none">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-extrabold shadow-sm group-hover:scale-105 transition">
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                             </div>
                             <div>
-                                <p class="text-sm font-bold text-slate-800 leading-none">{{ auth()->user()->name }}</p>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1.5">Administrator</p>
+                                <p class="text-sm font-bold text-slate-800 leading-none group-hover:text-blue-600 transition">{{ auth()->user()->name }}</p>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1.5 flex items-center gap-1">
+                                    <span>Administrator</span>
+                                    <i class="bi bi-pencil-square text-xs text-slate-400 group-hover:text-blue-600 transition"></i>
+                                </p>
                             </div>
-                        </div>
+                        </a>
 
                         <form method="POST" action="{{ route('logout') }}" id="logout-form-mobile">
                             @csrf
