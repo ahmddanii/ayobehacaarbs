@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "regions": ["sin1"],
   "env": {
     "VIEW_COMPILED_PATH": "/tmp/views",
     "DB_CONNECTION": "pgsql",
