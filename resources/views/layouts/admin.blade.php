@@ -107,7 +107,9 @@
             background-color: #f8fafc;
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 0.875rem;
-            padding: 8px 4px;
+        }
+        .EasyMDEContainer .CodeMirror-scroll {
+            padding: 12px 8px;
         }
         .EasyMDEContainer .CodeMirror-focused {
             background-color: #ffffff !important;
@@ -115,6 +117,14 @@
         .EasyMDEContainer .CodeMirror-placeholder {
             color: #94a3b8 !important;
         }
+        .EasyMDEContainer .CodeMirror .cm-header {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            color: #1e293b;
+        }
+        .EasyMDEContainer .CodeMirror .cm-header-1 { font-size: 1.4rem; line-height: 1.4; }
+        .EasyMDEContainer .CodeMirror .cm-header-2 { font-size: 1.2rem; line-height: 1.4; }
+        .EasyMDEContainer .CodeMirror .cm-header-3 { font-size: 1.1rem; line-height: 1.4; }
 
         /* EasyMDE Built-in Preview */
         .EasyMDEContainer .editor-preview {
