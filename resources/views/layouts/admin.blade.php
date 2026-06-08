@@ -21,9 +21,7 @@
     <!-- FontAwesome 6 for EasyMDE Toolbar Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- EasyMDE Markdown Editor -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+
 
     <!-- Highlight.js for Premium Code Syntax Highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css">
@@ -37,141 +35,22 @@
             font-family: 'Inter', sans-serif !important;
         }
 
-        /* ===== EasyMDE Editor: Premium Overhaul ===== */
 
-        /* Container */
-        .EasyMDEContainer {
-            border-radius: 16px;
-            box-shadow: 0 4px 20px -2px rgba(148, 163, 184, 0.08);
-            border: 1px solid #e2e8f0;
-        }
-
-        /* Toolbar */
-        .EasyMDEContainer .editor-toolbar {
-            border-radius: 16px 16px 0 0;
-            border: none;
-            border-bottom: 1px solid #f1f5f9;
-            background-color: #ffffff;
-            padding: 8px 12px;
-            opacity: 1;
-        }
-        .EasyMDEContainer .editor-toolbar::before,
-        .EasyMDEContainer .editor-toolbar::after {
-            display: none;
-        }
-
-        /* Toolbar Buttons */
-        .EasyMDEContainer .editor-toolbar button {
-            width: 34px !important;
-            height: 34px !important;
-            border-radius: 8px !important;
-            border: 1px solid transparent !important;
-            background: none !important;
-            color: #475569 !important;
-            margin: 0 1px !important;
-            padding: 0 !important;
-            text-align: center !important;
-            cursor: pointer !important;
-            transition: background 0.15s, color 0.15s, border-color 0.15s;
-            box-shadow: none !important;
-        }
-        .EasyMDEContainer .editor-toolbar button:hover {
-            background-color: #f1f5f9 !important;
-            color: #2563eb !important;
-            border-color: #e2e8f0 !important;
-        }
-        .EasyMDEContainer .editor-toolbar button.active {
-            background-color: #eff6ff !important;
-            color: #2563eb !important;
-            border-color: #bfdbfe !important;
-        }
-
-        /* Separator (EasyMDE renders separators as <i class="separator">) */
-        .EasyMDEContainer .editor-toolbar i.separator {
-            display: inline-block !important;
-            width: 1px !important;
-            height: 20px !important;
-            background-color: #e2e8f0 !important;
-            border: none !important;
-            border-left: none !important;
-            border-right: none !important;
-            margin: 0 6px !important;
-            vertical-align: middle !important;
-        }
-
-        /* CodeMirror Canvas */
-        .EasyMDEContainer .CodeMirror {
-            border-radius: 0 0 16px 16px;
-            border: none !important;
-            border-top: none !important;
-            background-color: #f8fafc;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.875rem;
-            padding: 8px 4px;
-        }
-        .EasyMDEContainer .CodeMirror-focused {
-            background-color: #ffffff !important;
-        }
-        .EasyMDEContainer .CodeMirror-placeholder {
-            color: #94a3b8 !important;
-        }
-        .EasyMDEContainer .CodeMirror .cm-header {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            color: #1e293b;
-        }
-        .EasyMDEContainer .CodeMirror .cm-header-1 { font-size: 1.4rem; line-height: 1.4; }
-        .EasyMDEContainer .CodeMirror .cm-header-2 { font-size: 1.2rem; line-height: 1.4; }
-        .EasyMDEContainer .CodeMirror .cm-header-3 { font-size: 1.1rem; line-height: 1.4; }
-
-        /* EasyMDE Built-in Preview */
-        .EasyMDEContainer .editor-preview {
-            background-color: #f8fafc !important;
-            padding: 28px !important;
-            color: #334155 !important;
-            font-family: 'Inter', sans-serif !important;
-            line-height: 1.7 !important;
-        }
-        .EasyMDEContainer .editor-preview h1,
-        .EasyMDEContainer .editor-preview h2,
-        .EasyMDEContainer .editor-preview h3 {
-            font-weight: 800 !important;
-            color: #1e293b !important;
-            margin-top: 1.5rem !important;
-            margin-bottom: 0.75rem !important;
-        }
-        .EasyMDEContainer .editor-preview p {
-            margin-bottom: 1rem !important;
-        }
-        .EasyMDEContainer .editor-preview-active {
-            border-radius: 0 0 16px 16px !important;
-            border: none !important;
-        }
-        .EasyMDEContainer .editor-preview-side {
-            background-color: #f8fafc !important;
-            border-left: 1px solid #e2e8f0 !important;
-            color: #334155 !important;
-            font-family: 'Inter', sans-serif !important;
-            line-height: 1.7 !important;
-        }
 
         /* ===== Live Preview: Links ===== */
-        .preview-content a,
-        .EasyMDEContainer .editor-preview a {
+        .preview-content a {
             color: #2563eb !important;
             text-decoration: underline !important;
             text-underline-offset: 3px !important;
             font-weight: 600 !important;
             transition: color 0.15s;
         }
-        .preview-content a:hover,
-        .EasyMDEContainer .editor-preview a:hover {
+        .preview-content a:hover {
             color: #1d4ed8 !important;
         }
 
         /* ===== Live Preview: Blockquotes ===== */
-        .preview-content blockquote,
-        .EasyMDEContainer .editor-preview blockquote {
+        .preview-content blockquote {
             border-left: 4px solid #3b82f6 !important;
             background-color: #eff6ff !important;
             padding: 1rem 1.25rem !important;
@@ -180,14 +59,12 @@
             color: #334155 !important;
             font-style: italic !important;
         }
-        .preview-content blockquote p,
-        .EasyMDEContainer .editor-preview blockquote p {
+        .preview-content blockquote p {
             margin-bottom: 0 !important;
         }
 
         /* ===== Live Preview: Tables ===== */
-        .preview-content table,
-        .EasyMDEContainer .editor-preview table {
+        .preview-content table {
             width: 100% !important;
             border-collapse: collapse !important;
             margin: 1.5rem 0 !important;
@@ -195,8 +72,7 @@
             border-radius: 10px !important;
             overflow: hidden !important;
         }
-        .preview-content th,
-        .EasyMDEContainer .editor-preview th {
+        .preview-content th {
             background-color: #f1f5f9 !important;
             font-weight: 700 !important;
             color: #1e293b !important;
@@ -204,20 +80,17 @@
             text-align: left !important;
             border-bottom: 2px solid #e2e8f0 !important;
         }
-        .preview-content td,
-        .EasyMDEContainer .editor-preview td {
+        .preview-content td {
             padding: 0.65rem 1rem !important;
             border-bottom: 1px solid #f1f5f9 !important;
             color: #475569 !important;
         }
-        .preview-content tr:hover td,
-        .EasyMDEContainer .editor-preview tr:hover td {
+        .preview-content tr:hover td {
             background-color: #f8fafc !important;
         }
 
         /* ===== Live Preview: Images ===== */
-        .preview-content img,
-        .EasyMDEContainer .editor-preview img {
+        .preview-content img {
             max-width: 100% !important;
             border-radius: 12px !important;
             margin: 1.25rem 0 !important;
@@ -225,8 +98,7 @@
         }
 
         /* ===== Live Preview: Highlight / Mark ===== */
-        .preview-content mark,
-        .EasyMDEContainer .editor-preview mark {
+        .preview-content mark {
             background: linear-gradient(120deg, #fef08a 0%, #fde68a 100%) !important;
             color: #1e293b !important;
             padding: 0.1rem 0.3rem !important;
@@ -234,8 +106,7 @@
         }
 
         /* ===== Live Preview: Horizontal Rule ===== */
-        .preview-content hr,
-        .EasyMDEContainer .editor-preview hr {
+        .preview-content hr {
             border: none !important;
             height: 1px !important;
             background-color: #e2e8f0 !important;
@@ -243,8 +114,7 @@
         }
 
         /* ===== Code Syntax Highlighting ===== */
-        .preview-content pre,
-        .EasyMDEContainer .editor-preview pre {
+        .preview-content pre {
             background-color: #282c34 !important;
             color: #abb2bf !important;
             padding: 1.25rem !important;
@@ -254,8 +124,7 @@
             border: 1px solid #3e4451 !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
-        .preview-content pre code,
-        .EasyMDEContainer .editor-preview pre code {
+        .preview-content pre code {
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Fira Code', 'JetBrains Mono', monospace !important;
             font-size: 0.875rem !important;
             background-color: transparent !important;
@@ -265,8 +134,7 @@
             border: none !important;
             line-height: 1.6 !important;
         }
-        .preview-content code,
-        .EasyMDEContainer .editor-preview code {
+        .preview-content code {
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
             font-size: 0.85em !important;
             background-color: #f1f5f9 !important;
@@ -276,92 +144,13 @@
             font-weight: 600 !important;
             border: 1px solid #e2e8f0 !important;
         }
-        .dark .preview-content code,
-        .dark .EasyMDEContainer .editor-preview code {
+        .dark .preview-content code {
             background-color: #1e293b !important;
             color: #f43f5e !important;
             border-color: #334155 !important;
         }
 
-        /* ===== Fullscreen Mode Fixes ===== */
-        .EasyMDEContainer .editor-toolbar.fullscreen {
-            z-index: 9999 !important;
-            background-color: #ffffff !important;
-            border-bottom: 1px solid #f1f5f9 !important;
-            position: fixed !important;
-            padding: 10px 24px !important;
-        }
-        .EasyMDEContainer .CodeMirror-fullscreen {
-            z-index: 9998 !important;
-            border-radius: 0 !important;
-            position: fixed !important;
-            background-color: #ffffff !important;
-        }
-        .EasyMDEContainer .CodeMirror-fullscreen + .editor-preview-side {
-            z-index: 9997 !important;
-            position: fixed !important;
-            top: 50px !important;
-            height: calc(100% - 50px) !important;
-            width: 50% !important;
-            background-color: #f8fafc !important;
-        }
 
-        /* ===== Dark Mode ===== */
-        .dark .EasyMDEContainer {
-            border-color: #334155;
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
-        }
-        .dark .EasyMDEContainer .editor-toolbar {
-            background-color: #0f172a;
-            border-bottom-color: #1e293b;
-        }
-        .dark .EasyMDEContainer .editor-toolbar button {
-            color: #94a3b8 !important;
-        }
-        .dark .EasyMDEContainer .editor-toolbar button:hover {
-            background-color: #1e293b !important;
-            color: #38bdf8 !important;
-            border-color: #334155 !important;
-        }
-        .dark .EasyMDEContainer .editor-toolbar button.active {
-            background-color: #1e293b !important;
-            color: #38bdf8 !important;
-            border-color: #334155 !important;
-        }
-        .dark .EasyMDEContainer .editor-toolbar i.separator {
-            background-color: #334155 !important;
-        }
-        .dark .EasyMDEContainer .CodeMirror {
-            background-color: #1e293b;
-            color: #cbd5e1;
-        }
-        .dark .EasyMDEContainer .CodeMirror-focused {
-            background-color: #0f172a !important;
-        }
-        .dark .EasyMDEContainer .CodeMirror-placeholder {
-            color: #475569 !important;
-        }
-        .dark .EasyMDEContainer .editor-preview {
-            background-color: #0f172a !important;
-            color: #cbd5e1 !important;
-        }
-        .dark .EasyMDEContainer .editor-preview h1,
-        .dark .EasyMDEContainer .editor-preview h2,
-        .dark .EasyMDEContainer .editor-preview h3 {
-            color: #f8fafc !important;
-        }
-        .dark .EasyMDEContainer .editor-preview-side {
-            background-color: #0f172a !important;
-            border-color: #334155 !important;
-        }
-        .dark .EasyMDEContainer .editor-toolbar.fullscreen,
-        .dark .EasyMDEContainer .CodeMirror-fullscreen {
-            background-color: #0f172a !important;
-        }
-        .dark .EasyMDEContainer .CodeMirror-fullscreen + .editor-preview-side {
-            background-color: #0f172a !important;
-            border-color: #334155 !important;
-        }
     </style>
 </head>
 

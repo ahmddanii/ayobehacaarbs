@@ -8,90 +8,53 @@
     categories: {{ json_encode($categories->pluck('name', 'id')) }},
     showPreview: true,
     compressing: false,
-    easyMDEInstance: null,
-    imagePreview: @entangle('image')
+    imagePreview: @entangle('image'),
+    insertMarkdown(prefix, suffix = '') {
+        const textarea = this.$refs.editor;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        const selectedText = text.substring(start, end);
+        
+        // If it's a block-level insertion (like heading or quote) and not at the start of a line
+        if ((prefix.startsWith('#') || prefix === '> ' || prefix === '- ' || prefix === '1. ') && start > 0 && text[start - 1] !== '\n') {
+            prefix = '\n' + prefix;
+        }
+
+        const newText = text.substring(0, start) + prefix + (selectedText || 'teks') + suffix + text.substring(end);
+        
+        this.content = newText;
+        
+        // Use Alpine's nextTick to wait for DOM update before setting selection
+        this.$nextTick(() => {
+            textarea.focus();
+            textarea.setSelectionRange(start + prefix.length, start + prefix.length + (selectedText || 'teks').length);
+            // Trigger highlight update
+            this.highlightPreview();
+        });
+    },
+    highlightPreview() {
+        this.$nextTick(() => {
+            document.querySelectorAll('.preview-content pre code').forEach((block) => {
+                if (typeof hljs !== 'undefined') {
+                    block.removeAttribute('data-highlighted');
+                    hljs.highlightElement(block);
+                }
+            });
+        });
+    }
 }" x-init="
     $watch('categoryId', id => {
         categoryName = categories[id] || 'KATEGORI';
     });
     categoryName = categories[categoryId] || 'KATEGORI';
+    
+    // Initial highlight
+    highlightPreview();
 
-    const initMDE = () => {
-        if (typeof EasyMDE === 'undefined') {
-            setTimeout(initMDE, 100);
-            return;
-        }
-
-        if (easyMDEInstance) {
-            setTimeout(() => {
-                easyMDEInstance.codemirror.refresh();
-            }, 50);
-            return;
-        }
-
-        easyMDEInstance = new EasyMDE({
-            element: $refs.editor,
-            autoDownloadFontAwesome: false,
-            spellChecker: false,
-            placeholder: 'Tulis isi tulisan artikel Anda di sini menggunakan markdown...',
-            status: false,
-            minHeight: '380px',
-            maxHeight: '480px',
-            toolbar: [
-                'bold', 'italic', 'heading-2', 'heading-3', '|',
-                'quote', 'unordered-list', 'ordered-list', '|',
-                'link', 'image', 'table', '|',
-                {
-                    name: 'highlight',
-                    action: (editor) => {
-                        let cm = editor.codemirror;
-                        let selected = cm.getSelection();
-                        cm.replaceSelection('==' + (selected || 'highlight') + '==');
-                    },
-                    className: 'fa-solid fa-paintbrush',
-                    title: 'Highlight Teks penting (==teks==)',
-                }
-            ],
-        });
-
-        const highlightPreview = () => {
-            $nextTick(() => {
-                document.querySelectorAll('.preview-content pre code').forEach((block) => {
-                    if (typeof hljs !== 'undefined') {
-                        block.removeAttribute('data-highlighted');
-                        hljs.highlightElement(block);
-                    }
-                });
-            });
-        };
-
-        // Set initial value
-        easyMDEInstance.value(content || '');
+    $watch('content', () => {
         highlightPreview();
-
-        // Sync changes to Alpine state
-        easyMDEInstance.codemirror.on('change', () => {
-            content = easyMDEInstance.value();
-            highlightPreview();
-        });
-
-        // Watch Alpine content change (like resets or edits)
-        $watch('content', value => {
-            const cleanVal = (value || '').replace(/\r\n/g, '\n');
-            const cleanMDE = easyMDEInstance.value().replace(/\r\n/g, '\n');
-            if (cleanVal !== cleanMDE) {
-                easyMDEInstance.value(cleanVal);
-            }
-            highlightPreview();
-        });
-
-        // Force CodeMirror to refresh size calculations after DOM completes layout
-        setTimeout(() => {
-            easyMDEInstance.codemirror.refresh();
-        }, 150);
-    };
-
-    setTimeout(initMDE, 50);
+    });
 ">
 
     {{-- Sticky Workspace Action Bar --}}
@@ -228,8 +191,46 @@
                             class="bi bi-info-circle text-blue-500"></i> Blok teks & klik tombol untuk memformat secara cepat</span>
                 </div>
 
-                <div wire:ignore>
-                    <textarea x-ref="editor"></textarea>
+                <div class="border border-slate-200/80 rounded-xl overflow-hidden bg-white shadow-sm flex flex-col focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition duration-200">
+                    {{-- Toolbar --}}
+                    <div class="bg-slate-50 border-b border-slate-100 px-3 py-2 flex flex-wrap gap-1">
+                        <button type="button" @click="insertMarkdown('**', '**')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-blue-600 transition" title="Bold">
+                            <i class="bi bi-type-bold"></i>
+                        </button>
+                        <button type="button" @click="insertMarkdown('*', '*')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-blue-600 transition" title="Italic">
+                            <i class="bi bi-type-italic"></i>
+                        </button>
+                        <div class="w-px h-5 bg-slate-200 my-auto mx-1"></div>
+                        <button type="button" @click="insertMarkdown('## ')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-blue-600 transition" title="Heading 2">
+                            <i class="bi bi-type-h2"></i>
+                        </button>
+                        <button type="button" @click="insertMarkdown('### ')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-blue-600 transition" title="Heading 3">
+                            <i class="bi bi-type-h3"></i>
+                        </button>
+                        <div class="w-px h-5 bg-slate-200 my-auto mx-1"></div>
+                        <button type="button" @click="insertMarkdown('> ')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-blue-600 transition" title="Quote">
+                            <i class="bi bi-quote"></i>
+                        </button>
+                        <button type="button" @click="insertMarkdown('- ')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-blue-600 transition" title="Unordered List">
+                            <i class="bi bi-list-ul"></i>
+                        </button>
+                        <button type="button" @click="insertMarkdown('1. ')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-blue-600 transition" title="Ordered List">
+                            <i class="bi bi-list-ol"></i>
+                        </button>
+                        <div class="w-px h-5 bg-slate-200 my-auto mx-1"></div>
+                        <button type="button" @click="insertMarkdown('[', '](https://)')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-blue-600 transition" title="Link">
+                            <i class="bi bi-link-45deg"></i>
+                        </button>
+                        <button type="button" @click="insertMarkdown('![', '](https://)')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-blue-600 transition" title="Image">
+                            <i class="bi bi-image"></i>
+                        </button>
+                        <button type="button" @click="insertMarkdown('==', '==')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-200/60 hover:text-rose-500 transition" title="Highlight">
+                            <i class="bi bi-magic"></i>
+                        </button>
+                    </div>
+                    
+                    {{-- Textarea --}}
+                    <textarea x-ref="editor" x-model.debounce.500ms="content" class="w-full min-h-[500px] p-5 bg-white border-none focus:ring-0 resize-y outline-none font-mono text-[13px] leading-relaxed text-slate-700 custom-scrollbar placeholder:text-slate-400 placeholder:font-sans" placeholder="Tulis isi tulisan artikel Anda di sini menggunakan markdown..."></textarea>
                 </div>
                 @error('content')
                     <span class="text-rose-500 text-xs font-semibold block mt-1"><i
