@@ -230,7 +230,7 @@
                     </div>
                     
                     {{-- Textarea --}}
-                    <textarea x-ref="editor" x-model.debounce.500ms="content" class="w-full min-h-[500px] p-5 bg-white border-none focus:ring-0 resize-y outline-none font-mono text-[13px] leading-relaxed text-slate-700 custom-scrollbar placeholder:text-slate-400 placeholder:font-sans" placeholder="Tulis isi tulisan artikel Anda di sini menggunakan markdown..."></textarea>
+                    <textarea x-ref="editor" x-model.debounce.500ms="content" class="w-full p-5 bg-white border-none focus:ring-0 resize-y outline-none font-mono text-[13px] leading-relaxed text-slate-700 custom-scrollbar placeholder:text-slate-400 placeholder:font-sans" style="min-height: 60vh;" placeholder="Tulis isi tulisan artikel Anda di sini menggunakan markdown..."></textarea>
                 </div>
                 @error('content')
                     <span class="text-rose-500 text-xs font-semibold block mt-1"><i
