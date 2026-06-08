@@ -49,7 +49,7 @@ class Index extends Component
     {
         $rules = [
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:categories,slug,' . $this->categoryId,
+            'slug' => ['required', 'string', \Illuminate\Validation\Rule::unique('categories', 'slug')->ignore($this->categoryId)],
             'image' => 'nullable|url|max:2048',
         ];
 

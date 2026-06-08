@@ -61,7 +61,7 @@ class Index extends Component
     {
         $this->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:articles,slug,' . $this->articleId,
+            'slug' => ['required', 'string', \Illuminate\Validation\Rule::unique('articles', 'slug')->ignore($this->articleId)],
             'content' => 'required',
             'categoryId' => 'required|exists:categories,id',
             'image' => 'nullable|url|max:2048',
