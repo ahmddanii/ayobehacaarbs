@@ -35,8 +35,7 @@
             spellChecker: false,
             placeholder: 'Tulis isi tulisan artikel Anda di sini menggunakan markdown...',
             status: false,
-            minHeight: '380px',
-            maxHeight: '480px',
+            minHeight: '500px',
             toolbar: [
                 'bold', 'italic', 'heading-2', 'heading-3', '|',
                 'quote', 'unordered-list', 'ordered-list', '|',
