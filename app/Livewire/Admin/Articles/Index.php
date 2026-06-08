@@ -6,18 +6,17 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 
 class Index extends Component
 {
-    use WithFileUploads, WithPagination;
+    use WithPagination;
 
     public string $title = '';
     public string $slug = '';
     public string $content = '';
-    public $image = null;
+    public ?string $image = null; // Now stores Cloudinary URL string
     public ?int $categoryId = null;
     public ?int $articleId = null;
     public bool $isEdit = false;
@@ -65,7 +64,7 @@ class Index extends Component
             'slug' => 'required|string|unique:articles,slug,' . $this->articleId,
             'content' => 'required',
             'categoryId' => 'required|exists:categories,id',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|url|max:2048',
         ]);
 
         $data = [
@@ -76,8 +75,9 @@ class Index extends Component
             'user_id' => auth()->id() ?: 1,
         ];
 
+        // Image is now a Cloudinary URL string, store directly
         if ($this->image) {
-            $data['image'] = $this->image->store('articles', 'public');
+            $data['image'] = $this->image;
         }
 
         if ($this->isEdit) {
@@ -105,7 +105,7 @@ class Index extends Component
         $this->slug = $article->slug;
         $this->content = $article->content;
         $this->categoryId = $article->category_id;
-        $this->image = $article->image; // Keep current image reference
+        $this->image = $article->image; // Keep current image reference (URL or legacy path)
         $this->isEdit = true;
         $this->isWriting = true;
     }

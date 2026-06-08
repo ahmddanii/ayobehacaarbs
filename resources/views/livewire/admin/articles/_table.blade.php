@@ -34,7 +34,7 @@
                         <td class="px-8 py-4">
                             <div class="w-16 h-10 rounded-lg bg-slate-50 overflow-hidden border border-slate-200/45 flex items-center justify-center shrink-0">
                                 @if ($article->image)
-                                    <img src="{{ asset('storage/' . $article->image) }}" class="w-full h-full object-cover">
+                                    <img src="{{ smart_image_url($article->image) }}" class="w-full h-full object-cover">
                                 @else
                                     <div class="text-slate-300">
                                         <i class="bi bi-image"></i>

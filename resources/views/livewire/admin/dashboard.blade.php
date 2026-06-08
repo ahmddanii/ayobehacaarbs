@@ -131,7 +131,7 @@
                                         <div class="flex items-center gap-4">
                                             <div class="w-12 h-8 rounded-lg bg-slate-100 overflow-hidden border border-slate-200/50 shrink-0">
                                                 @if($article->image)
-                                                    <img src="{{ asset('storage/' . $article->image) }}" class="w-full h-full object-cover">
+                                                    <img src="{{ smart_image_url($article->image) }}" class="w-full h-full object-cover">
                                                 @else
                                                     <div class="w-full h-full flex items-center justify-center text-slate-300">
                                                         <i class="bi bi-image text-xs"></i>

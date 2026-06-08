@@ -5,17 +5,16 @@ namespace App\Livewire\Admin\Categories;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 
 class Index extends Component
 {
-    use WithFileUploads, WithPagination;
+    use WithPagination;
 
     public string $name = '';
     public string $slug = '';
-    public $image = null;
+    public ?string $image = null; // Now stores Cloudinary URL string
     public ?int $categoryId = null;
     public bool $isEdit = false;
     public string $search = '';
@@ -51,11 +50,8 @@ class Index extends Component
         $rules = [
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:categories,slug,' . $this->categoryId,
+            'image' => 'nullable|url|max:2048',
         ];
-
-        if ($this->image && !is_string($this->image)) {
-            $rules['image'] = 'image|max:1024';
-        }
 
         $this->validate($rules);
 
@@ -64,8 +60,9 @@ class Index extends Component
             'slug' => $this->slug,
         ];
 
-        if ($this->image && !is_string($this->image)) {
-            $data['image'] = $this->image->store('categories', 'public');
+        // Image is now a Cloudinary URL string, store directly
+        if ($this->image) {
+            $data['image'] = $this->image;
         }
 
         if ($this->isEdit) {
@@ -91,7 +88,7 @@ class Index extends Component
         $this->categoryId = $category->id;
         $this->name = $category->name;
         $this->slug = $category->slug;
-        $this->image = $category->image; // Display existing image in the modal
+        $this->image = $category->image; // Display existing image (URL or legacy path)
         $this->isEdit = true;
         $this->dispatch('open-modal');
     }

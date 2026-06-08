@@ -1,4 +1,4 @@
-<div x-data="{ open: false, compressing: false }"
+<div x-data="{ open: false, compressing: false, imagePreview: @entangle('image') }"
     @open-modal.window="open = true" @close-modal.window="open = false">
 
     @section('page_title', 'Manajemen Kategori')
@@ -36,7 +36,7 @@
                             <td class="px-8 py-4">
                                 <div class="w-12 h-12 rounded-xl bg-slate-50 overflow-hidden border border-slate-200/40 flex items-center justify-center shrink-0">
                                     @if ($category->image)
-                                        <img src="{{ asset('storage/' . $category->image) }}" class="w-full h-full object-cover">
+                                        <x-smart-image :src="$category->image" class="w-full h-full object-cover" :alt="$category->name" />
                                     @else
                                         <div class="text-slate-350">
                                             <i class="bi bi-image text-xl leading-none"></i>
@@ -127,29 +127,24 @@
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Gambar Sampul (Opsional)</label>
                     <div class="relative">
-                        <input type="file" class="hidden" id="category_image" @change="
+                        <input type="file" class="hidden" id="category_image" accept="image/*" @change="
                             const file = $event.target.files[0];
                             if (!file) return;
                             compressing = true;
-                            compressImage(file, 800, 800).then(compressedFile => {
-                                @this.upload('image', compressedFile,
-                                    () => { compressing = false; },
-                                    () => { compressing = false; alert('Gagal mengompres gambar.'); }
-                                );
+                            uploadToCloudinary(file, 800, 800).then(url => {
+                                @this.set('image', url);
+                                imagePreview = url;
+                                compressing = false;
                             }).catch(err => {
                                 compressing = false;
-                                @this.upload('image', file);
+                                alert('Gagal mengupload gambar: ' + err.message);
                             });
                         ">
                         <label for="category_image"
                             class="flex flex-col items-center justify-center p-6 bg-slate-50 border-2 border-dashed border-slate-200 hover:border-blue-500 hover:bg-blue-50/30 rounded-xl cursor-pointer transition duration-250 group relative overflow-hidden min-h-[140px]">
                             @if ($image)
                                 <div class="absolute inset-0 bg-white z-10 flex items-center justify-center p-2" x-show="!compressing">
-                                    @if (is_string($image))
-                                        <img src="{{ asset('storage/' . $image) }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
-                                    @else
-                                        <img src="{{ $image->temporaryUrl() }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
-                                    @endif
+                                    <img :src="imagePreview && imagePreview.startsWith('http') ? imagePreview : '{{ $image ? (str_starts_with($image, 'http') ? $image : asset('storage/' . $image)) : '' }}'" class="h-full w-full object-cover rounded-xl border border-slate-200">
                                     <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition duration-200 flex flex-col items-center justify-center rounded-xl">
                                         <i class="bi bi-cloud-arrow-up text-white text-2xl mb-1"></i>
                                         <span class="text-white text-xs font-bold">Ganti Gambar</span>

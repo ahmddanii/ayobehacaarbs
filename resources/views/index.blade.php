@@ -13,7 +13,7 @@
             @foreach($slides as $slide)
             <div class="swiper-slide relative">
                 @if($slide->image)
-                    <img src="{{ asset('storage/' . $slide->image) }}" alt="{{ $slide->title }}" class="w-full h-[400px] md:h-[550px] object-cover">
+                    <img src="{{ smart_image_url($slide->image) }}" alt="{{ $slide->title }}" class="w-full h-[400px] md:h-[550px] object-cover">
                 @else
                     <img src="{{ asset('assets/img/13.jpg') }}" alt="Default Slide" class="w-full h-[400px] md:h-[550px] object-cover">
                 @endif
@@ -117,7 +117,7 @@
                 <div class="swiper-slide">
                     <a href="{{ route('articles.index', ['category' => $c->slug]) }}" class="relative block overflow-hidden rounded-xl shadow-sm aspect-[4/3] md:aspect-[3/2] group" data-aos="fade-up">
                         @if($c->image)
-                            <img src="{{ asset('storage/' . $c->image) }}" alt="{{ $c->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            <img src="{{ smart_image_url($c->image) }}" alt="{{ $c->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         @else
                             <img src="{{ asset('assets/img/11.jpg') }}" alt="Default" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         @endif

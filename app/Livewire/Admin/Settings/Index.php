@@ -4,13 +4,10 @@ namespace App\Livewire\Admin\Settings;
 
 use App\Models\Setting;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
 
 class Index extends Component
 {
-    use WithFileUploads;
-
     public int $settingId;
     public string $siteName = '';
     public string $tagline = '';
@@ -21,10 +18,10 @@ class Index extends Component
     public string $tiktokUrl = '';
     public string $youtubeUrl = '';
 
-    // Hero cover images
-    public $categoryHeroImage = null;
-    public $articleHeroImage = null;
-    public $aboutHeroImage = null;
+    // Hero cover images — now stored as URL strings (Cloudinary)
+    public ?string $categoryHeroImage = null;
+    public ?string $articleHeroImage = null;
+    public ?string $aboutHeroImage = null;
 
     public function mount()
     {
@@ -39,7 +36,7 @@ class Index extends Component
         $this->tiktokUrl = $setting->tiktok_url;
         $this->youtubeUrl = $setting->youtube_url;
 
-        // Load existing image paths
+        // Load existing image URLs/paths
         $this->categoryHeroImage = $setting->category_hero_image;
         $this->articleHeroImage = $setting->article_hero_image;
         $this->aboutHeroImage = $setting->about_hero_image;
@@ -62,17 +59,10 @@ class Index extends Component
             'instagramUrl' => 'nullable|url|max:255',
             'tiktokUrl' => 'nullable|url|max:255',
             'youtubeUrl' => 'nullable|url|max:255',
+            'categoryHeroImage' => 'nullable|url|max:2048',
+            'articleHeroImage' => 'nullable|url|max:2048',
+            'aboutHeroImage' => 'nullable|url|max:2048',
         ];
-
-        if ($this->categoryHeroImage && !is_string($this->categoryHeroImage)) {
-            $rules['categoryHeroImage'] = 'image|max:2048';
-        }
-        if ($this->articleHeroImage && !is_string($this->articleHeroImage)) {
-            $rules['articleHeroImage'] = 'image|max:2048';
-        }
-        if ($this->aboutHeroImage && !is_string($this->aboutHeroImage)) {
-            $rules['aboutHeroImage'] = 'image|max:2048';
-        }
 
         $this->validate($rules);
 
@@ -88,15 +78,15 @@ class Index extends Component
             'youtube_url' => $this->youtubeUrl,
         ];
 
-        // Store new images and update
-        if ($this->categoryHeroImage && !is_string($this->categoryHeroImage)) {
-            $data['category_hero_image'] = $this->categoryHeroImage->store('settings', 'public');
+        // Store Cloudinary URLs directly
+        if ($this->categoryHeroImage) {
+            $data['category_hero_image'] = $this->categoryHeroImage;
         }
-        if ($this->articleHeroImage && !is_string($this->articleHeroImage)) {
-            $data['article_hero_image'] = $this->articleHeroImage->store('settings', 'public');
+        if ($this->articleHeroImage) {
+            $data['article_hero_image'] = $this->articleHeroImage;
         }
-        if ($this->aboutHeroImage && !is_string($this->aboutHeroImage)) {
-            $data['about_hero_image'] = $this->aboutHeroImage->store('settings', 'public');
+        if ($this->aboutHeroImage) {
+            $data['about_hero_image'] = $this->aboutHeroImage;
         }
 
         $setting->update($data);

@@ -1,4 +1,4 @@
-{{-- Shared Client-Side Image Compression Script --}}
+{{-- Shared Client-Side Image Compression + Cloudinary Upload Script --}}
 {{-- Usage: <x-admin.compress-image :maxWidth="800" :maxHeight="800" /> --}}
 
 @props([
@@ -8,6 +8,9 @@
 ])
 
 <script>
+    /**
+     * Compress image on client-side using Canvas API
+     */
     function compressImage(file, maxWidth = {{ $maxWidth }}, maxHeight = {{ $maxHeight }}, quality = {{ $quality }}) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -53,5 +56,40 @@
             };
             reader.onerror = err => reject(err);
         });
+    }
+
+    /**
+     * Upload file to Cloudinary via unsigned upload preset.
+     * Compresses the image first, then uploads.
+     * Returns the secure URL of the uploaded image.
+     */
+    function uploadToCloudinary(file, maxW = {{ $maxWidth }}, maxH = {{ $maxHeight }}) {
+        const cloudName = '{{ config('services.cloudinary.cloud_name') }}';
+        const uploadPreset = '{{ config('services.cloudinary.upload_preset') }}';
+
+        return compressImage(file, maxW, maxH)
+            .catch(() => file) // fallback to original if compression fails
+            .then(processedFile => {
+                const formData = new FormData();
+                formData.append('file', processedFile);
+                formData.append('upload_preset', uploadPreset);
+
+                return fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Upload ke Cloudinary gagal: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.secure_url) {
+                    return data.secure_url;
+                }
+                throw new Error('Tidak mendapat URL dari Cloudinary');
+            });
     }
 </script>

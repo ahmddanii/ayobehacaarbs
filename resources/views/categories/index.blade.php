@@ -4,7 +4,7 @@
 
 @section('content')
     <x-cinematic-header :image="$settings->category_hero_image
-        ? asset('storage/' . $settings->category_hero_image)
+        ? smart_image_url($settings->category_hero_image)
         : asset('assets/img/14.jpg')" badge="Eksplorasi Topik" title="KATEGORI"
         description="Temukan artikel berkualitas tinggi yang dikurasi khusus berdasarkan minat intelektual dan kebutuhan profesional Anda." />
 
@@ -17,7 +17,7 @@
                     <a href="{{ route('articles.index', ['category' => $cat->slug]) }}"
                         class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 block aspect-[4/3] transform hover:-translate-y-2">
                         @if ($cat->image)
-                            <img src="{{ asset('storage/' . $cat->image) }}" alt="{{ $cat->name }}"
+                            <img src="{{ smart_image_url($cat->image) }}" alt="{{ $cat->name }}"
                                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         @else
                             <img src="{{ asset('assets/img/14.jpg') }}" alt="Default"

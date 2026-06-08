@@ -19,7 +19,16 @@ return Application::configure(basePath: dirname(__DIR__))
             error_log('ORIGINAL EXCEPTION ON VERCEL: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
         });
 
-        $exceptions->render(function (\Throwable $e) {
+        $exceptions->render(function (\Throwable $e, \Illuminate\Http\Request $request) {
+            // Skip Laravel's internal control-flow exceptions (validation, auth, 404, etc)
+            if ($e instanceof \Illuminate\Validation\ValidationException ||
+                $e instanceof \Illuminate\Auth\AuthenticationException ||
+                $e instanceof \Illuminate\Http\Exceptions\HttpResponseException ||
+                ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface && $e->getStatusCode() < 500) ||
+                $e instanceof \Illuminate\Session\TokenMismatchException) {
+                return null;
+            }
+
             $exceptionClass = get_class($e);
             $exceptionMessage = htmlspecialchars($e->getMessage());
             $stackTrace = htmlspecialchars($e->getTraceAsString());

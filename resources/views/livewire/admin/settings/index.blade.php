@@ -1,4 +1,4 @@
-<div x-data="{ activeTab: 'general' }">
+<div x-data="{ activeTab: 'general', compressing: {} }">
     @section('page_title', 'Pengaturan Sistem')
 
     <div class="bg-white rounded-xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] overflow-hidden">
@@ -87,25 +87,39 @@
                     <div class="space-y-2">
                         <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Sampul Hero Halaman Kategori</label>
                         <div class="relative">
-                            <input type="file" class="hidden" id="category_hero_image" wire:model="categoryHeroImage">
+                            <input type="file" class="hidden" id="category_hero_image" accept="image/*" @change="
+                                const file = $event.target.files[0];
+                                if (!file) return;
+                                compressing['category'] = true;
+                                uploadToCloudinary(file, 1920, 1080).then(url => {
+                                    @this.set('categoryHeroImage', url);
+                                    compressing['category'] = false;
+                                }).catch(err => {
+                                    compressing['category'] = false;
+                                    alert('Gagal mengupload: ' + err.message);
+                                });
+                            ">
                             <label for="category_hero_image"
                                 class="flex flex-col items-center justify-center p-6 bg-slate-50 border-2 border-dashed border-slate-200 hover:border-blue-500 hover:bg-blue-50/30 rounded-xl cursor-pointer transition duration-250 group relative overflow-hidden min-h-[160px]">
                                 @if ($categoryHeroImage)
                                     <div class="absolute inset-0 bg-white z-10 flex items-center justify-center p-2">
-                                        @if (is_string($categoryHeroImage))
-                                            <img src="{{ asset('storage/' . $categoryHeroImage) }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
-                                        @else
-                                            <img src="{{ $categoryHeroImage->temporaryUrl() }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
-                                        @endif
+                                        <x-smart-image :src="$categoryHeroImage" class="h-full w-full object-cover rounded-xl border border-slate-200" />
                                         <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition duration-200 flex flex-col items-center justify-center rounded-xl">
                                             <i class="bi bi-cloud-arrow-up text-white text-2xl mb-1"></i>
                                             <span class="text-white text-xs font-bold">Ganti Sampul</span>
                                         </div>
                                     </div>
                                 @endif
-                                <i class="bi bi-image text-2xl text-slate-350 group-hover:text-blue-500 mb-2 transition duration-200"></i>
-                                <span class="text-xs font-bold text-slate-500 group-hover:text-blue-500 transition duration-200">Pilih sampul halaman Kategori</span>
-                                <span class="text-[10px] text-slate-350 mt-1">Format: JPG, PNG (Max 2MB)</span>
+                                <template x-if="compressing['category']">
+                                    <span class="text-xs font-bold text-blue-500"><i class="bi bi-arrow-repeat animate-spin mr-1.5"></i> Mengupload...</span>
+                                </template>
+                                <template x-if="!compressing['category']">
+                                    <span>
+                                        <i class="bi bi-image text-2xl text-slate-350 group-hover:text-blue-500 mb-2 transition duration-200"></i>
+                                        <span class="text-xs font-bold text-slate-500 group-hover:text-blue-500 transition duration-200 block">Pilih sampul halaman Kategori</span>
+                                        <span class="text-[10px] text-slate-350 mt-1 block">Format: JPG, PNG (Max 2MB)</span>
+                                    </span>
+                                </template>
                             </label>
                         </div>
                         @error('categoryHeroImage')
@@ -117,25 +131,39 @@
                     <div class="space-y-2">
                         <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Sampul Hero Halaman Artikel</label>
                         <div class="relative">
-                            <input type="file" class="hidden" id="article_hero_image" wire:model="articleHeroImage">
+                            <input type="file" class="hidden" id="article_hero_image" accept="image/*" @change="
+                                const file = $event.target.files[0];
+                                if (!file) return;
+                                compressing['article'] = true;
+                                uploadToCloudinary(file, 1920, 1080).then(url => {
+                                    @this.set('articleHeroImage', url);
+                                    compressing['article'] = false;
+                                }).catch(err => {
+                                    compressing['article'] = false;
+                                    alert('Gagal mengupload: ' + err.message);
+                                });
+                            ">
                             <label for="article_hero_image"
                                 class="flex flex-col items-center justify-center p-6 bg-slate-50 border-2 border-dashed border-slate-200 hover:border-blue-500 hover:bg-blue-50/30 rounded-xl cursor-pointer transition duration-250 group relative overflow-hidden min-h-[160px]">
                                 @if ($articleHeroImage)
                                     <div class="absolute inset-0 bg-white z-10 flex items-center justify-center p-2">
-                                        @if (is_string($articleHeroImage))
-                                            <img src="{{ asset('storage/' . $articleHeroImage) }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
-                                        @else
-                                            <img src="{{ $articleHeroImage->temporaryUrl() }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
-                                        @endif
+                                        <x-smart-image :src="$articleHeroImage" class="h-full w-full object-cover rounded-xl border border-slate-200" />
                                         <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition duration-200 flex flex-col items-center justify-center rounded-xl">
                                             <i class="bi bi-cloud-arrow-up text-white text-2xl mb-1"></i>
                                             <span class="text-white text-xs font-bold">Ganti Sampul</span>
                                         </div>
                                     </div>
                                 @endif
-                                <i class="bi bi-image text-2xl text-slate-350 group-hover:text-blue-500 mb-2 transition duration-200"></i>
-                                <span class="text-xs font-bold text-slate-500 group-hover:text-blue-500 transition duration-200">Pilih sampul halaman Artikel</span>
-                                <span class="text-[10px] text-slate-350 mt-1">Format: JPG, PNG (Max 2MB)</span>
+                                <template x-if="compressing['article']">
+                                    <span class="text-xs font-bold text-blue-500"><i class="bi bi-arrow-repeat animate-spin mr-1.5"></i> Mengupload...</span>
+                                </template>
+                                <template x-if="!compressing['article']">
+                                    <span>
+                                        <i class="bi bi-image text-2xl text-slate-350 group-hover:text-blue-500 mb-2 transition duration-200"></i>
+                                        <span class="text-xs font-bold text-slate-500 group-hover:text-blue-500 transition duration-200 block">Pilih sampul halaman Artikel</span>
+                                        <span class="text-[10px] text-slate-350 mt-1 block">Format: JPG, PNG (Max 2MB)</span>
+                                    </span>
+                                </template>
                             </label>
                         </div>
                         @error('articleHeroImage')
@@ -173,25 +201,39 @@
                 <div class="space-y-2 pt-4">
                     <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Sampul Hero Halaman Tentang Kami</label>
                     <div class="relative">
-                        <input type="file" class="hidden" id="about_hero_image" wire:model="aboutHeroImage">
+                        <input type="file" class="hidden" id="about_hero_image" accept="image/*" @change="
+                            const file = $event.target.files[0];
+                            if (!file) return;
+                            compressing['about'] = true;
+                            uploadToCloudinary(file, 1920, 1080).then(url => {
+                                @this.set('aboutHeroImage', url);
+                                compressing['about'] = false;
+                            }).catch(err => {
+                                compressing['about'] = false;
+                                alert('Gagal mengupload: ' + err.message);
+                            });
+                        ">
                         <label for="about_hero_image"
                             class="flex flex-col items-center justify-center p-6 bg-slate-50 border-2 border-dashed border-slate-200 hover:border-blue-500 hover:bg-blue-50/30 rounded-xl cursor-pointer transition duration-250 group relative overflow-hidden min-h-[160px] max-w-lg">
                             @if ($aboutHeroImage)
                                 <div class="absolute inset-0 bg-white z-10 flex items-center justify-center p-2">
-                                    @if (is_string($aboutHeroImage))
-                                        <img src="{{ asset('storage/' . $aboutHeroImage) }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
-                                    @else
-                                        <img src="{{ $aboutHeroImage->temporaryUrl() }}" class="h-full w-full object-cover rounded-xl border border-slate-200">
-                                    @endif
+                                    <x-smart-image :src="$aboutHeroImage" class="h-full w-full object-cover rounded-xl border border-slate-200" />
                                     <div class="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition duration-200 flex flex-col items-center justify-center rounded-xl">
                                         <i class="bi bi-cloud-arrow-up text-white text-2xl mb-1"></i>
                                         <span class="text-white text-xs font-bold">Ganti Sampul</span>
                                     </div>
                                 </div>
                             @endif
-                            <i class="bi bi-image text-2xl text-slate-350 group-hover:text-blue-500 mb-2 transition duration-200"></i>
-                            <span class="text-xs font-bold text-slate-500 group-hover:text-blue-500 transition duration-200">Pilih sampul halaman Tentang Kami</span>
-                            <span class="text-[10px] text-slate-350 mt-1">Format: JPG, PNG (Max 2MB)</span>
+                            <template x-if="compressing['about']">
+                                <span class="text-xs font-bold text-blue-500"><i class="bi bi-arrow-repeat animate-spin mr-1.5"></i> Mengupload...</span>
+                            </template>
+                            <template x-if="!compressing['about']">
+                                <span>
+                                    <i class="bi bi-image text-2xl text-slate-350 group-hover:text-blue-500 mb-2 transition duration-200"></i>
+                                    <span class="text-xs font-bold text-slate-500 group-hover:text-blue-500 transition duration-200 block">Pilih sampul halaman Tentang Kami</span>
+                                    <span class="text-[10px] text-slate-350 mt-1 block">Format: JPG, PNG (Max 2MB)</span>
+                                </span>
+                            </template>
                         </label>
                     </div>
                     @error('aboutHeroImage')
@@ -262,3 +304,8 @@
     {{-- Shared SweetAlert2 Notification --}}
     <x-admin.swal-scripts />
 </div>
+
+@push('scripts')
+    {{-- Shared image compression + Cloudinary upload utility --}}
+    <x-admin.compress-image :maxWidth="1920" :maxHeight="1080" />
+@endpush

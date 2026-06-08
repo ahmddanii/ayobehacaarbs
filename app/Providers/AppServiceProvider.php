@@ -23,8 +23,8 @@ class AppServiceProvider extends ServiceProvider
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
 
-        // Don't execute database queries or view sharing when running in Artisan console
-        if ($this->app->runningInConsole()) {
+        // Don't execute database queries or view sharing when running in Artisan console, EXCEPT during tests
+        if ($this->app->runningInConsole() && !$this->app->runningUnitTests()) {
             return;
         }
 

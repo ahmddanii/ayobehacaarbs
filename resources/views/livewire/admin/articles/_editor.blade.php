@@ -8,7 +8,8 @@
     categories: {{ json_encode($categories->pluck('name', 'id')) }},
     showPreview: true,
     compressing: false,
-    easyMDEInstance: null
+    easyMDEInstance: null,
+    imagePreview: @entangle('image')
 }" x-init="
     $watch('categoryId', id => {
         categoryName = categories[id] || 'KATEGORI';
@@ -177,19 +178,18 @@
                 <div class="space-y-2 flex flex-col">
                     <label class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block shrink-0">Gambar Unggulan (Thumbnail)</label>
                     <div class="relative h-[48px]">
-                        <input type="file" class="hidden" id="article_image_full"
+                        <input type="file" class="hidden" id="article_image_full" accept="image/*"
                             @change="
                             const file = $event.target.files[0];
                             if (!file) return;
                             compressing = true;
-                            compressImage(file).then(compressedFile => {
-                                @this.upload('image', compressedFile,
-                                    () => { compressing = false; },
-                                    () => { compressing = false; alert('Gagal mengompres gambar.'); }
-                                );
+                            uploadToCloudinary(file, 1200, 1200).then(url => {
+                                @this.set('image', url);
+                                imagePreview = url;
+                                compressing = false;
                             }).catch(err => {
                                 compressing = false;
-                                @this.upload('image', file);
+                                alert('Gagal mengupload gambar: ' + err.message);
                             });
                         ">
                         <label for="article_image_full"
@@ -203,11 +203,12 @@
                                 </template>
                                 <template x-if="!compressing">
                                     <span>
-                                        @if ($image)
-                                            <i class="bi bi-check-circle-fill text-emerald-500 mr-1"></i> Gambar berhasil diupload!
-                                        @else
-                                            Pilih berkas sampul...
-                                        @endif
+                                        <template x-if="imagePreview">
+                                            <span><i class="bi bi-check-circle-fill text-emerald-500 mr-1"></i> Gambar berhasil diupload!</span>
+                                        </template>
+                                        <template x-if="!imagePreview">
+                                            <span>Pilih berkas sampul...</span>
+                                        </template>
                                     </span>
                                 </template>
                             </span>
@@ -283,18 +284,15 @@
 
             {{-- Featured Image Preview --}}
             <div class="rounded-xl overflow-hidden shadow-sm border border-slate-200/40 aspect-[16/9] bg-slate-100 relative shrink-0">
-                @if ($image)
-                    @if ($image instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile)
-                        <img src="{{ $image->temporaryUrl() }}" class="w-full h-full object-cover">
-                    @elseif(is_string($image))
-                        <img src="{{ asset('storage/' . $image) }}" class="w-full h-full object-cover">
-                    @endif
-                @else
+                <template x-if="imagePreview">
+                    <img :src="imagePreview.startsWith('http') ? imagePreview : '/storage/' + imagePreview" class="w-full h-full object-cover">
+                </template>
+                <template x-if="!imagePreview">
                     <div class="w-full h-full flex flex-col items-center justify-center text-slate-400 text-sm gap-2">
                         <i class="bi bi-image text-3xl text-slate-300"></i>
                         <span class="text-xs font-semibold text-slate-350">Belum ada gambar terpilih</span>
                     </div>
-                @endif
+                </template>
             </div>
 
             {{-- Markdown Content Preview --}}

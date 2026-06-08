@@ -6,7 +6,7 @@
 @section('meta_keywords', 'ayobehacaar, ' . Str::slug($article->category->name ?? 'artikel') . ', ' . Str::slug($article->title))
 @section('meta_author', $article->user->name ?? 'Admin Ayo Behacaar')
 @section('og_type', 'article')
-@section('meta_image', $article->image ? asset('storage/' . $article->image) : asset('assets/img/12.jpg'))
+@section('meta_image', $article->image ? smart_image_url($article->image) : asset('assets/img/12.jpg'))
 
 @section('content')
     @push('styles')
@@ -239,7 +239,7 @@
                             <i class="bi bi-share-fill"></i>
                         </button>
                         <button
-                            @click.prevent="$store.bookmarksStore.toggle({ id: {{ $article->id }}, title: '{{ addslashes($article->clean_title) }}', slug: '{{ $article->slug }}', category: '{{ $article->category->name ?? 'Artikel' }}', date: '{{ $article->created_at->format('d M Y') }}', image: '{{ $article->image ? asset('storage/' . $article->image) : asset('assets/img/12.jpg') }}' })"
+                            @click.prevent="$store.bookmarksStore.toggle({ id: {{ $article->id }}, title: '{{ addslashes($article->clean_title) }}', slug: '{{ $article->slug }}', category: '{{ $article->category->name ?? 'Artikel' }}', date: '{{ $article->created_at->format('d M Y') }}', image: '{{ $article->image ? smart_image_url($article->image) : asset('assets/img/12.jpg') }}' })"
                             class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none"
                             :class="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'text-red-500 dark:text-red-400 hover:text-red-600' : 'text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'"
                             :title="$store.bookmarksStore.isBookmarked({{ $article->id }}) ? 'Hapus dari Daftar Bacaan' : 'Simpan ke Daftar Bacaan'">
@@ -251,7 +251,7 @@
                 <!-- Featured Image -->
                 <div class="rounded-xl overflow-hidden mb-12 shadow-sm">
                     @if ($article->image)
-                        <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}"
+                        <img src="{{ smart_image_url($article->image) }}" alt="{{ $article->title }}"
                             class="w-full aspect-[16/9] object-cover">
                     @else
                         <img src="{{ asset('assets/img/13.jpg') }}" alt="Default"
@@ -289,7 +289,7 @@
                             class="group cursor-pointer flex gap-4 items-center">
                             <div class="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800">
                                 @if ($rel->image)
-                                    <img src="{{ asset('storage/' . $rel->image) }}" alt="{{ $rel->title }}"
+                                    <img src="{{ smart_image_url($rel->image) }}" alt="{{ $rel->title }}"
                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                                 @else
                                     <img src="{{ asset('assets/img/11.jpg') }}" alt="Default"
