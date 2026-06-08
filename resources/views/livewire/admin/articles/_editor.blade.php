@@ -35,7 +35,8 @@
             spellChecker: false,
             placeholder: 'Tulis isi tulisan artikel Anda di sini menggunakan markdown...',
             status: false,
-            minHeight: '500px',
+            minHeight: '380px',
+            maxHeight: '480px',
             toolbar: [
                 'bold', 'italic', 'heading-2', 'heading-3', '|',
                 'quote', 'unordered-list', 'ordered-list', '|',
@@ -52,9 +53,6 @@
                 }
             ],
         });
-
-        // Disable CodeMirror virtual rendering to prevent text disappearing on scroll
-        easyMDEInstance.codemirror.setOption('viewportMargin', Infinity);
 
         const highlightPreview = () => {
             $nextTick(() => {

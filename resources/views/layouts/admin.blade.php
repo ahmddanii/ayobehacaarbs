@@ -107,13 +107,7 @@
             background-color: #f8fafc;
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
             font-size: 0.875rem;
-            height: auto !important;
-            min-height: 500px;
-        }
-        .EasyMDEContainer .CodeMirror-scroll {
-            padding: 12px 8px;
-            min-height: 500px;
-            overflow-y: hidden !important;
+            padding: 8px 4px;
         }
         .EasyMDEContainer .CodeMirror-focused {
             background-color: #ffffff !important;
